@@ -1,18 +1,21 @@
 package jKad.controller;
 
+import jKad.controller.threads.Pausable;
+import jKad.controller.threads.Stoppable;
 import jKad.exceptions.PropertiesNotFoundException;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-public class JKad implements Runnable
+public class JKad implements Runnable, Pausable, Stoppable
 {
     private static Logger logger;
     
@@ -27,28 +30,59 @@ public class JKad implements Runnable
     };
     
     private File propFile;
-    private JKadSystem[] systems;
+    private List<JKadSystem> systems;
     private boolean started;
+    private boolean paused;
+    private boolean dead;
+    
+    public JKad()
+    {
+        this(DEFAULT_PROPERTY_FILE);
+    }
     
     public JKad(String propertiesFileName)
     {
+        systems = new ArrayList<JKadSystem>();
         propFile = new File(propertiesFileName);
         started = false;
+        paused = false;
+        dead = false;
+    }
+    
+    public List<JKadSystem> getSystems()
+    {
+        return systems;
     }
     
     public void run()
     {
         try
         {
-            this.initialize();
+            try 
+            {
+                this.initialize();
+                
+                this.startSystems();
             
-            this.startSystem();
+                while(!isStopped())
+                {
+                    synchronized(this)
+                    {
+                        this.wait();
+                    }
+                    if(isPaused())
+                        this.pauseSystems();
+                    else
+                        this.playSystems();
+                }
+            } catch (InterruptedException e)
+            {
+                logger.info("Thread Interrupted");
+            }
             
-            Thread.sleep(5000);
+            this.stopSystems();
             
-            this.stopSystem();
-            
-            this.joinSystem();
+            this.joinSystems();
             
         } catch (Exception e)
         {
@@ -76,7 +110,8 @@ public class JKad implements Runnable
         logger.info("   JKad                                              ");
         logger.info("     @author Bruno Colameo de Arruda Penteado        ");
         logger.info("     @email  polaco@gmail.com                        ");
-        logger.info("     @url    http://sourceforge.net/projects/jkad    ");
+        logger.info("     @url    http://code.google.com/p/jkad/          ");
+        logger.info("             http://sourceforge.net/projects/jkad    ");
         logger.info("-===================================================-");
     }
     
@@ -102,18 +137,17 @@ public class JKad implements Runnable
             throw new PropertiesNotFoundException(failedProperties);
     }
     
-    private void startSystem()
+    private void startSystems()
     {
         try
         {
             Integer systemsAmount = Integer.parseInt(System.getProperty("jkad.systems"));
-            systems = new JKadSystem[systemsAmount];
             logger.info("Starting JKad with " + systemsAmount + " nodes");
-            for (int i = 0; i < systems.length; i++)
+            for (int i = 0; i < systemsAmount; i++)
             {
                 String nodeName = "Node" + i;
                 JKadSystem system = new JKadSystem(nodeName);
-                systems[i] = system;
+                systems.add(system);
                 logger.debug("Launching " + nodeName);
                 system.start();
                 try { Thread.sleep(10); } catch (InterruptedException e) {}
@@ -126,7 +160,43 @@ public class JKad implements Runnable
         }
     }
     
-    public void stopSystem()
+    public void pauseSystems()
+    {
+        if(started)
+        {
+            logger.info("Pause command received, JKad is pausing");
+            for (JKadSystem system : systems)
+            {
+                if(!system.isPaused())
+                {
+                    logger.debug("Pausing " + system.getName());
+                    system.pauseThread();
+                    try { Thread.sleep(10); } catch (InterruptedException e) {}
+                }
+            }
+        } else
+            logger.warn("Cannot pause JKad now: system not fully started");
+    }
+    
+    private void playSystems()
+    {
+        if(started)
+        {
+            logger.info("Play command received, JKad is playing");
+            for (JKadSystem system : systems)
+            {
+                if(system.isPaused())
+                {
+                    logger.debug("Playing " + system.getName());
+                    system.playThread();
+                    try { Thread.sleep(10); } catch (InterruptedException e) {}
+                }
+            }
+        } else
+            logger.warn("Cannot play JKad now: system not fully started");
+    }
+    
+    public void stopSystems()
     {
         if(started)
         {
@@ -141,20 +211,97 @@ public class JKad implements Runnable
             logger.warn("Cannot stop JKad now: system not fully started");
     }
     
-    private void joinSystem() throws InterruptedException
+    private void joinSystems() throws InterruptedException
     {
-        for (int i = 0; i < systems.length; i++)
+        for (JKadSystem system : systems)
         {
-            systems[i].join();
-            logger.debug(systems[i].getName() + " joined");
+            system.join();
+            logger.debug(system.getName() + " joined");
         }
         logger.info("JKad Sucessfully shutdown! cya ;)");
     }
     
-    public static void main(String[] args) throws IOException
+    public boolean isStarted()
     {
-        JKad jkad = new JKad(args.length > 0 ? args[0] : DEFAULT_PROPERTY_FILE);
-        jkad.run();
+        return this.started;
+    }
+    
+    public boolean isPaused()
+    {
+        return this.paused;
     }
 
+    public void pauseThread()
+    {
+        this.paused = true;
+        synchronized (this)
+        {
+            this.notifyAll();
+        }
+    }
+
+    public void playThread()
+    {
+        this.paused = false;
+        synchronized (this)
+        {
+            this.notifyAll();
+        }
+    }
+
+    public boolean isStopped()
+    {
+        return this.dead;
+    }
+
+    public void stopThread()
+    {
+        this.dead = true;
+        synchronized (this)
+        {
+            this.notifyAll();
+        }
+    }
+    
+    public static void main(String[] args) throws Exception
+    {
+        JKad jkad = new JKad(args.length > 0 ? args[0] : DEFAULT_PROPERTY_FILE);
+        Thread thread = new Thread(jkad);
+        thread.start();
+        Runtime.getRuntime().addShutdownHook(new JKadShutdownHook(thread, jkad));
+    }
+}
+
+class JKadShutdownHook extends Thread
+{
+    private static Logger logger = Logger.getLogger(JKad.class);
+    
+    private Thread jkadThread;
+    private JKad jkad;
+    
+    protected JKadShutdownHook(Thread jkadThread, JKad jkad)
+    {
+        this.jkadThread = jkadThread;
+        this.jkad = jkad;
+    }
+    
+    public void run()
+    {
+        logger.debug("Shutdown hook called");
+        if(jkadThread.isAlive())
+        {
+            if(!jkad.isStarted())
+            {
+                logger.warn("System not started, interrupting");
+                jkadThread.interrupt();
+            } else
+            {
+                logger.info("Stopping JKad");
+                jkad.stopThread();
+            }
+            while(jkadThread.isAlive())
+                try { jkadThread.join(); } catch (InterruptedException e){}
+        }
+        logger.debug("Finished Shutdown hook");
+    }
 }
