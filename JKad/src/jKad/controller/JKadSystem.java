@@ -98,7 +98,7 @@ public class JKadSystem extends Thread implements Pausable, Stoppable
 
     public void playThread()
     {
-        this.paused = true;
+        this.paused = false;
         synchronized (this)
         {
             notifyAll();
