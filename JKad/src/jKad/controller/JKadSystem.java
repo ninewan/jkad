@@ -1,5 +1,6 @@
 package jKad.controller;
 
+import jKad.builders.RPCFactory;
 import jKad.controller.io.UDPReceiver;
 import jKad.controller.io.UDPSender;
 import jKad.controller.threads.Pausable;
@@ -7,10 +8,13 @@ import jKad.controller.threads.Stoppable;
 
 import java.net.SocketException;
 
-public class JKadSystem extends Thread implements Pausable, Stoppable
+public class JKadSystem extends Thread implements Pausable, Stoppable, Statistical
 {
     private UDPReceiver receiver;
     private UDPSender sender;
+    
+    private RPCFactory rpcFactory;
+    private 
     
     private boolean paused;
     private boolean running;
@@ -117,5 +121,38 @@ public class JKadSystem extends Thread implements Pausable, Stoppable
         {
             notifyAll();
         }
+    }
+
+    public long countReceivedPackets()
+    {
+        return receiver.getHandledPacketAmount();
+    }
+
+    public long countReceivedRPCs()
+    {
+        return 0;
+    }
+
+    public long countReceivedRPCs(int type)
+    {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    public long countSentPackets()
+    {
+        return sender.getHandledPacketAmount();
+    }
+
+    public long countSentRPCs()
+    {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    public long countSentRPCs(int type)
+    {
+        // TODO Auto-generated method stub
+        return 0;
     }
 }
