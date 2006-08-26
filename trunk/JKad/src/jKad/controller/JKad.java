@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -106,13 +105,13 @@ public class JKad implements Runnable, Pausable, Stoppable
     
     private void printWelcomeMessage()
     {
-        logger.info("-===================================================-");
-        logger.info("   JKad                                              ");
-        logger.info("     @author Bruno Colameo de Arruda Penteado        ");
-        logger.info("     @email  polaco@gmail.com                        ");
-        logger.info("     @url    http://code.google.com/p/jkad/          ");
-        logger.info("             http://sourceforge.net/projects/jkad    ");
-        logger.info("-===================================================-");
+        System.out.println("-=====================================================================================-");
+        System.out.println("   JKad                                                                                ");
+        System.out.println("      @author Bruno Colameo de Arruda Penteado                                         ");
+        System.out.println("      @email  polaco@gmail.com                                                         ");
+        System.out.println("      @url    http://code.google.com/p/jkad/                                           ");
+        System.out.println("              http://sourceforge.net/projects/jkad                                     ");
+        System.out.println("-=====================================================================================-");
     }
     
     private void setProperties() throws IOException, PropertiesNotFoundException
@@ -209,6 +208,13 @@ public class JKad implements Runnable, Pausable, Stoppable
             }
         } else
             logger.warn("Cannot stop JKad now: system not fully started");
+    }
+    
+    public JKadSystem removeAndStopSystem(int index)
+    {
+        JKadSystem system = systems.remove(index);
+        system.stopThread();
+        return system;
     }
     
     private void joinSystems() throws InterruptedException
