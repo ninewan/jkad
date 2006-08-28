@@ -1,7 +1,6 @@
 package jKad.builders.implementation.reflection;
 
 import jKad.builders.OutputBuilder;
-import jKad.protocol.KadProtocol;
 import jKad.protocol.rpc.RPC;
 
 import java.net.DatagramPacket;

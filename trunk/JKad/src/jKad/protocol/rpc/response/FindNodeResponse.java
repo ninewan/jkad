@@ -5,7 +5,6 @@ import jKad.protocol.KadProtocolException;
 import jKad.protocol.rpc.RPC;
 
 import java.math.BigInteger;
-import java.nio.ByteBuffer;
 
 public class FindNodeResponse extends RPC {
 	

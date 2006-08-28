@@ -2,6 +2,7 @@ package jKad.controller.io;
 
 import jKad.structures.JKadDatagramSocket;
 import jKad.structures.buffers.DatagramBuffer;
+import jKad.tools.ToolBox;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -24,7 +25,7 @@ public class UDPReceiver extends UDPHandler
 
     public UDPReceiver(JKadDatagramSocket socket, DatagramBuffer buffer) throws SocketException
     {
-        super(Thread.currentThread().getThreadGroup().getName() + "." + UDPReceiver.class.getSimpleName());
+        super(ToolBox.getReflectionTools().generateThreadName(UDPReceiver.class));
         if (socket == null)
             throw new NullPointerException("socket is null");
         if (buffer == null)

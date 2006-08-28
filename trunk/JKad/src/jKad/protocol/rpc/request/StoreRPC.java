@@ -1,10 +1,10 @@
 package jKad.protocol.rpc.request;
 
-import java.math.BigInteger;
-
 import jKad.protocol.KadProtocol;
 import jKad.protocol.KadProtocolException;
 import jKad.protocol.rpc.RPC;
+
+import java.math.BigInteger;
 
 public class StoreRPC extends RPC {
 	

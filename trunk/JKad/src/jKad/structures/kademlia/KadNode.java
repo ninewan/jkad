@@ -1,11 +1,11 @@
 package jKad.structures.kademlia;
 
+import jKad.protocol.KadProtocol;
+import jKad.protocol.KadProtocolException;
+
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-
-import jKad.protocol.KadProtocol;
-import jKad.protocol.KadProtocolException;
 
 public class KadNode extends KadTreeNode{
 	private BigInteger nodeID;

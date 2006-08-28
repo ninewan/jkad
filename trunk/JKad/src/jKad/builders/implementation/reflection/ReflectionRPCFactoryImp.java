@@ -16,8 +16,6 @@ import jKad.tools.DataTools;
 import jKad.tools.ReflectionTools;
 import jKad.tools.ToolBox;
 
-import java.nio.ByteBuffer;
-
 public class ReflectionRPCFactoryImp extends RPCFactory {
 
     public RPC buildRPC(byte[] data) throws KadProtocolException {

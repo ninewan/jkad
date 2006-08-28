@@ -1,9 +1,9 @@
 package jKad.protocol.rpc;
 
-import java.math.BigInteger;
-
 import jKad.protocol.KadProtocol;
 import jKad.protocol.KadProtocolException;
+
+import java.math.BigInteger;
 
 /**
  * Classe Abstrata RPC.

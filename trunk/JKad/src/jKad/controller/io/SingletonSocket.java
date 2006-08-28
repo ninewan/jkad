@@ -3,7 +3,6 @@ package jKad.controller.io;
 import jKad.controller.ThreadGroupLocal;
 import jKad.structures.JKadDatagramSocket;
 
-import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
