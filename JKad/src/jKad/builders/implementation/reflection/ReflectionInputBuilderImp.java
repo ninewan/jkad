@@ -1,13 +1,11 @@
 package jKad.builders.implementation.reflection;
 
-import java.net.DatagramPacket;
-import java.nio.ByteBuffer;
-
 import jKad.builders.InputBuilder;
-import jKad.builders.RPCFactory;
-import jKad.protocol.KadProtocolException;
 import jKad.protocol.rpc.RPC;
 import jKad.tools.ToolBox;
+
+import java.net.DatagramPacket;
+import java.nio.ByteBuffer;
 
 public class ReflectionInputBuilderImp extends InputBuilder {
 

@@ -8,11 +8,8 @@ package jKad.structures.kademlia;
 
 import jKad.protocol.KadProtocol;
 import jKad.structures.tree.MultiTreeNode;
-import jKad.tools.DataTools;
-import jKad.tools.ToolBox;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 

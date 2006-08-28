@@ -1,6 +1,5 @@
 package jKad.controller;
 
-import jKad.builders.RPCFactory;
 import jKad.controller.io.UDPReceiver;
 import jKad.controller.io.UDPSender;
 import jKad.controller.threads.Pausable;
@@ -8,13 +7,14 @@ import jKad.controller.threads.Stoppable;
 
 import java.net.SocketException;
 
+import org.apache.log4j.Logger;
+
 public class JKadSystem extends Thread implements Pausable, Stoppable, Statistical
 {
+    private static Logger logger = Logger.getLogger(JKadSystem.class);
+    
     private UDPReceiver receiver;
     private UDPSender sender;
-    
-    private RPCFactory rpcFactory;
-    private 
     
     private boolean paused;
     private boolean running;
@@ -30,6 +30,7 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, Statistic
     {
         try
         {
+            logger.info("Initializing " + this.getThreadGroup().getName());
             running = true;
             
             receiver = new UDPReceiver();
@@ -59,21 +60,25 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, Statistic
                 }
             }
             
+            logger.info("Stopping " + this.getThreadGroup().getName());
+            
             receiver.stopThread();
             sender.stopThread();
             
             try
             {
+                logger.debug("Joining with " + sender.getName());
                 sender.join();
+                logger.debug("Joining with " + receiver.getName());
                 receiver.join();
             } catch (InterruptedException e)
             {
-                e.printStackTrace();
+                logger.warn(e);
             }
             
         } catch (SocketException e)
         {
-            e.printStackTrace();
+            logger.error(e);
         }
     }
     

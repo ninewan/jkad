@@ -1,5 +1,7 @@
 package jKad.controller.threads.handlers;
 
+import jKad.controller.threads.handlers.HandlerThread.Status;
+
 public class PingHandler extends HandlerThread {
 
 	@Override
@@ -8,10 +10,11 @@ public class PingHandler extends HandlerThread {
 
 	}
 
-	@Override
-	public int getStatus() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    @Override
+    public Status getStatus()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }
