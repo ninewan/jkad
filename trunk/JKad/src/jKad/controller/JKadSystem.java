@@ -4,6 +4,8 @@ import jKad.controller.io.UDPReceiver;
 import jKad.controller.io.UDPSender;
 import jKad.controller.threads.Pausable;
 import jKad.controller.threads.Stoppable;
+import jKad.controller.threads.processors.RPCInputProcessor;
+import jKad.controller.threads.processors.RPCOutputProcessor;
 
 import java.net.SocketException;
 
@@ -15,6 +17,9 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, Statistic
     
     private UDPReceiver receiver;
     private UDPSender sender;
+    
+    private RPCInputProcessor inputProcessor;
+    private RPCOutputProcessor outputProcessor;
     
     private boolean paused;
     private boolean running;
@@ -35,9 +40,13 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, Statistic
             
             receiver = new UDPReceiver();
             sender = new UDPSender();
-            
             receiver.start();
             sender.start();
+            
+            inputProcessor = new RPCInputProcessor();
+            outputProcessor = new RPCOutputProcessor();
+            inputProcessor.start();
+            outputProcessor.start();
             
             synchronized (this)
             {
@@ -50,23 +59,38 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, Statistic
                             receiver.pauseThread();
                         if(!sender.isPaused())
                             sender.pauseThread();
+                        if(!inputProcessor.isPaused())
+                            inputProcessor.pauseThread();
+                        if(!outputProcessor.isPaused())
+                            outputProcessor.pauseThread();
                     } else
                     {
                         if(receiver.isPaused())
                             receiver.playThread();
                         if(sender.isPaused())
                             sender.playThread();
+                        if(inputProcessor.isPaused())
+                            inputProcessor.playThread();
+                        if(outputProcessor.isPaused())
+                            outputProcessor.playThread();
                     }
                 }
             }
             
             logger.info("Stopping " + this.getThreadGroup().getName());
             
+            inputProcessor.stopThread();
+            outputProcessor.stopThread();
+            
             receiver.stopThread();
             sender.stopThread();
             
             try
             {
+                logger.debug("Joining with " + inputProcessor.getName());
+                inputProcessor.join();
+                logger.debug("Joining with " + outputProcessor.getName());
+                outputProcessor.join();
                 logger.debug("Joining with " + sender.getName());
                 sender.join();
                 logger.debug("Joining with " + receiver.getName());
@@ -84,6 +108,10 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, Statistic
     
     protected void finalize() throws Throwable
     {
+        if(inputProcessor != null)
+            inputProcessor.stopThread();
+        if(outputProcessor != null)
+            outputProcessor.stopThread();
         if(receiver != null)
             receiver.stopThread();
         if(sender != null)
@@ -135,13 +163,12 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, Statistic
 
     public long countReceivedRPCs()
     {
-        return 0;
+        return inputProcessor.countReceivedRPCs();
     }
 
-    public long countReceivedRPCs(int type)
+    public long countReceivedRPCs(byte type)
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return inputProcessor.countReceivedRPCs(type);
     }
 
     public long countSentPackets()
@@ -151,13 +178,11 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, Statistic
 
     public long countSentRPCs()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return outputProcessor.countSentRPCs();
     }
 
-    public long countSentRPCs(int type)
+    public long countSentRPCs(byte type)
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return outputProcessor.countSentRPCs(type);
     }
 }
