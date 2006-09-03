@@ -21,6 +21,10 @@ public interface KadProtocol {
 	 * Identificador de um RPC do tipo FIND_VALUE
 	 */
 	public static final byte FIND_VALUE = 8;
+    /**
+     * Identificador de quantos tipos de RPC existem no sistema
+     */  
+    public static final byte RPC_TYPE_AMOUNT = 4;
 	
 	/**
 	 * Tamanho de um identificador de um nó em Bytes
