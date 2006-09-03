@@ -29,9 +29,12 @@ public abstract class CyclicThread extends Thread implements Pausable, HardStopp
                 } else
                 {
                     this.cycleOperation();
-                    synchronized (this)
+                    if(roundWait > 0)
                     {
-                        this.wait(roundWait);
+                        synchronized (this)
+                        {
+                            this.wait(roundWait);
+                        }
                     }
                 }
             } catch (InterruptedException e)
