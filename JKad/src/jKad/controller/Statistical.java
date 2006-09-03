@@ -8,9 +8,9 @@ public interface Statistical
     
     public long countReceivedRPCs();
     
-    public long countReceivedRPCs(int type);
+    public long countReceivedRPCs(byte type);
     
     public long countSentRPCs();
     
-    public long countSentRPCs(int type);
+    public long countSentRPCs(byte type);
 }
