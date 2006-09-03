@@ -2,20 +2,25 @@ package jKad.protocol.rpc.request;
 
 import jKad.protocol.rpc.RPC;
 
-public class PingRPC extends RPC {
-    
+public class PingRPC extends RPC
+{
     /**
-     * Estrutura da RPC a ser utilizada via reflection na 
-     * construção do pacote UDP em baixo nível
+     * Estrutura da RPC a ser utilizada via reflection na construção do pacote UDP em baixo nível
      */
-    public static final String[][] DATA_STRUCTURE = {
-	}; 
-    
-	public String[][] getDataStructure(){
-		return DATA_STRUCTURE;
-	}
-    
-    public int getInfoLength(){
+    public static final String[][] DATA_STRUCTURE = {};
+
+    public String[][] getDataStructure()
+    {
+        return DATA_STRUCTURE;
+    }
+
+    public int getInfoLength()
+    {
         return TOTAL_AREA_LENGTH;
+    }
+
+    public byte getType()
+    {
+        return PING;
     }
 }
