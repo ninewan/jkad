@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.structures.kademlia;
+package jkad.structures.kademlia;
 
 import java.util.List;
 

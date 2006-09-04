@@ -4,9 +4,9 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.protocol.rpc.request;
+package jkad.protocol.rpc.request;
 
-import jKad.protocol.rpc.RPC;
+import jkad.protocol.rpc.RPC;
 
 public class PingRPC extends RPC
 {

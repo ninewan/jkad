@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.structures.tree;
+package jkad.structures.tree;
 
 import java.util.List;
 

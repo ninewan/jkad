@@ -4,9 +4,9 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.controller.threads.handlers;
+package jkad.controller.threads.handlers;
 
-import jKad.controller.threads.handlers.HandlerThread.Status;
+import jkad.controller.threads.handlers.HandlerThread.Status;
 
 public class FindNodeHandler extends HandlerThread {
 

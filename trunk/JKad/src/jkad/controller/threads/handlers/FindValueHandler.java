@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.controller.threads.handlers;
+package jkad.controller.threads.handlers;
 
 public class FindValueHandler extends HandlerThread {
 

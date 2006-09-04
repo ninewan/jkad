@@ -4,9 +4,9 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.structures.buffers;
+package jkad.structures.buffers;
 
-import jKad.controller.ThreadGroupLocal;
+import jkad.controller.ThreadGroupLocal;
 
 import java.net.DatagramPacket;
 import java.util.concurrent.ArrayBlockingQueue;

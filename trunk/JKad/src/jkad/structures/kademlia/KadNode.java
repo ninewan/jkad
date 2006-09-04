@@ -4,10 +4,10 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.structures.kademlia;
+package jkad.structures.kademlia;
 
-import jKad.protocol.KadProtocol;
-import jKad.protocol.KadProtocolException;
+import jkad.protocol.KadProtocol;
+import jkad.protocol.KadProtocolException;
 
 import java.math.BigInteger;
 import java.net.InetAddress;

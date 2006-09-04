@@ -4,10 +4,10 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.structures.buffers;
+package jkad.structures.buffers;
 
-import jKad.controller.ThreadGroupLocal;
-import jKad.structures.RPCTriple;
+import jkad.controller.ThreadGroupLocal;
+import jkad.structures.RPCTriple;
 
 import java.util.concurrent.ArrayBlockingQueue;
 

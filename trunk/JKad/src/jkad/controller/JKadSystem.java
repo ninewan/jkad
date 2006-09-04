@@ -4,14 +4,14 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.controller;
+package jkad.controller;
 
-import jKad.controller.io.UDPReceiver;
-import jKad.controller.io.UDPSender;
-import jKad.controller.threads.Pausable;
-import jKad.controller.threads.Stoppable;
-import jKad.controller.threads.processors.RPCInputProcessor;
-import jKad.controller.threads.processors.RPCOutputProcessor;
+import jkad.controller.io.UDPReceiver;
+import jkad.controller.io.UDPSender;
+import jkad.controller.threads.Pausable;
+import jkad.controller.threads.Stoppable;
+import jkad.controller.threads.processors.RPCInputProcessor;
+import jkad.controller.threads.processors.RPCOutputProcessor;
 
 import java.net.SocketException;
 

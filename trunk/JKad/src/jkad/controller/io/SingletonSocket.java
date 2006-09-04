@@ -4,10 +4,10 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.controller.io;
+package jkad.controller.io;
 
-import jKad.controller.ThreadGroupLocal;
-import jKad.structures.JKadDatagramSocket;
+import jkad.controller.ThreadGroupLocal;
+import jkad.structures.JKadDatagramSocket;
 
 import java.net.InetAddress;
 import java.net.SocketException;

@@ -4,9 +4,9 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.controller.threads.handlers;
+package jkad.controller.threads.handlers;
 
-import jKad.structures.tree.SimpleTreeNode;
+import jkad.structures.tree.SimpleTreeNode;
 
 import java.util.List;
 

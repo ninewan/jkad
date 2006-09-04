@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.protocol;
+package jkad.protocol;
 
 /**
  * Classe representando uma violação ao protocolo Kademlia, sendo disparada

@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.controller;
+package jkad.controller;
 
 public interface Statistical
 {

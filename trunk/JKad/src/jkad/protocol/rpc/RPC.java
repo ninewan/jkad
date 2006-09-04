@@ -4,10 +4,10 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.protocol.rpc;
+package jkad.protocol.rpc;
 
-import jKad.protocol.KadProtocol;
-import jKad.protocol.KadProtocolException;
+import jkad.protocol.KadProtocol;
+import jkad.protocol.KadProtocolException;
 
 import java.math.BigInteger;
 
@@ -17,7 +17,7 @@ import java.math.BigInteger;
  * um objeto transação.<br>
  * Nela estão presentes todos os dados da resposta ou requisição de um host.
  * 
- * @see jKad.protocol.KadProtocol
+ * @see jkad.protocol.KadProtocol
  * @author Bruno C. A. Penteado
  */
 public abstract class RPC implements KadProtocol

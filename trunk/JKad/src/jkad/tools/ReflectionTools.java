@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.tools;
+package jkad.tools;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

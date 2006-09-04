@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.controller.threads;
+package jkad.controller.threads;
 
 public interface HardStoppable extends Stoppable
 {

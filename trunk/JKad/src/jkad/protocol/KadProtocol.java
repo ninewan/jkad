@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.protocol;
+package jkad.protocol;
 
 /**
  * Interface que guarda as constantes do protocolo Kademlia utilizadas

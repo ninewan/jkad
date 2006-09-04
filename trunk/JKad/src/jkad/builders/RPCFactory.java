@@ -4,11 +4,11 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.builders;
+package jkad.builders;
 
-import jKad.builders.implementation.RPCFactoryImp;
-import jKad.protocol.KadProtocolException;
-import jKad.protocol.rpc.RPC;
+import jkad.builders.implementation.RPCFactoryImp;
+import jkad.protocol.KadProtocolException;
+import jkad.protocol.rpc.RPC;
 
 public abstract class RPCFactory
 {

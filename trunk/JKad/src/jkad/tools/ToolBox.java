@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.tools;
+package jkad.tools;
 
 public class ToolBox
 {
