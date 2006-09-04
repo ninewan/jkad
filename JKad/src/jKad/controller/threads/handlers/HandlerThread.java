@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jKad.controller.threads.handlers;
 
 import jKad.structures.tree.SimpleTreeNode;

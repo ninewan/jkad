@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jKad.structures.buffers;
 
 import jKad.controller.ThreadGroupLocal;
@@ -8,10 +14,11 @@ import java.util.concurrent.ArrayBlockingQueue;
 public class DatagramBuffer extends ArrayBlockingQueue<DatagramPacket>
 {
     private static final long serialVersionUID = -2559947930149482210L;
-    
+
     private static ThreadGroupLocal<DatagramBuffer> receivedBuffer;
+
     private static ThreadGroupLocal<DatagramBuffer> sentBuffer;
-    
+
     public static DatagramBuffer getSentBuffer()
     {
         if (sentBuffer == null)

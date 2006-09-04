@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jKad.protocol.rpc;
 
 import jKad.protocol.KadProtocol;
@@ -6,7 +12,9 @@ import jKad.protocol.KadProtocolException;
 import java.math.BigInteger;
 
 /**
- * Classe Abstrata RPC. Esta classe representa uma RPC (Remote Procedure Call), sendo esta a forma de troca de mensagens entre hosts e assim funcionando como um objeto transação.<br>
+ * Classe Abstrata RPC. Esta classe representa uma RPC (Remote Procedure Call),
+ * sendo esta a forma de troca de mensagens entre hosts e assim funcionando como
+ * um objeto transação.<br>
  * Nela estão presentes todos os dados da resposta ou requisição de um host.
  * 
  * @see jKad.protocol.KadProtocol
@@ -15,12 +23,15 @@ import java.math.BigInteger;
 public abstract class RPC implements KadProtocol
 {
     private BigInteger senderNodeID;
+
     private BigInteger destinationNodeID;
+
     private BigInteger RPCID;
 
     /**
      * Retorna identicador do nó remetente deste RPC.<br>
-     * RPCs geradas localmente, ou seja, requisições efetuadas por este middleware (response = 0) sempre terão o mesmo valor de nodeID.
+     * RPCs geradas localmente, ou seja, requisições efetuadas por este
+     * middleware (response = 0) sempre terão o mesmo valor de nodeID.
      * 
      * @return identificador do nó remetente desta RPC.
      */
@@ -60,6 +71,6 @@ public abstract class RPC implements KadProtocol
     public abstract String[][] getDataStructure();
 
     public abstract int getInfoLength();
-    
+
     public abstract byte getType();
 }

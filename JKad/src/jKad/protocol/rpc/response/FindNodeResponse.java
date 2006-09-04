@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jKad.protocol.rpc.response;
 
 import jKad.protocol.KadProtocol;
@@ -9,13 +15,14 @@ import java.math.BigInteger;
 public class FindNodeResponse extends RPC
 {
     /**
-     * Estrutura da RPC a ser utilizada via reflection na construção do pacote UDP em baixo nível
+     * Estrutura da RPC a ser utilizada via reflection na construção do pacote
+     * UDP em baixo nível
      */
     public static final String[][] DATA_STRUCTURE =
     {
-        {"foundNodeID",    "NODE_ID_LENGTH" },
-        {"ipAddress",      "IP_ADDRESS_LENGTH" },
-        {"port",           "PORT_LENGTH" }
+        { "foundNodeID", "NODE_ID_LENGTH" },
+        { "ipAddress", "IP_ADDRESS_LENGTH" },
+        { "port", "PORT_LENGTH" }
     };
 
     /**

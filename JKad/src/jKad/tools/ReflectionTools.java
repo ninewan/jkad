@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jKad.tools;
 
 import java.lang.reflect.Field;
@@ -9,7 +15,7 @@ public class ReflectionTools
     protected ReflectionTools()
     {
     }
-    
+
     public String generateThreadName(Class<? extends Thread> threadClass)
     {
         return Thread.currentThread().getThreadGroup().getName() + "." + threadClass.getSimpleName();
@@ -37,7 +43,9 @@ public class ReflectionTools
         try
         {
             this.invokeMethod("set", fieldName, new Object[]
-            { value }, object);
+            {
+                value
+            }, object);
         } catch (IllegalArgumentException e)
         {
             e.printStackTrace();
@@ -55,7 +63,9 @@ public class ReflectionTools
         try
         {
             return this.invokeMethod("get", fieldName, new Object[]
-            { value }, object);
+            {
+                value
+            }, object);
         } catch (IllegalArgumentException e)
         {
             e.printStackTrace();

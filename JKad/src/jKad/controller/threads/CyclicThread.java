@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jKad.controller.threads;
 
 import org.apache.log4j.Logger;
@@ -12,7 +18,7 @@ public abstract class CyclicThread extends Thread implements Pausable, HardStopp
     {
         super(name);
     }
-    
+
     public void run()
     {
         getLogger().debug("Starting Thread");
@@ -29,7 +35,7 @@ public abstract class CyclicThread extends Thread implements Pausable, HardStopp
                 } else
                 {
                     this.cycleOperation();
-                    if(roundWait > 0)
+                    if (roundWait > 0)
                     {
                         synchronized (this)
                         {
@@ -47,7 +53,7 @@ public abstract class CyclicThread extends Thread implements Pausable, HardStopp
     }
 
     protected abstract Logger getLogger();
-    
+
     protected abstract void cycleOperation() throws InterruptedException;
 
     protected abstract void finalize();

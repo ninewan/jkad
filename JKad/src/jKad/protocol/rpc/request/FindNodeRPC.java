@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jKad.protocol.rpc.request;
 
 import jKad.protocol.KadProtocol;
@@ -16,11 +22,12 @@ public class FindNodeRPC extends RPC
 {
 
     /**
-     * Estrutura da RPC a ser utilizada via reflection na construção do pacote UDP em baixo nível
+     * Estrutura da RPC a ser utilizada via reflection na construção do pacote
+     * UDP em baixo nível
      */
-    public static final String[][] DATA_STRUCTURE = 
+    public static final String[][] DATA_STRUCTURE =
     {
-        { "searchedNodeID", "NODE_ID_LENGTH" } 
+        { "searchedNodeID", "NODE_ID_LENGTH" }
     };
 
     /**

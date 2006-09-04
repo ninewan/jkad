@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jKad.structures.buffers;
 
 import jKad.controller.ThreadGroupLocal;
@@ -8,10 +14,11 @@ import java.util.concurrent.ArrayBlockingQueue;
 public class RPCBuffer extends ArrayBlockingQueue<RPCTriple>
 {
     private static final long serialVersionUID = -325461731321155725L;
-    
+
     private static ThreadGroupLocal<RPCBuffer> receivedBuffer;
+
     private static ThreadGroupLocal<RPCBuffer> sentBuffer;
-    
+
     public static RPCBuffer getSentBuffer()
     {
         if (sentBuffer == null)
