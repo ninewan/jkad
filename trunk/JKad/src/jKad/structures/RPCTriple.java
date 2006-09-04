@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jKad.structures;
 
 import jKad.protocol.rpc.RPC;
@@ -5,9 +11,11 @@ import jKad.protocol.rpc.RPC;
 public class RPCTriple
 {
     private RPC rpc;
+
     private String ip;
+
     private int port;
-    
+
     public RPCTriple(RPC rpc, String ip, int port)
     {
         this.rpc = rpc;
@@ -19,7 +27,7 @@ public class RPCTriple
     {
         return rpc;
     }
-    
+
     public String getIP()
     {
         return ip;

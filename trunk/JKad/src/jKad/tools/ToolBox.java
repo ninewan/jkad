@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jKad.tools;
 
 public class ToolBox
@@ -7,7 +13,6 @@ public class ToolBox
     private NetTools[] netTools;
     private ReflectionTools[] reflectionTools;
     private DataTools[] dataTools;
-
     private int netToolsCounter;
     private int reflectionToolsCounter;
     private int dataToolsCounter;

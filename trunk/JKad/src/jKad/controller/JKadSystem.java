@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jKad.controller;
 
 import jKad.controller.io.UDPReceiver;
@@ -14,13 +20,11 @@ import org.apache.log4j.Logger;
 public class JKadSystem extends Thread implements Pausable, Stoppable, Statistical
 {
     private static Logger logger = Logger.getLogger(JKadSystem.class);
-    
+
     private UDPReceiver receiver;
     private UDPSender sender;
-    
     private RPCInputProcessor inputProcessor;
     private RPCOutputProcessor outputProcessor;
-    
     private boolean paused;
     private boolean running;
 
@@ -37,54 +41,59 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, Statistic
         {
             logger.info("Initializing " + this.getThreadGroup().getName());
             running = true;
-            
+
             receiver = new UDPReceiver();
             sender = new UDPSender();
             receiver.start();
             sender.start();
-            
+
             inputProcessor = new RPCInputProcessor();
             outputProcessor = new RPCOutputProcessor();
             inputProcessor.start();
             outputProcessor.start();
-            
+
             synchronized (this)
             {
-                while(running)
+                while (running)
                 {
-                    try { this.wait(); } catch (InterruptedException e){}
-                    if(isPaused())
+                    try
                     {
-                        if(!receiver.isPaused())
+                        this.wait();
+                    } catch (InterruptedException e)
+                    {
+                    }
+                    if (isPaused())
+                    {
+                        if (!receiver.isPaused())
                             receiver.pauseThread();
-                        if(!sender.isPaused())
+                        if (!sender.isPaused())
                             sender.pauseThread();
-                        if(!inputProcessor.isPaused())
+                        if (!inputProcessor.isPaused())
                             inputProcessor.pauseThread();
-                        if(!outputProcessor.isPaused())
+                        if (!outputProcessor.isPaused())
                             outputProcessor.pauseThread();
                     } else
                     {
-                        if(receiver.isPaused())
+                        if (receiver.isPaused())
                             receiver.playThread();
-                        if(sender.isPaused())
+                        if (sender.isPaused())
                             sender.playThread();
-                        if(inputProcessor.isPaused())
+                        if (inputProcessor.isPaused())
                             inputProcessor.playThread();
-                        if(outputProcessor.isPaused())
+                        if (outputProcessor.isPaused())
                             outputProcessor.playThread();
                     }
                 }
             }
-            
+
             logger.info("Stopping " + this.getThreadGroup().getName());
-            
+
             inputProcessor.stopThread();
             outputProcessor.stopThread();
-            
+
             receiver.stopThread();
             sender.stopThread();
-            
+
             try
             {
                 logger.debug("Joining with " + inputProcessor.getName());
@@ -99,22 +108,22 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, Statistic
             {
                 logger.warn(e);
             }
-            
+
         } catch (SocketException e)
         {
             logger.error(e);
         }
     }
-    
+
     protected void finalize() throws Throwable
     {
-        if(inputProcessor != null)
+        if (inputProcessor != null)
             inputProcessor.stopThread();
-        if(outputProcessor != null)
+        if (outputProcessor != null)
             outputProcessor.stopThread();
-        if(receiver != null)
+        if (receiver != null)
             receiver.stopThread();
-        if(sender != null)
+        if (sender != null)
             sender.stopThread();
         super.finalize();
     }

@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jKad.structures;
 
 import java.io.IOException;
@@ -17,14 +23,13 @@ public class JKadDatagramSocket extends Observable
     {
         CLOSE_SOCKET
     }
-    
+
     public JKadDatagramSocket() throws SocketException
     {
         socket = new DatagramSocket();
     }
 
-    public JKadDatagramSocket(int port, InetAddress laddr)
-            throws SocketException
+    public JKadDatagramSocket(int port, InetAddress laddr) throws SocketException
     {
         socket = new DatagramSocket(port, laddr);
     }

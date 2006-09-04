@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jKad.protocol.rpc.response;
 
 import jKad.protocol.KadProtocol;
@@ -9,22 +15,25 @@ import java.math.BigInteger;
 public class FindValueResponse extends RPC
 {
     /**
-     * Estrutura da RPC a ser utilizada via reflection na construção do pacote UDP em baixo nível
+     * Estrutura da RPC a ser utilizada via reflection na construção do pacote
+     * UDP em baixo nível
      */
     public static final String[][] DATA_STRUCTURE =
     {
-        {"piece",       "PIECE_LENGTH" },
-        {"pieceTotal",  "PIECE_LENGTH" },
-        {"value",       "VALUE_LENGTH" } 
+        { "piece", "PIECE_LENGTH" },
+        { "pieceTotal", "PIECE_LENGTH" },
+        { "value", "VALUE_LENGTH" }
     };
 
     /**
-     * Área de identificação da parte da informação. Trabalha em conjunto com total de partes da informação
+     * Área de identificação da parte da informação. Trabalha em conjunto com
+     * total de partes da informação
      */
     public static final int PIECE_AREA = KadProtocol.TOTAL_AREA_LENGTH;
 
     /**
-     * Área de identificação do total de partes da informação. Trabalha em conjunto com o identificador de partes da informação
+     * Área de identificação do total de partes da informação. Trabalha em
+     * conjunto com o identificador de partes da informação
      */
     public static final int PIECE_TOTAL_AREA = PIECE_AREA + PIECE_LENGTH;
 

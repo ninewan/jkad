@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jKad.protocol.rpc.request;
 
 import jKad.protocol.KadProtocol;
@@ -9,11 +15,12 @@ import java.math.BigInteger;
 public class FindValueRPC extends RPC
 {
     /**
-     * Estrutura da RPC a ser utilizada via reflection na construção do pacote UDP em baixo nível
+     * Estrutura da RPC a ser utilizada via reflection na construção do pacote
+     * UDP em baixo nível
      */
     public static final String[][] DATA_STRUCTURE =
     {
-        { "key", "NODE_ID_LENGTH" } 
+        { "key", "NODE_ID_LENGTH" }
     };
 
     /**
