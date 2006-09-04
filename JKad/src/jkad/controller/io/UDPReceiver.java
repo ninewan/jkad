@@ -4,11 +4,11 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.controller.io;
+package jkad.controller.io;
 
-import jKad.structures.JKadDatagramSocket;
-import jKad.structures.buffers.DatagramBuffer;
-import jKad.tools.ToolBox;
+import jkad.structures.JKadDatagramSocket;
+import jkad.structures.buffers.DatagramBuffer;
+import jkad.tools.ToolBox;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

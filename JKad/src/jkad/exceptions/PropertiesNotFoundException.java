@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.exceptions;
+package jkad.exceptions;
 
 import java.util.List;
 

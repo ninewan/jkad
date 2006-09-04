@@ -4,10 +4,10 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.builders.implementation.reflection;
+package jkad.builders.implementation.reflection;
 
-import jKad.builders.OutputBuilder;
-import jKad.protocol.rpc.RPC;
+import jkad.builders.OutputBuilder;
+import jkad.protocol.rpc.RPC;
 
 import java.net.DatagramPacket;
 import java.net.InetAddress;

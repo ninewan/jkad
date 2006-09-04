@@ -4,11 +4,11 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.controller;
+package jkad.controller;
 
-import jKad.controller.threads.Pausable;
-import jKad.controller.threads.Stoppable;
-import jKad.exceptions.PropertiesNotFoundException;
+import jkad.controller.threads.Pausable;
+import jkad.controller.threads.Stoppable;
+import jkad.exceptions.PropertiesNotFoundException;
 
 import java.io.File;
 import java.io.FileInputStream;

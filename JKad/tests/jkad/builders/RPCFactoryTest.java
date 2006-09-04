@@ -4,20 +4,20 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.builders;
+package jkad.builders;
 
-import jKad.builders.implementation.RPCFactoryImp;
-import jKad.protocol.KadProtocol;
-import jKad.protocol.KadProtocolException;
-import jKad.protocol.rpc.RPC;
-import jKad.protocol.rpc.request.FindNodeRPC;
-import jKad.protocol.rpc.request.FindValueRPC;
-import jKad.protocol.rpc.request.PingRPC;
-import jKad.protocol.rpc.request.StoreRPC;
-import jKad.protocol.rpc.response.FindNodeResponse;
-import jKad.protocol.rpc.response.FindValueResponse;
-import jKad.protocol.rpc.response.PingResponse;
-import jKad.protocol.rpc.response.StoreResponse;
+import jkad.builders.implementation.RPCFactoryImp;
+import jkad.protocol.KadProtocol;
+import jkad.protocol.KadProtocolException;
+import jkad.protocol.rpc.RPC;
+import jkad.protocol.rpc.request.FindNodeRPC;
+import jkad.protocol.rpc.request.FindValueRPC;
+import jkad.protocol.rpc.request.PingRPC;
+import jkad.protocol.rpc.request.StoreRPC;
+import jkad.protocol.rpc.response.FindNodeResponse;
+import jkad.protocol.rpc.response.FindValueResponse;
+import jkad.protocol.rpc.response.PingResponse;
+import jkad.protocol.rpc.response.StoreResponse;
 
 import java.nio.ByteBuffer;
 

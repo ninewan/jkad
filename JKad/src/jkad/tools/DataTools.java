@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.tools;
+package jkad.tools;
 
 import java.math.BigInteger;
 import java.nio.ByteBuffer;

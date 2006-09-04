@@ -4,12 +4,12 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.structures.kademlia;
+package jkad.structures.kademlia;
 
-import jKad.protocol.KadProtocol;
-import jKad.protocol.KadProtocolException;
-import jKad.tools.DataTools;
-import jKad.tools.ToolBox;
+import jkad.protocol.KadProtocol;
+import jkad.protocol.KadProtocolException;
+import jkad.tools.DataTools;
+import jkad.tools.ToolBox;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

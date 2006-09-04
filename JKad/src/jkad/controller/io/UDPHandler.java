@@ -4,10 +4,10 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.controller.io;
+package jkad.controller.io;
 
-import jKad.controller.threads.CyclicThread;
-import jKad.structures.JKadDatagramSocket;
+import jkad.controller.threads.CyclicThread;
+import jkad.structures.JKadDatagramSocket;
 
 import java.util.Observable;
 import java.util.Observer;

@@ -4,9 +4,9 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.structures;
+package jkad.structures;
 
-import jKad.protocol.rpc.RPC;
+import jkad.protocol.rpc.RPC;
 
 public class RPCTriple
 {

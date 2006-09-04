@@ -4,9 +4,9 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.structures.kademlia;
+package jkad.structures.kademlia;
 
-import jKad.structures.tree.SimpleTreeNode;
+import jkad.structures.tree.SimpleTreeNode;
 
 public class KadTreeNode implements SimpleTreeNode<Bucket>
 {

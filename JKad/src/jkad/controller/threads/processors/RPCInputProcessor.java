@@ -4,16 +4,16 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.controller.threads.processors;
+package jkad.controller.threads.processors;
 
-import jKad.builders.InputBuilder;
-import jKad.controller.threads.CyclicThread;
-import jKad.protocol.KadProtocolException;
-import jKad.protocol.rpc.RPC;
-import jKad.structures.RPCTriple;
-import jKad.structures.buffers.DatagramBuffer;
-import jKad.structures.buffers.RPCBuffer;
-import jKad.tools.ToolBox;
+import jkad.builders.InputBuilder;
+import jkad.controller.threads.CyclicThread;
+import jkad.protocol.KadProtocolException;
+import jkad.protocol.rpc.RPC;
+import jkad.structures.RPCTriple;
+import jkad.structures.buffers.DatagramBuffer;
+import jkad.structures.buffers.RPCBuffer;
+import jkad.tools.ToolBox;
 
 import java.net.DatagramPacket;
 

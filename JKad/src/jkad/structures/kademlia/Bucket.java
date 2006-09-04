@@ -4,10 +4,10 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.structures.kademlia;
+package jkad.structures.kademlia;
 
-import jKad.protocol.KadProtocol;
-import jKad.structures.tree.MultiTreeNode;
+import jkad.protocol.KadProtocol;
+import jkad.structures.tree.MultiTreeNode;
 
 import java.math.BigInteger;
 import java.util.Iterator;

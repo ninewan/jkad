@@ -4,11 +4,11 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.protocol.rpc.request;
+package jkad.protocol.rpc.request;
 
-import jKad.protocol.KadProtocol;
-import jKad.protocol.KadProtocolException;
-import jKad.protocol.rpc.RPC;
+import jkad.protocol.KadProtocol;
+import jkad.protocol.KadProtocolException;
+import jkad.protocol.rpc.RPC;
 
 import java.math.BigInteger;
 

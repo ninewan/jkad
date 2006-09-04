@@ -4,11 +4,11 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jKad.builders.implementation.reflection;
+package jkad.builders.implementation.reflection;
 
-import jKad.builders.InputBuilder;
-import jKad.protocol.rpc.RPC;
-import jKad.tools.ToolBox;
+import jkad.builders.InputBuilder;
+import jkad.protocol.rpc.RPC;
+import jkad.tools.ToolBox;
 
 import java.net.DatagramPacket;
 import java.nio.ByteBuffer;
