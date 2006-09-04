@@ -6,17 +6,6 @@
  */
 package rpctester;
 
-import jKad.builders.OutputBuilder;
-import jKad.protocol.KadProtocolException;
-import jKad.protocol.rpc.RPC;
-import jKad.protocol.rpc.request.FindNodeRPC;
-import jKad.protocol.rpc.request.FindValueRPC;
-import jKad.protocol.rpc.request.PingRPC;
-import jKad.protocol.rpc.request.StoreRPC;
-import jKad.protocol.rpc.response.FindNodeResponse;
-import jKad.protocol.rpc.response.FindValueResponse;
-import jKad.protocol.rpc.response.PingResponse;
-import jKad.protocol.rpc.response.StoreResponse;
 
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
@@ -39,6 +28,18 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import jkad.builders.OutputBuilder;
+import jkad.protocol.KadProtocolException;
+import jkad.protocol.rpc.RPC;
+import jkad.protocol.rpc.request.FindNodeRPC;
+import jkad.protocol.rpc.request.FindValueRPC;
+import jkad.protocol.rpc.request.PingRPC;
+import jkad.protocol.rpc.request.StoreRPC;
+import jkad.protocol.rpc.response.FindNodeResponse;
+import jkad.protocol.rpc.response.FindValueResponse;
+import jkad.protocol.rpc.response.PingResponse;
+import jkad.protocol.rpc.response.StoreResponse;
 
 public class RPCTester implements ActionListener
 {

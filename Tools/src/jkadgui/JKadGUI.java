@@ -6,8 +6,6 @@
  */
 package jkadgui;
 
-import jKad.controller.JKad;
-import jKad.controller.JKadSystem;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -21,6 +19,9 @@ import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+
+import jkad.controller.JKad;
+import jkad.controller.JKadSystem;
 
 public class JKadGUI implements ListDataListener
 {

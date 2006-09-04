@@ -6,7 +6,6 @@
  */
 package jkadgui;
 
-import jKad.controller.JKadSystem;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +15,8 @@ import java.util.List;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+
+import jkad.controller.JKadSystem;
 
 public class NodeListModel extends ArrayList<JKadSystem> implements ListModel
 {
