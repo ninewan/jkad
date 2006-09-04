@@ -6,7 +6,7 @@
  */
 package rpctester;
 
-import jKad.protocol.rpc.RPC;
+import jkad.protocol.rpc.RPC;
 
 public class RPCOption
 {
