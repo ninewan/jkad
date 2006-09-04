@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jkadgui;
 
 import jKad.controller.JKadSystem;
@@ -14,29 +20,29 @@ import javax.swing.event.ListDataListener;
 public class NodeListModel extends ArrayList<JKadSystem> implements ListModel
 {
     private List<ListDataListener> listenersList;
-    
+
     public NodeListModel()
     {
         super();
         this.listenersList = new ArrayList<ListDataListener>();
     }
-    
+
     public NodeListModel(List<JKadSystem> systemList)
     {
         this();
         this.addAll(systemList);
     }
-    
+
     public void addListDataListener(ListDataListener l)
     {
         this.listenersList.add(l);
     }
-    
+
     public Object getElementAt(int index)
     {
         return get(index);
     }
-    
+
     public int getSize()
     {
         return size();
@@ -58,7 +64,7 @@ public class NodeListModel extends ArrayList<JKadSystem> implements ListModel
     {
         int sizeBefore = size();
         boolean added = super.add(o);
-        if(added)
+        if (added)
             this.notifyListeners(ListDataEvent.INTERVAL_ADDED, sizeBefore, size());
         return added;
     }
@@ -68,7 +74,7 @@ public class NodeListModel extends ArrayList<JKadSystem> implements ListModel
     {
         int sizeBefore = size();
         boolean added = super.addAll(c);
-        if(added)
+        if (added)
             this.notifyListeners(ListDataEvent.INTERVAL_ADDED, sizeBefore, size());
         return added;
     }
@@ -78,7 +84,7 @@ public class NodeListModel extends ArrayList<JKadSystem> implements ListModel
     {
         int sizeBefore = size();
         boolean added = super.addAll(index, c);
-        if(added)
+        if (added)
             this.notifyListeners(ListDataEvent.INTERVAL_ADDED, index, index + (size() - sizeBefore));
         return added;
     }
@@ -104,7 +110,7 @@ public class NodeListModel extends ArrayList<JKadSystem> implements ListModel
     {
         int index = indexOf(o);
         boolean removed = super.remove(o);
-        if(removed)
+        if (removed)
             this.notifyListeners(ListDataEvent.INTERVAL_REMOVED, index, index);
         return removed;
     }
@@ -121,10 +127,10 @@ public class NodeListModel extends ArrayList<JKadSystem> implements ListModel
     public boolean removeAll(Collection<?> c)
     {
         boolean removed = false;
-        for (Iterator<JKadSystem> iterator = iterator(); iterator.hasNext();) 
+        for (Iterator<JKadSystem> iterator = iterator(); iterator.hasNext();)
         {
             JKadSystem system = iterator.next();
-            if (c.contains(system)) 
+            if (c.contains(system))
             {
                 int index = indexOf(system);
                 iterator.remove();
@@ -139,10 +145,10 @@ public class NodeListModel extends ArrayList<JKadSystem> implements ListModel
     public boolean retainAll(Collection<?> c)
     {
         boolean removed = false;
-        for (Iterator<JKadSystem> iterator = iterator(); iterator.hasNext();) 
+        for (Iterator<JKadSystem> iterator = iterator(); iterator.hasNext();)
         {
             JKadSystem system = iterator.next();
-            if (!c.contains(system)) 
+            if (!c.contains(system))
             {
                 int index = indexOf(system);
                 iterator.remove();
@@ -152,10 +158,10 @@ public class NodeListModel extends ArrayList<JKadSystem> implements ListModel
         }
         return removed;
     }
-    
+
     private void notifyListeners(int type, int index0, int index1)
     {
-        switch(type)
+        switch (type)
         {
             case ListDataEvent.CONTENTS_CHANGED:
             {
