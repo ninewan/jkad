@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jkadgui;
 
 import jKad.controller.JKad;

@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package rpctester;
 
 import jKad.builders.OutputBuilder;
@@ -36,36 +42,48 @@ import javax.swing.JTextField;
 
 public class RPCTester implements ActionListener
 {
-    private JFrame frame = null;  //  @jve:decl-index=0:visual-constraint="77,27"
+    private JFrame frame = null; // @jve:decl-index=0:visual-constraint="77,27"
+
     private JPanel contentPane = null;
-    private JPanel ipPanel = null; 
+
+    private JPanel ipPanel = null;
+
     private JTextField ipField = null;
+
     private JLabel ipLabel = null;
+
     private JPanel portPanel = null;
+
     private JLabel portLabel = null;
+
     private JTextField portField = null;
+
     private JPanel rpcPanel = null;
+
     private JLabel rpcLabel = null;
+
     private JComboBox rpcCombo = null;
+
     private JPanel sendPanel = null;
+
     private JButton sendButton = null;
-    
+
     private DatagramSocket socket = null;
-    
+
     public RPCTester() throws SocketException
     {
         this(3001);
     }
-    
+
     public RPCTester(int port) throws SocketException
     {
         socket = new DatagramSocket(port);
     }
-    
+
     /**
-     * This method initializes ipLabel	
-     * 	
-     * @return javax.swing.JLabel	
+     * This method initializes ipLabel
+     * 
+     * @return javax.swing.JLabel
      */
     private JLabel getIpLabel()
     {
@@ -78,9 +96,9 @@ public class RPCTester implements ActionListener
     }
 
     /**
-     * This method initializes portPanel	
-     * 	
-     * @return javax.swing.JPanel	
+     * This method initializes portPanel
+     * 
+     * @return javax.swing.JPanel
      */
     private JPanel getPortPanel()
     {
@@ -94,9 +112,9 @@ public class RPCTester implements ActionListener
     }
 
     /**
-     * This method initializes portLabel	
-     * 	
-     * @return javax.swing.JLabel	
+     * This method initializes portLabel
+     * 
+     * @return javax.swing.JLabel
      */
     private JLabel getPortLabel()
     {
@@ -109,24 +127,24 @@ public class RPCTester implements ActionListener
     }
 
     /**
-     * This method initializes portField	
-     * 	
-     * @return javax.swing.JTextField	
+     * This method initializes portField
+     * 
+     * @return javax.swing.JTextField
      */
     private JTextField getPortField()
     {
         if (portField == null)
         {
             portField = new JTextField();
-            portField.setPreferredSize(new Dimension(50,20));
+            portField.setPreferredSize(new Dimension(50, 20));
         }
         return portField;
     }
 
     /**
-     * This method initializes rpcPanel	
-     * 	
-     * @return javax.swing.JPanel	
+     * This method initializes rpcPanel
+     * 
+     * @return javax.swing.JPanel
      */
     private JPanel getRpcPanel()
     {
@@ -140,9 +158,9 @@ public class RPCTester implements ActionListener
     }
 
     /**
-     * This method initializes rpcLabel	
-     * 	
-     * @return javax.swing.JLabel	
+     * This method initializes rpcLabel
+     * 
+     * @return javax.swing.JLabel
      */
     private JLabel getRpcLabel()
     {
@@ -155,9 +173,9 @@ public class RPCTester implements ActionListener
     }
 
     /**
-     * This method initializes rpcCombo	
-     * 	
-     * @return javax.swing.JComboBox	
+     * This method initializes rpcCombo
+     * 
+     * @return javax.swing.JComboBox
      */
     private JComboBox getRpcCombo()
     {
@@ -177,46 +195,46 @@ public class RPCTester implements ActionListener
             ping.setRPCID(BigInteger.ZERO);
             ping.setDestinationNodeID(BigInteger.ZERO);
             ping.setSenderNodeID(BigInteger.ZERO);
-            
+
             StoreRPC store = new StoreRPC();
             store.setDestinationNodeID(BigInteger.ZERO);
             store.setKey(BigInteger.ZERO);
-            store.setPiece((byte)0);
-            store.setPieceTotal((byte)0);
+            store.setPiece((byte) 0);
+            store.setPieceTotal((byte) 0);
             store.setRPCID(BigInteger.ZERO);
             store.setSenderNodeID(BigInteger.ZERO);
             store.setValue(BigInteger.ZERO);
-            
+
             FindValueRPC findValue = new FindValueRPC();
             findValue.setDestinationNodeID(BigInteger.ZERO);
             findValue.setKey(BigInteger.ZERO);
             findValue.setRPCID(BigInteger.ZERO);
             findValue.setSenderNodeID(BigInteger.ZERO);
-            
+
             FindNodeRPC findNode = new FindNodeRPC();
             findNode.setDestinationNodeID(BigInteger.ZERO);
             findNode.setRPCID(BigInteger.ZERO);
             findNode.setSearchedNodeID(BigInteger.ZERO);
             findNode.setSenderNodeID(BigInteger.ZERO);
-            
+
             PingResponse pingResponse = new PingResponse();
             pingResponse.setDestinationNodeID(BigInteger.ZERO);
             pingResponse.setRPCID(BigInteger.ZERO);
             pingResponse.setSenderNodeID(BigInteger.ZERO);
-            
+
             StoreResponse storeResponse = new StoreResponse();
             storeResponse.setDestinationNodeID(BigInteger.ZERO);
             storeResponse.setRPCID(BigInteger.ZERO);
             storeResponse.setSenderNodeID(BigInteger.ZERO);
-            
+
             FindValueResponse findValueResponse = new FindValueResponse();
             findValueResponse.setDestinationNodeID(BigInteger.ZERO);
-            findValueResponse.setPiece((byte)0);
-            findValueResponse.setPieceTotal((byte)0);
+            findValueResponse.setPiece((byte) 0);
+            findValueResponse.setPieceTotal((byte) 0);
             findValueResponse.setRPCID(BigInteger.ZERO);
             findValueResponse.setSenderNodeID(BigInteger.ZERO);
             findValueResponse.setValue(BigInteger.ZERO);
-            
+
             FindNodeResponse findNodeResponse = new FindNodeResponse();
             findNodeResponse.setDestinationNodeID(BigInteger.ZERO);
             findNodeResponse.setFoundNodeID(BigInteger.ZERO);
@@ -224,7 +242,7 @@ public class RPCTester implements ActionListener
             findNodeResponse.setPort(BigInteger.ZERO);
             findNodeResponse.setRPCID(BigInteger.ZERO);
             findNodeResponse.setSenderNodeID(BigInteger.ZERO);
-            
+
             rpcCombo.addItem(new RPCOption("RPC: Ping", ping));
             rpcCombo.addItem(new RPCOption("RPC: Store", store));
             rpcCombo.addItem(new RPCOption("RPC: Find Value", findValue));
@@ -233,16 +251,16 @@ public class RPCTester implements ActionListener
             rpcCombo.addItem(new RPCOption("Response: Store", storeResponse));
             rpcCombo.addItem(new RPCOption("Response: Find Value", findValueResponse));
             rpcCombo.addItem(new RPCOption("Response: Find Node", findNodeResponse));
-        } catch (KadProtocolException e) 
+        } catch (KadProtocolException e)
         {
             e.printStackTrace();
         }
     }
 
     /**
-     * This method initializes sendPanel	
-     * 	
-     * @return javax.swing.JPanel	
+     * This method initializes sendPanel
+     * 
+     * @return javax.swing.JPanel
      */
     private JPanel getSendPanel()
     {
@@ -256,9 +274,9 @@ public class RPCTester implements ActionListener
     }
 
     /**
-     * This method initializes sendButton	
-     * 	
-     * @return javax.swing.JButton	
+     * This method initializes sendButton
+     * 
+     * @return javax.swing.JButton
      */
     private JButton getSendButton()
     {
@@ -275,15 +293,16 @@ public class RPCTester implements ActionListener
         RPCTester tester = new RPCTester();
         tester.init();
     }
-    
+
     public void init()
     {
         getFrame().setVisible(true);
     }
+
     /**
-     * This method initializes frame	
-     * 	
-     * @return javax.swing.JFrame	
+     * This method initializes frame
+     * 
+     * @return javax.swing.JFrame
      */
     private JFrame getFrame()
     {
@@ -295,27 +314,46 @@ public class RPCTester implements ActionListener
             frame.setContentPane(getContentPane());
             frame.setResizable(false);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.addWindowListener(new WindowListener(){
+            frame.addWindowListener(new WindowListener()
+            {
                 public void windowClosing(WindowEvent e)
                 {
-                    if(socket != null)
+                    if (socket != null)
                         socket.close();
                 }
-                public void windowActivated(WindowEvent e){}
-                public void windowClosed(WindowEvent e){}
-                public void windowDeactivated(WindowEvent e){}
-                public void windowDeiconified(WindowEvent e){}
-                public void windowIconified(WindowEvent e){}
-                public void windowOpened(WindowEvent e){}
+
+                public void windowActivated(WindowEvent e)
+                {
+                }
+
+                public void windowClosed(WindowEvent e)
+                {
+                }
+
+                public void windowDeactivated(WindowEvent e)
+                {
+                }
+
+                public void windowDeiconified(WindowEvent e)
+                {
+                }
+
+                public void windowIconified(WindowEvent e)
+                {
+                }
+
+                public void windowOpened(WindowEvent e)
+                {
+                }
             });
         }
         return frame;
     }
 
     /**
-     * This method initializes contentPane	
-     * 	
-     * @return javax.swing.JPanel	
+     * This method initializes contentPane
+     * 
+     * @return javax.swing.JPanel
      */
     private JPanel getContentPane()
     {
@@ -339,9 +377,9 @@ public class RPCTester implements ActionListener
     }
 
     /**
-     * This method initializes ipPanel	
-     * 	
-     * @return javax.swing.JPanel	
+     * This method initializes ipPanel
+     * 
+     * @return javax.swing.JPanel
      */
     private JPanel getIpPanel()
     {
@@ -355,16 +393,16 @@ public class RPCTester implements ActionListener
     }
 
     /**
-     * This method initializes ipField	
-     * 	
-     * @return javax.swing.JTextField	
+     * This method initializes ipField
+     * 
+     * @return javax.swing.JTextField
      */
     private JTextField getIpField()
     {
         if (ipField == null)
         {
             ipField = new JTextField();
-            ipField.setPreferredSize(new Dimension(100,20));
+            ipField.setPreferredSize(new Dimension(100, 20));
         }
         return ipField;
     }
@@ -373,7 +411,7 @@ public class RPCTester implements ActionListener
     {
         String ip = getIpField().getText();
         String port = getPortField().getText();
-        RPCOption option = (RPCOption)getRpcCombo().getSelectedItem();
+        RPCOption option = (RPCOption) getRpcCombo().getSelectedItem();
         RPC rpc = option.getRPC();
         OutputBuilder builder = OutputBuilder.getInstance();
         try

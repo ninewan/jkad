@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package udptester;
 
 import java.awt.BorderLayout;
@@ -28,31 +34,43 @@ import javax.swing.JTextPane;
 
 public class UDPTester implements ActionListener
 {
-    private JFrame frame = null;  //  @jve:decl-index=0:visual-constraint="93,25"
+    private JFrame frame = null; // @jve:decl-index=0:visual-constraint="93,25"
+
     private JPanel contentPane = null;
+
     private JPanel buttonPanel = null;
+
     private JPanel textAreaPanel = null;
+
     private JScrollPane scrollPane = null;
+
     private JTextPane textPane = null;
+
     private JButton sendButton = null;
+
     private JTextField ipField = null;
+
     private JTextField portField = null;
+
     private JPanel ipPanel = null;
+
     private JPanel sendPanel = null;
+
     private JPanel panel1 = null;
+
     private JPanel panel2 = null;
 
     private DatagramSocket socket;
-    
+
     public UDPTester() throws SocketException, UnknownHostException
     {
         socket = new DatagramSocket(3000, Inet4Address.getLocalHost());
     }
-    
+
     /**
-     * This method initializes panel1   
-     *  
-     * @return javax.swing.JPanel   
+     * This method initializes panel1
+     * 
+     * @return javax.swing.JPanel
      */
     private JPanel getPanel1()
     {
@@ -67,9 +85,9 @@ public class UDPTester implements ActionListener
     }
 
     /**
-     * This method initializes panel2   
-     *  
-     * @return javax.swing.JPanel   
+     * This method initializes panel2
+     * 
+     * @return javax.swing.JPanel
      */
     private JPanel getPanel2()
     {
@@ -84,9 +102,9 @@ public class UDPTester implements ActionListener
     }
 
     /**
-     * This method initializes frame    
-     *  
-     * @return javax.swing.JFrame   
+     * This method initializes frame
+     * 
+     * @return javax.swing.JFrame
      */
     private JFrame getFrame()
     {
@@ -97,28 +115,46 @@ public class UDPTester implements ActionListener
             frame.setTitle("UDP Tester");
             frame.setContentPane(getContentPane());
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.addWindowListener(new WindowListener(){
+            frame.addWindowListener(new WindowListener()
+            {
                 public void windowClosing(WindowEvent e)
                 {
-                    if(socket != null)
+                    if (socket != null)
                         socket.close();
                 }
-                
-                public void windowActivated(WindowEvent e){}
-                public void windowClosed(WindowEvent e){}
-                public void windowDeactivated(WindowEvent e){}
-                public void windowDeiconified(WindowEvent e){}
-                public void windowIconified(WindowEvent e){}
-                public void windowOpened(WindowEvent e){}
+
+                public void windowActivated(WindowEvent e)
+                {
+                }
+
+                public void windowClosed(WindowEvent e)
+                {
+                }
+
+                public void windowDeactivated(WindowEvent e)
+                {
+                }
+
+                public void windowDeiconified(WindowEvent e)
+                {
+                }
+
+                public void windowIconified(WindowEvent e)
+                {
+                }
+
+                public void windowOpened(WindowEvent e)
+                {
+                }
             });
         }
         return frame;
     }
 
     /**
-     * This method initializes contentPane  
-     *  
-     * @return javax.swing.JPanel   
+     * This method initializes contentPane
+     * 
+     * @return javax.swing.JPanel
      */
     private JPanel getContentPane()
     {
@@ -133,9 +169,9 @@ public class UDPTester implements ActionListener
     }
 
     /**
-     * This method initializes buttonPanel  
-     *  
-     * @return javax.swing.JPanel   
+     * This method initializes buttonPanel
+     * 
+     * @return javax.swing.JPanel
      */
     private JPanel getButtonPanel()
     {
@@ -153,9 +189,9 @@ public class UDPTester implements ActionListener
     }
 
     /**
-     * This method initializes textAreaPanel    
-     *  
-     * @return javax.swing.JPanel   
+     * This method initializes textAreaPanel
+     * 
+     * @return javax.swing.JPanel
      */
     private JPanel getTextAreaPanel()
     {
@@ -173,9 +209,9 @@ public class UDPTester implements ActionListener
     }
 
     /**
-     * This method initializes scrollPane   
-     *  
-     * @return javax.swing.JScrollPane  
+     * This method initializes scrollPane
+     * 
+     * @return javax.swing.JScrollPane
      */
     private JScrollPane getScrollPane()
     {
@@ -188,9 +224,9 @@ public class UDPTester implements ActionListener
     }
 
     /**
-     * This method initializes textPane 
-     *  
-     * @return javax.swing.JTextPane    
+     * This method initializes textPane
+     * 
+     * @return javax.swing.JTextPane
      */
     private JTextPane getTextPane()
     {
@@ -202,9 +238,9 @@ public class UDPTester implements ActionListener
     }
 
     /**
-     * This method initializes sendButton   
-     *  
-     * @return javax.swing.JButton  
+     * This method initializes sendButton
+     * 
+     * @return javax.swing.JButton
      */
     private JButton getSendButton()
     {
@@ -218,26 +254,26 @@ public class UDPTester implements ActionListener
     }
 
     /**
-     * This method initializes ipField  
-     *  
-     * @return javax.swing.JTextField   
+     * This method initializes ipField
+     * 
+     * @return javax.swing.JTextField
      */
     private JTextField getIpField()
     {
         if (ipField == null)
         {
             ipField = new JTextField();
-            ipField.setPreferredSize(new Dimension(100,20));
+            ipField.setPreferredSize(new Dimension(100, 20));
             ipField.setInputVerifier(new InputVerifier()
             {
                 public boolean verify(JComponent input)
                 {
                     JTextField field = (JTextField) input;
                     String text = field.getText();
-                    if(text != null && text.length() > 0 && !text.matches("(\\d{1,3}\\.){3}\\d{1,3}"))
+                    if (text != null && text.length() > 0 && !text.matches("(\\d{1,3}\\.){3}\\d{1,3}"))
                     {
                         field.setBackground(new Color(0xFFCCCC));
-                        return false; 
+                        return false;
                     } else
                     {
                         field.setBackground(Color.WHITE);
@@ -250,26 +286,26 @@ public class UDPTester implements ActionListener
     }
 
     /**
-     * This method initializes portField    
-     *  
-     * @return javax.swing.JTextField   
+     * This method initializes portField
+     * 
+     * @return javax.swing.JTextField
      */
     private JTextField getPortField()
     {
         if (portField == null)
         {
             portField = new JTextField();
-            portField.setPreferredSize(new Dimension(40,20));
+            portField.setPreferredSize(new Dimension(40, 20));
             portField.setInputVerifier(new InputVerifier()
             {
                 public boolean verify(JComponent input)
                 {
                     JTextField field = (JTextField) input;
                     String text = field.getText();
-                    if(text != null && text.length() > 0 && !text.matches("\\d+"))
+                    if (text != null && text.length() > 0 && !text.matches("\\d+"))
                     {
                         field.setBackground(new Color(0xFFCCCC));
-                        return false; 
+                        return false;
                     } else
                     {
                         field.setBackground(Color.WHITE);
@@ -282,9 +318,9 @@ public class UDPTester implements ActionListener
     }
 
     /**
-     * This method initializes ipPanel  
-     *  
-     * @return javax.swing.JPanel   
+     * This method initializes ipPanel
+     * 
+     * @return javax.swing.JPanel
      */
     private JPanel getIpPanel()
     {
@@ -301,9 +337,9 @@ public class UDPTester implements ActionListener
     }
 
     /**
-     * This method initializes sendPanel    
-     *  
-     * @return javax.swing.JPanel   
+     * This method initializes sendPanel
+     * 
+     * @return javax.swing.JPanel
      */
     private JPanel getSendPanel()
     {
@@ -320,15 +356,15 @@ public class UDPTester implements ActionListener
     {
         new UDPTester().getFrame().setVisible(true);
     }
-    
+
     public void actionPerformed(ActionEvent event)
     {
         String ip = getIpField().getText();
         String port = getPortField().getText();
         String text = getTextPane().getSelectedText();
-        if(text == null)
+        if (text == null)
             text = textPane.getText();
-        if(text == null)
+        if (text == null)
             text = "";
         byte[] data = text.getBytes();
         try
