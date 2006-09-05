@@ -8,6 +8,7 @@ package jkad.controller;
 
 import jkad.controller.io.UDPReceiver;
 import jkad.controller.io.UDPSender;
+import jkad.controller.threads.Controller;
 import jkad.controller.threads.Pausable;
 import jkad.controller.threads.Stoppable;
 import jkad.controller.threads.processors.RPCInputProcessor;
@@ -25,6 +26,7 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, Statistic
     private UDPSender sender;
     private RPCInputProcessor inputProcessor;
     private RPCOutputProcessor outputProcessor;
+    private Controller controller;
     private boolean paused;
     private boolean running;
 
@@ -51,6 +53,9 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, Statistic
             outputProcessor = new RPCOutputProcessor();
             inputProcessor.start();
             outputProcessor.start();
+            
+            controller = new Controller();
+            controller.start();
 
             synchronized (this)
             {
@@ -64,30 +69,36 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, Statistic
                     }
                     if (isPaused())
                     {
+                    	if (!controller.isPaused())
+                    		controller.pauseThread();
+                    	if (!inputProcessor.isPaused())
+                            inputProcessor.pauseThread();
+                        if (!outputProcessor.isPaused())
+                            outputProcessor.pauseThread();
                         if (!receiver.isPaused())
                             receiver.pauseThread();
                         if (!sender.isPaused())
                             sender.pauseThread();
-                        if (!inputProcessor.isPaused())
-                            inputProcessor.pauseThread();
-                        if (!outputProcessor.isPaused())
-                            outputProcessor.pauseThread();
                     } else
                     {
-                        if (receiver.isPaused())
+                    	if (receiver.isPaused())
                             receiver.playThread();
                         if (sender.isPaused())
                             sender.playThread();
-                        if (inputProcessor.isPaused())
+                    	if (inputProcessor.isPaused())
                             inputProcessor.playThread();
                         if (outputProcessor.isPaused())
                             outputProcessor.playThread();
+                        if (controller.isPaused())
+                        	controller.playThread();
                     }
                 }
             }
 
             logger.info("Stopping " + this.getThreadGroup().getName());
 
+            controller.stopThread();
+            
             inputProcessor.stopThread();
             outputProcessor.stopThread();
 
@@ -96,7 +107,9 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, Statistic
 
             try
             {
-                logger.debug("Joining with " + inputProcessor.getName());
+            	logger.debug("Joining with " + controller.getName());
+                controller.join();
+            	logger.debug("Joining with " + inputProcessor.getName());
                 inputProcessor.join();
                 logger.debug("Joining with " + outputProcessor.getName());
                 outputProcessor.join();
@@ -117,7 +130,9 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, Statistic
 
     protected void finalize() throws Throwable
     {
-        if (inputProcessor != null)
+        if (controller != null)
+        	controller.stopThread();
+    	if (inputProcessor != null)
             inputProcessor.stopThread();
         if (outputProcessor != null)
             outputProcessor.stopThread();

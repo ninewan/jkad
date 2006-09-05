@@ -33,6 +33,11 @@
 				<attribute name="Main-Class" value="jkad.controller.JKad"/>
 			</manifest>
 		</jar>
+			
+		<copy todir="dist">
+			<fileset dir="." includes="*.properties"/>
+		</copy>
+		
 		<delete dir=".build" />
 	</target>
 	

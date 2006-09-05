@@ -6,14 +6,12 @@
  */
 package jkad.controller.threads.handlers;
 
-import jkad.controller.threads.handlers.HandlerThread.Status;
-
 public class FindNodeHandler extends HandlerThread {
 
 	@Override
-	public void run() {
+	public void run() 
+	{
 		// TODO Auto-generated method stub
-
 	}
 
     @Override
