@@ -28,7 +28,12 @@ public class JKad implements Runnable, Pausable, Stoppable
 
     public static final String[] usedProperties = new String[]
     {
-    "jkad.systems", "jkad.socket.startPort", "jkad.datagrambuffer.output.size", "jkad.datagrambuffer.input.size", "jkad.rpcbuffer.output.size", "jkad.rpcbuffer.input.size"
+    	"jkad.systems.amount", 
+    	"jkad.socket.startPort", 
+    	"jkad.datagrambuffer.output.size", 
+    	"jkad.datagrambuffer.input.size", 
+    	"jkad.rpcbuffer.output.size", 
+    	"jkad.rpcbuffer.input.size"
     };
 
     private File propFile;
@@ -147,11 +152,13 @@ public class JKad implements Runnable, Pausable, Stoppable
     {
         try
         {
-            Integer systemsAmount = Integer.parseInt(System.getProperty("jkad.systems"));
+            Integer systemsAmount = Integer.parseInt(System.getProperty("jkad.systems.amount"));
+            Integer startNumber = Integer.parseInt(System.getProperty("jkad.systems.start", "0"));
+            String baseName = System.getProperty("jkad.systems.name", "Node");
             logger.info("Starting JKad with " + systemsAmount + " nodes");
             for (int i = 0; i < systemsAmount; i++)
             {
-                String nodeName = "Node" + i;
+                String nodeName = baseName + (startNumber + i);
                 JKadSystem system = new JKadSystem(nodeName);
                 systems.add(system);
                 logger.debug("Launching " + nodeName);
