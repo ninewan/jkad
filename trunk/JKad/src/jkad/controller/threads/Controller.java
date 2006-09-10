@@ -1,12 +1,19 @@
 package jkad.controller.threads;
 
 import java.math.BigInteger;
+import java.net.InetAddress;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
+import jkad.controller.ThreadGroupLocal;
+import jkad.controller.io.SingletonSocket;
 import jkad.controller.threads.handlers.HandlerThread;
+import jkad.controller.threads.handlers.response.PingResponseHandler;
 import jkad.protocol.KadProtocol;
 import jkad.protocol.rpc.RPC;
-import jkad.structures.RPCTriple;
+import jkad.structures.JKadDatagramSocket;
+import jkad.structures.RPCInfo;
 import jkad.structures.buffers.RPCBuffer;
 import jkad.tools.ToolBox;
 
@@ -16,6 +23,39 @@ public class Controller extends CyclicThread
 {
 	private static Logger logger = Logger.getLogger(Controller.class);
 	
+    private static ThreadGroupLocal<BigInteger> myID;
+    
+    public static BigInteger getMyID()
+    {
+        if(myID == null)
+        {
+            myID = new ThreadGroupLocal<BigInteger>()
+            {
+                public BigInteger initialValue()
+                {
+                    JKadDatagramSocket socket = SingletonSocket.getInstance();
+                    InetAddress ip = socket.getInetAddress() != null ? socket.getInetAddress() : socket.getLocalAddress();
+                    Integer port = socket.getPort() != -1 ? socket.getPort() : socket.getLocalPort();
+                    String idString = ip.getHostAddress() + ":" + port;
+                    logger.debug("Generating ID for " + Thread.currentThread().getThreadGroup().getName() + " with address " + idString);
+                    try
+                    {
+                        MessageDigest digester = MessageDigest.getInstance("SHA-1");
+                        byte[] hash = digester.digest(idString.getBytes());
+                        BigInteger id = new BigInteger(hash);
+                        logger.debug("Generated ID " + id.toString(16));
+                        return id;
+                    } catch (NoSuchAlgorithmException e)
+                    {
+                        logger.fatal(e);
+                        throw new RuntimeException(e);
+                    }
+                }
+            };
+        }
+        return myID.get();
+    }
+    
 	private RPCBuffer inputBuffer;
 	private RPCBuffer outputBuffer;
 	
@@ -34,30 +74,24 @@ public class Controller extends CyclicThread
 	{
 		while(!inputBuffer.isEmpty())
 		{
-			RPCTriple rpcInfo = inputBuffer.remove();
+			RPCInfo rpcInfo = inputBuffer.remove();
 			RPC rpc = rpcInfo.getRPC();
 			String ip = rpcInfo.getIP();
 			Integer port = rpcInfo.getPort();
 			logger.debug("Processing RPC of type " + rpc.getClass().getSimpleName());
 			
-			HandlerThread handler = rpcIDMap.get(rpc.getRPCID());
-			if(handler == null)
-			{
-				logger.debug("RPC is a new request");
-				//TODO criacao de handler
-			}
-			
-			switch(rpc.getType())
-			{
-				case KadProtocol.PING:
-					//TODO Ping Handler
-				case KadProtocol.STORE:
-					//TODO Store Handler
-				case KadProtocol.FIND_NODE:
-					//TODO Find Node Handler
-				case KadProtocol.FIND_VALUE:
-					//TODO Find Value Handler
-			}
+            switch(rpc.getType())
+            {
+                case KadProtocol.PING:
+                    PingResponseHandler pingHandler = new PingResponseHandler(rpcInfo);
+                    pingHandler.start();
+                case KadProtocol.STORE:
+                    //TODO Store Handler
+                case KadProtocol.FIND_NODE:
+                    //TODO Find Node Handler
+                case KadProtocol.FIND_VALUE:
+                    //TODO Find Value Handler
+            }
 		}
 	}
 

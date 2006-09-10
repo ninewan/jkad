@@ -6,6 +6,8 @@
  */
 package jkad.builders;
 
+import java.nio.ByteBuffer;
+
 import jkad.builders.implementation.RPCFactoryImp;
 import jkad.protocol.KadProtocol;
 import jkad.protocol.KadProtocolException;
@@ -18,9 +20,6 @@ import jkad.protocol.rpc.response.FindNodeResponse;
 import jkad.protocol.rpc.response.FindValueResponse;
 import jkad.protocol.rpc.response.PingResponse;
 import jkad.protocol.rpc.response.StoreResponse;
-
-import java.nio.ByteBuffer;
-
 import junit.framework.ExtendedTestCase;
 
 public class RPCFactoryTest extends ExtendedTestCase

@@ -6,13 +6,13 @@
  */
 package jkad.builders.implementation.reflection;
 
-import jkad.builders.OutputBuilder;
-import jkad.protocol.rpc.RPC;
-
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+
+import jkad.builders.OutputBuilder;
+import jkad.protocol.rpc.RPC;
 
 public class ReflectionOutputBuilderImp extends OutputBuilder {
 

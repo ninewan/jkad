@@ -6,13 +6,13 @@
  */
 package jkad.builders;
 
-import jkad.builders.implementation.OutputBuilderImp;
-import jkad.protocol.rpc.RPC;
-
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+
+import jkad.builders.implementation.OutputBuilderImp;
+import jkad.protocol.rpc.RPC;
 
 public abstract class OutputBuilder
 {

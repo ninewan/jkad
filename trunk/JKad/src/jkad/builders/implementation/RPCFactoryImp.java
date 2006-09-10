@@ -6,6 +6,8 @@
  */
 package jkad.builders.implementation;
 
+import java.math.BigInteger;
+
 import jkad.builders.RPCFactory;
 import jkad.protocol.KadProtocol;
 import jkad.protocol.KadProtocolException;
@@ -20,8 +22,6 @@ import jkad.protocol.rpc.response.PingResponse;
 import jkad.protocol.rpc.response.StoreResponse;
 import jkad.tools.DataTools;
 import jkad.tools.ToolBox;
-
-import java.math.BigInteger;
 
 public class RPCFactoryImp extends RPCFactory {
 

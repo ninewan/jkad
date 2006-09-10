@@ -6,10 +6,10 @@
  */
 package jkad.structures.buffers;
 
-import jkad.controller.ThreadGroupLocal;
-
 import java.net.DatagramPacket;
 import java.util.concurrent.ArrayBlockingQueue;
+
+import jkad.controller.ThreadGroupLocal;
 
 public class DatagramBuffer extends ArrayBlockingQueue<DatagramPacket>
 {

@@ -6,12 +6,12 @@
  */
 package jkad.structures.buffers;
 
-import jkad.controller.ThreadGroupLocal;
-import jkad.structures.RPCTriple;
-
 import java.util.concurrent.ArrayBlockingQueue;
 
-public class RPCBuffer extends ArrayBlockingQueue<RPCTriple>
+import jkad.controller.ThreadGroupLocal;
+import jkad.structures.RPCInfo;
+
+public class RPCBuffer extends ArrayBlockingQueue<RPCInfo>
 {
     private static final long serialVersionUID = -325461731321155725L;
 

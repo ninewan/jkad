@@ -6,13 +6,13 @@
  */
 package jkad.controller.io;
 
-import jkad.structures.JKadDatagramSocket;
-import jkad.structures.buffers.DatagramBuffer;
-import jkad.tools.ToolBox;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.SocketException;
+
+import jkad.structures.JKadDatagramSocket;
+import jkad.structures.buffers.DatagramBuffer;
+import jkad.tools.ToolBox;
 
 import org.apache.log4j.Logger;
 

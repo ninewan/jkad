@@ -6,12 +6,12 @@
  */
 package jkad.structures.kademlia;
 
-import jkad.protocol.KadProtocol;
-import jkad.structures.tree.MultiTreeNode;
-
 import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.List;
+
+import jkad.protocol.KadProtocol;
+import jkad.structures.tree.MultiTreeNode;
 
 public class Bucket extends KadTreeNode implements MultiTreeNode<Bucket, KadTreeNode>
 {

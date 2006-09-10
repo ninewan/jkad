@@ -6,12 +6,12 @@
  */
 package jkad.builders;
 
+import java.net.DatagramPacket;
+import java.nio.ByteBuffer;
+
 import jkad.builders.implementation.InputBuilderImp;
 import jkad.protocol.KadProtocolException;
 import jkad.protocol.rpc.RPC;
-
-import java.net.DatagramPacket;
-import java.nio.ByteBuffer;
 
 public abstract class InputBuilder
 {

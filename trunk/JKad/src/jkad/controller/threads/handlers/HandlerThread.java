@@ -6,18 +6,18 @@
  */
 package jkad.controller.threads.handlers;
 
-import jkad.structures.tree.SimpleTreeNode;
-
 import java.util.List;
+
+import jkad.structures.tree.SimpleTreeNode;
 
 public abstract class HandlerThread extends Thread implements SimpleTreeNode<HandlerThread>
 {
     public enum Status
     {
+        NOT_STARTED,
         WAITING,
         PROCESSING,
         KILLED,
-        ZOMBIE 
     }
     
     private HandlerThread parent;
