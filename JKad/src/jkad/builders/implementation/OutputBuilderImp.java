@@ -6,6 +6,11 @@
  */
 package jkad.builders.implementation;
 
+import java.net.DatagramPacket;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
+
 import jkad.builders.OutputBuilder;
 import jkad.protocol.KadProtocol;
 import jkad.protocol.rpc.RPC;
@@ -19,11 +24,6 @@ import jkad.protocol.rpc.response.PingResponse;
 import jkad.protocol.rpc.response.StoreResponse;
 import jkad.tools.DataTools;
 import jkad.tools.ToolBox;
-
-import java.net.DatagramPacket;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
 
 public class OutputBuilderImp extends OutputBuilder {
 

@@ -6,11 +6,11 @@
  */
 package jkad.controller.io;
 
-import jkad.controller.threads.CyclicThread;
-import jkad.structures.JKadDatagramSocket;
-
 import java.util.Observable;
 import java.util.Observer;
+
+import jkad.controller.threads.CyclicThread;
+import jkad.structures.JKadDatagramSocket;
 
 public abstract class UDPHandler extends CyclicThread implements Observer
 {

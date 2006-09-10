@@ -6,12 +6,12 @@
  */
 package jkad.structures.kademlia;
 
-import jkad.protocol.KadProtocol;
-import jkad.protocol.KadProtocolException;
-
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
+import jkad.protocol.KadProtocol;
+import jkad.protocol.KadProtocolException;
 
 public class KadNode extends KadTreeNode
 {

@@ -6,12 +6,12 @@
  */
 package jkad.builders.implementation.reflection;
 
+import java.net.DatagramPacket;
+import java.nio.ByteBuffer;
+
 import jkad.builders.InputBuilder;
 import jkad.protocol.rpc.RPC;
 import jkad.tools.ToolBox;
-
-import java.net.DatagramPacket;
-import java.nio.ByteBuffer;
 
 public class ReflectionInputBuilderImp extends InputBuilder {
 

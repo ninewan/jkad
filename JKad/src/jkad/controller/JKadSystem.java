@@ -6,6 +6,8 @@
  */
 package jkad.controller;
 
+import java.net.SocketException;
+
 import jkad.controller.io.UDPReceiver;
 import jkad.controller.io.UDPSender;
 import jkad.controller.threads.Controller;
@@ -13,8 +15,6 @@ import jkad.controller.threads.Pausable;
 import jkad.controller.threads.Stoppable;
 import jkad.controller.threads.processors.RPCInputProcessor;
 import jkad.controller.threads.processors.RPCOutputProcessor;
-
-import java.net.SocketException;
 
 import org.apache.log4j.Logger;
 

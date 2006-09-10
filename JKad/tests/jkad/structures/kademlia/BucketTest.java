@@ -6,16 +6,15 @@
  */
 package jkad.structures.kademlia;
 
-import jkad.protocol.KadProtocol;
-import jkad.protocol.KadProtocolException;
-import jkad.tools.DataTools;
-import jkad.tools.ToolBox;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import jkad.protocol.KadProtocol;
+import jkad.protocol.KadProtocolException;
+import jkad.tools.DataTools;
+import jkad.tools.ToolBox;
 import junit.framework.TestCase;
 
 public class BucketTest extends TestCase

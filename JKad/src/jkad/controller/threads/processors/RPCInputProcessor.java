@@ -6,16 +6,16 @@
  */
 package jkad.controller.threads.processors;
 
+import java.net.DatagramPacket;
+
 import jkad.builders.InputBuilder;
 import jkad.controller.threads.CyclicThread;
 import jkad.protocol.KadProtocolException;
 import jkad.protocol.rpc.RPC;
-import jkad.structures.RPCTriple;
+import jkad.structures.RPCInfo;
 import jkad.structures.buffers.DatagramBuffer;
 import jkad.structures.buffers.RPCBuffer;
 import jkad.tools.ToolBox;
-
-import java.net.DatagramPacket;
 
 import org.apache.log4j.Logger;
 
@@ -53,7 +53,7 @@ public class RPCInputProcessor extends CyclicThread
                 RPC rpc = rpcBuilder.buildRPC(packet);
                 logger.debug("Built rpc of type " + rpc.getClass().getSimpleName());
                 receivedRPCsArray[rpc.getType()]++;
-                outputBuffer.add(new RPCTriple(rpc, ip, port));
+                outputBuffer.add(new RPCInfo(rpc, ip, port));
             } catch (KadProtocolException e)
             {
                 logger.warn(e);

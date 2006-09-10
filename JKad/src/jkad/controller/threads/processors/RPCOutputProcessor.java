@@ -6,16 +6,16 @@
  */
 package jkad.controller.threads.processors;
 
+import java.net.DatagramPacket;
+import java.net.UnknownHostException;
+
 import jkad.builders.OutputBuilder;
 import jkad.controller.threads.CyclicThread;
 import jkad.protocol.rpc.RPC;
-import jkad.structures.RPCTriple;
+import jkad.structures.RPCInfo;
 import jkad.structures.buffers.DatagramBuffer;
 import jkad.structures.buffers.RPCBuffer;
 import jkad.tools.ToolBox;
-
-import java.net.DatagramPacket;
-import java.net.UnknownHostException;
 
 import org.apache.log4j.Logger;
 
@@ -40,12 +40,11 @@ public class RPCOutputProcessor extends CyclicThread
         this.setRoundWait(50);
     }
     
-    @Override
     protected void cycleOperation() throws InterruptedException
     {
         while(!inputBuffer.isEmpty())
         {
-            RPCTriple removed = inputBuffer.remove();
+            RPCInfo removed = inputBuffer.remove();
             RPC rpc = removed.getRPC();
             String ip = removed.getIP();
             Integer port = removed.getPort();

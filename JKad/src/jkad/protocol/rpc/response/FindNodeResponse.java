@@ -6,11 +6,11 @@
  */
 package jkad.protocol.rpc.response;
 
+import java.math.BigInteger;
+
 import jkad.protocol.KadProtocol;
 import jkad.protocol.KadProtocolException;
 import jkad.protocol.rpc.RPC;
-
-import java.math.BigInteger;
 
 public class FindNodeResponse extends RPC
 {

@@ -8,24 +8,19 @@ package jkad.structures;
 
 import jkad.protocol.rpc.RPC;
 
-public class RPCTriple
+public class RPCInfo<T extends RPC>
 {
-    private RPC rpc;
+    private T rpc;
 
     private String ip;
 
     private int port;
 
-    public RPCTriple(RPC rpc, String ip, int port)
+    public RPCInfo(T rpc, String ip, int port)
     {
         this.rpc = rpc;
         this.ip = ip;
         this.port = port;
-    }
-
-    public RPC getRPC()
-    {
-        return rpc;
     }
 
     public String getIP()
@@ -36,5 +31,10 @@ public class RPCTriple
     public int getPort()
     {
         return port;
+    }
+
+    public T getRPC()
+    {
+        return rpc;
     }
 }

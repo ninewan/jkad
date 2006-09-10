@@ -6,10 +6,10 @@
  */
 package jkad.protocol.rpc;
 
+import java.math.BigInteger;
+
 import jkad.protocol.KadProtocol;
 import jkad.protocol.KadProtocolException;
-
-import java.math.BigInteger;
 
 /**
  * Classe Abstrata RPC. Esta classe representa uma RPC (Remote Procedure Call),
