@@ -37,4 +37,9 @@ public class RPCInfo<T extends RPC>
     {
         return rpc;
     }
+    
+    public String getIPAndPort()
+    {
+        return ip + ":" + port;
+    }
 }

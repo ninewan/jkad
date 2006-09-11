@@ -1,11 +1,16 @@
+/* SVN Info:
+ * $HeadURL: https://jkad.googlecode.com/svn/trunk/JKad/src/jkad/controller/DetailedInfoFacade.java $
+ * $LastChangedRevision: 24 $
+ * $LastChangedBy: polaco $                             
+ * $LastChangedDate: 2006-09-04 02:32:35 -0300 (seg, 04 set 2006) $  
+ */
 package jkad.controller.threads;
 
 import java.math.BigInteger;
 import java.net.InetAddress;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
+import jkad.builders.SHA1Digester;
 import jkad.controller.ThreadGroupLocal;
 import jkad.controller.io.SingletonSocket;
 import jkad.controller.threads.handlers.HandlerThread;
@@ -22,7 +27,6 @@ import org.apache.log4j.Logger;
 public class Controller extends CyclicThread
 {
 	private static Logger logger = Logger.getLogger(Controller.class);
-	
     private static ThreadGroupLocal<BigInteger> myID;
     
     public static BigInteger getMyID()
@@ -38,22 +42,21 @@ public class Controller extends CyclicThread
                     Integer port = socket.getPort() != -1 ? socket.getPort() : socket.getLocalPort();
                     String idString = ip.getHostAddress() + ":" + port;
                     logger.debug("Generating ID for " + Thread.currentThread().getThreadGroup().getName() + " with address " + idString);
-                    try
-                    {
-                        MessageDigest digester = MessageDigest.getInstance("SHA-1");
-                        byte[] hash = digester.digest(idString.getBytes());
-                        BigInteger id = new BigInteger(hash);
-                        logger.debug("Generated ID " + id.toString(16));
-                        return id;
-                    } catch (NoSuchAlgorithmException e)
-                    {
-                        logger.fatal(e);
-                        throw new RuntimeException(e);
-                    }
+                    BigInteger id = SHA1Digester.hash(idString);
+                    logger.debug("Generated ID " + id.toString(16));
+                    return id;
                 }
             };
         }
         return myID.get();
+    }
+    
+    public static BigInteger generateRPCID()
+    {
+        Long currentTime = System.currentTimeMillis();
+        String myID = Controller.getMyID().toString(16);
+        String rpcID = myID + currentTime;
+        return SHA1Digester.hash(rpcID);
     }
     
 	private RPCBuffer inputBuffer;
