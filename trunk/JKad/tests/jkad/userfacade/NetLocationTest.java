@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jkad.userfacade;
 
 import static junit.framework.Assert.fail;

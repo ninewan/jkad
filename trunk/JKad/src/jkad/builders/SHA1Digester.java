@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jkad.builders;
 
 import java.math.BigInteger;

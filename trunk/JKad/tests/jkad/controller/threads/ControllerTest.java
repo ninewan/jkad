@@ -1,6 +1,10 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jkad.controller.threads;
-
-import static org.junit.Assert.*;
 
 import java.math.BigInteger;
 
