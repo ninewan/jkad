@@ -6,7 +6,9 @@
  */
 package jkad.controller;
 
+import java.math.BigInteger;
 import java.net.SocketException;
+import java.util.List;
 
 import jkad.controller.io.UDPReceiver;
 import jkad.controller.io.UDPSender;
@@ -15,10 +17,13 @@ import jkad.controller.threads.Pausable;
 import jkad.controller.threads.Stoppable;
 import jkad.controller.threads.processors.RPCInputProcessor;
 import jkad.controller.threads.processors.RPCOutputProcessor;
+import jkad.userfacade.DetailedInfoFacade;
+import jkad.userfacade.NetLocation;
+import jkad.userfacade.UserFacade;
 
 import org.apache.log4j.Logger;
 
-public class JKadSystem extends Thread implements Pausable, Stoppable, Statistical
+public class JKadSystem extends Thread implements Pausable, Stoppable, DetailedInfoFacade, UserFacade
 {
     private static Logger logger = Logger.getLogger(JKadSystem.class);
 
@@ -35,6 +40,36 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, Statistic
         super(new ThreadGroup(name), name);
         this.paused = false;
         this.running = false;
+    }
+    
+    public String findValue(String key)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public byte[] findValue(byte[] data)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public List<NetLocation> listNodesWithValue(String key)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public void store(String key, String data)
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void store(byte[] key, byte[] data)
+    {
+        // TODO Auto-generated method stub
+        
     }
 
     public void run()
@@ -208,5 +243,13 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, Statistic
     public long countSentRPCs(byte type)
     {
         return outputProcessor.countSentRPCs(type);
+    }
+
+    public BigInteger getSystemID()
+    {
+        BigInteger result = null;
+        if(super.isAlive())
+            result = Controller.getMyID();
+        return result;
     }
 }

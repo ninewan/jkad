@@ -39,7 +39,7 @@ public class PingResponseHandler extends HandlerThread
         try
         {
             actualStatus = Status.PROCESSING;
-            
+            logger.info("Processing Ping request from " + rpcInfo.getIPAndPort());
             PingRPC rpc = rpcInfo.getRPC();
             PingResponse response = new PingResponse();
             
@@ -53,6 +53,7 @@ public class PingResponseHandler extends HandlerThread
                 rpcInfo.getPort()
             );
             
+            logger.info("Sending PingResponse to " + rpcInfo.getIPAndPort());
             RPCBuffer.getSentBuffer().add(responseInfo);
             
             actualStatus = Status.KILLED;
