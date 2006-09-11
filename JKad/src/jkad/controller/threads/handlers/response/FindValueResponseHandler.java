@@ -1,8 +1,8 @@
 /* SVN Info:
- * $HeadURL: https://jkad.googlecode.com/svn/trunk/JKad/src/jkad/controller/threads/handlers/FindNodeHandler.java $
- * $LastChangedRevision: 26 $
- * $LastChangedBy: polaco $                             
- * $LastChangedDate: 2006-09-04 22:41:08 -0300 (seg, 04 set 2006) $  
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
  */
 package jkad.controller.threads.handlers.response;
 
