@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jkad.controller.threads;
+package jkad.controller.threads.managers;
 
 import java.math.BigInteger;
 import java.net.InetAddress;
@@ -13,6 +13,7 @@ import java.util.HashMap;
 import jkad.builders.SHA1Digester;
 import jkad.controller.ThreadGroupLocal;
 import jkad.controller.io.SingletonSocket;
+import jkad.controller.threads.CyclicThread;
 import jkad.controller.threads.handlers.HandlerThread;
 import jkad.controller.threads.handlers.response.PingResponseHandler;
 import jkad.protocol.KadProtocol;
@@ -24,9 +25,9 @@ import jkad.tools.ToolBox;
 
 import org.apache.log4j.Logger;
 
-public class Controller extends CyclicThread
+public class NetManager extends CyclicThread
 {
-	private static Logger logger = Logger.getLogger(Controller.class);
+	private static Logger logger = Logger.getLogger(NetManager.class);
     private static ThreadGroupLocal<BigInteger> myID;
     
     public static BigInteger getMyID()
@@ -54,7 +55,7 @@ public class Controller extends CyclicThread
     public static BigInteger generateRPCID()
     {
         Long currentTime = System.currentTimeMillis();
-        String myID = Controller.getMyID().toString(16);
+        String myID = NetManager.getMyID().toString(16);
         String rpcID = myID + currentTime;
         return SHA1Digester.hash(rpcID);
     }
@@ -64,9 +65,9 @@ public class Controller extends CyclicThread
 	
 	private HashMap<BigInteger, HandlerThread> rpcIDMap; 
 	
-	public Controller()
+	public NetManager()
 	{
-		super(ToolBox.getReflectionTools().generateThreadName(Controller.class));
+		super(ToolBox.getReflectionTools().generateThreadName(NetManager.class));
 		inputBuffer = RPCBuffer.getReceivedBuffer();
 		outputBuffer = RPCBuffer.getSentBuffer();
 		rpcIDMap = new HashMap<BigInteger, HandlerThread>();
