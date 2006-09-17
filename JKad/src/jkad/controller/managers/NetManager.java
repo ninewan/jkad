@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jkad.controller.threads.managers;
+package jkad.controller.managers;
 
 import java.math.BigInteger;
 import java.net.InetAddress;
@@ -12,10 +12,10 @@ import java.util.HashMap;
 
 import jkad.builders.SHA1Digester;
 import jkad.controller.ThreadGroupLocal;
+import jkad.controller.handlers.HandlerThread;
+import jkad.controller.handlers.response.PingResponseHandler;
 import jkad.controller.io.SingletonSocket;
 import jkad.controller.threads.CyclicThread;
-import jkad.controller.threads.handlers.HandlerThread;
-import jkad.controller.threads.handlers.response.PingResponseHandler;
 import jkad.protocol.KadProtocol;
 import jkad.protocol.rpc.RPC;
 import jkad.structures.JKadDatagramSocket;

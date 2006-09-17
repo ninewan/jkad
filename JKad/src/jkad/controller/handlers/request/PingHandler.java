@@ -4,15 +4,16 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jkad.controller.threads.handlers.request;
+package jkad.controller.handlers.request;
 
-import jkad.controller.threads.handlers.HandlerThread;
+import jkad.controller.handlers.HandlerThread;
 
-public class FindNodeHandler extends HandlerThread
+public class PingHandler extends HandlerThread
 {
     public void run()
     {
         // TODO Auto-generated method stub
+
     }
 
     public Status getStatus()

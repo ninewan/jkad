@@ -8,7 +8,7 @@ package jkad.controller.threads;
 
 import java.math.BigInteger;
 
-import jkad.controller.threads.managers.NetManager;
+import jkad.controller.managers.NetManager;
 
 import junit.framework.TestCase;
 

@@ -4,21 +4,20 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jkad.controller.threads.handlers.response;
+package jkad.controller.handlers.request;
 
-import jkad.controller.threads.handlers.HandlerThread;
+import jkad.controller.handlers.HandlerThread;
 
-public class FindValueResponseHandler extends HandlerThread
+public class FindNodeHandler extends HandlerThread
 {
+    public void run()
+    {
+        // TODO Auto-generated method stub
+    }
+
     public Status getStatus()
     {
         // TODO Auto-generated method stub
         return null;
-    }
-
-    public void run()
-    {
-        // TODO Auto-generated method stub
-        
     }
 }
