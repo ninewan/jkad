@@ -4,10 +4,10 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jkad.controller.threads.handlers.response;
+package jkad.controller.handlers.response;
 
-import jkad.controller.threads.handlers.HandlerThread;
-import jkad.controller.threads.managers.NetManager;
+import jkad.controller.handlers.HandlerThread;
+import jkad.controller.managers.NetManager;
 import jkad.protocol.KadProtocolException;
 import jkad.protocol.rpc.request.PingRPC;
 import jkad.protocol.rpc.response.PingResponse;

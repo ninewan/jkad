@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jkad.controller.threads.processors;
+package jkad.controller.processors;
 
 import java.net.DatagramPacket;
 import java.net.UnknownHostException;

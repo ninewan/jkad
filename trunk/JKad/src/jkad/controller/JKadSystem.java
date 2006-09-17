@@ -12,12 +12,12 @@ import java.util.List;
 
 import jkad.controller.io.UDPReceiver;
 import jkad.controller.io.UDPSender;
+import jkad.controller.managers.NetManager;
+import jkad.controller.managers.UserManager;
+import jkad.controller.processors.RPCInputProcessor;
+import jkad.controller.processors.RPCOutputProcessor;
 import jkad.controller.threads.Pausable;
 import jkad.controller.threads.Stoppable;
-import jkad.controller.threads.managers.NetManager;
-import jkad.controller.threads.managers.UserManager;
-import jkad.controller.threads.processors.RPCInputProcessor;
-import jkad.controller.threads.processors.RPCOutputProcessor;
 import jkad.userfacade.DetailedInfoFacade;
 import jkad.userfacade.NetLocation;
 import jkad.userfacade.UserFacade;

@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jkad.controller.threads.handlers;
+package jkad.controller.handlers;
 
 import java.util.List;
 

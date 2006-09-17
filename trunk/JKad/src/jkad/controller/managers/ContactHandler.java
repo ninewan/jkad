@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jkad.controller.threads;
+package jkad.controller.managers;
 
 import jkad.controller.ThreadGroupLocal;
 

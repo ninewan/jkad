@@ -4,9 +4,9 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jkad.controller.threads.handlers.request;
+package jkad.controller.handlers.request;
 
-import jkad.controller.threads.handlers.HandlerThread;
+import jkad.controller.handlers.HandlerThread;
 
 public class StoreHandler extends HandlerThread
 {
