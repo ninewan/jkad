@@ -6,13 +6,13 @@
  */
 package jkad.controller.handlers.response;
 
+import jkad.controller.handlers.Controller;
 import jkad.controller.handlers.HandlerThread;
-import jkad.controller.managers.NetManager;
 import jkad.protocol.KadProtocolException;
 import jkad.protocol.rpc.request.PingRPC;
 import jkad.protocol.rpc.response.PingResponse;
-import jkad.structures.RPCInfo;
 import jkad.structures.buffers.RPCBuffer;
+import jkad.structures.kademlia.RPCInfo;
 
 import org.apache.log4j.Logger;
 
@@ -45,7 +45,7 @@ public class PingResponseHandler extends HandlerThread
             
             response.setDestinationNodeID(rpc.getDestinationNodeID());
             response.setRPCID(rpc.getRPCID());
-            response.setSenderNodeID(NetManager.getMyID());
+            response.setSenderNodeID(Controller.getMyID());
             
             RPCInfo<PingResponse> responseInfo = new RPCInfo<PingResponse>(
                 response, 

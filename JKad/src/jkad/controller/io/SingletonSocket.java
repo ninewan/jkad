@@ -11,7 +11,6 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import jkad.controller.ThreadGroupLocal;
-import jkad.structures.JKadDatagramSocket;
 
 public class SingletonSocket
 {

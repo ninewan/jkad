@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jkad.structures;
+package jkad.controller.io;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

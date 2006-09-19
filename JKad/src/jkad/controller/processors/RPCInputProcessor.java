@@ -12,9 +12,9 @@ import jkad.builders.InputBuilder;
 import jkad.controller.threads.CyclicThread;
 import jkad.protocol.KadProtocolException;
 import jkad.protocol.rpc.RPC;
-import jkad.structures.RPCInfo;
 import jkad.structures.buffers.DatagramBuffer;
 import jkad.structures.buffers.RPCBuffer;
+import jkad.structures.kademlia.RPCInfo;
 import jkad.tools.ToolBox;
 
 import org.apache.log4j.Logger;

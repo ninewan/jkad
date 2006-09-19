@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jkad.structures;
+package jkad.structures.kademlia;
 
 import jkad.protocol.rpc.RPC;
 
