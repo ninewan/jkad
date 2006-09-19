@@ -1,33 +1,36 @@
 /* SVN Info:
- * $HeadURL$
- * $LastChangedRevision$
- * $LastChangedBy$                             
- * $LastChangedDate$  
+ * $HeadURL: https://jkad.googlecode.com/svn/trunk/JKad/src/jkad/controller/managers/NetManager.java $
+ * $LastChangedRevision: 34 $
+ * $LastChangedBy: polaco $                             
+ * $LastChangedDate: 2006-09-17 16:06:00 -0300 (dom, 17 set 2006) $  
  */
-package jkad.controller.managers;
+package jkad.controller.handlers;
 
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.util.HashMap;
+import java.util.List;
 
 import jkad.builders.SHA1Digester;
 import jkad.controller.ThreadGroupLocal;
-import jkad.controller.handlers.HandlerThread;
 import jkad.controller.handlers.response.PingResponseHandler;
+import jkad.controller.io.JKadDatagramSocket;
 import jkad.controller.io.SingletonSocket;
 import jkad.controller.threads.CyclicThread;
 import jkad.protocol.KadProtocol;
 import jkad.protocol.rpc.RPC;
-import jkad.structures.JKadDatagramSocket;
-import jkad.structures.RPCInfo;
 import jkad.structures.buffers.RPCBuffer;
+import jkad.structures.kademlia.KnowContacts;
+import jkad.structures.kademlia.RPCInfo;
 import jkad.tools.ToolBox;
+import jkad.userfacade.NetLocation;
+import jkad.userfacade.UserFacade;
 
 import org.apache.log4j.Logger;
 
-public class NetManager extends CyclicThread
+public class Controller extends CyclicThread implements UserFacade
 {
-	private static Logger logger = Logger.getLogger(NetManager.class);
+	private static Logger logger = Logger.getLogger(Controller.class);
     private static ThreadGroupLocal<BigInteger> myID;
     
     public static BigInteger getMyID()
@@ -55,19 +58,21 @@ public class NetManager extends CyclicThread
     public static BigInteger generateRPCID()
     {
         Long currentTime = System.currentTimeMillis();
-        String myID = NetManager.getMyID().toString(16);
+        String myID = Controller.getMyID().toString(16);
         String rpcID = myID + currentTime;
         return SHA1Digester.hash(rpcID);
     }
     
+    private KnowContacts knowContacts;
 	private RPCBuffer inputBuffer;
 	private RPCBuffer outputBuffer;
 	
 	private HashMap<BigInteger, HandlerThread> rpcIDMap; 
 	
-	public NetManager()
+	public Controller()
 	{
-		super(ToolBox.getReflectionTools().generateThreadName(NetManager.class));
+		super(ToolBox.getReflectionTools().generateThreadName(Controller.class));
+		knowContacts = new KnowContacts();
 		inputBuffer = RPCBuffer.getReceivedBuffer();
 		outputBuffer = RPCBuffer.getSentBuffer();
 		rpcIDMap = new HashMap<BigInteger, HandlerThread>();
@@ -99,9 +104,34 @@ public class NetManager extends CyclicThread
 		}
 	}
 
-	protected void finalize() 
+	public void store(String key, String data) 
 	{
+		// TODO Auto-generated method stub
 		
+	}
+
+	public void store(byte[] key, byte[] data) 
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String findValue(String key) 
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public byte[] findValue(byte[] data) 
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<NetLocation> listNodesWithValue(String key) 
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	protected Logger getLogger() 
@@ -109,4 +139,8 @@ public class NetManager extends CyclicThread
 		return logger;
 	}
 	
+	protected void finalize() 
+	{
+		
+	}
 }

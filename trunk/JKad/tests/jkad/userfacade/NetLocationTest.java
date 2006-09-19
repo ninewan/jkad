@@ -6,15 +6,11 @@
  */
 package jkad.userfacade;
 
-import static junit.framework.Assert.fail;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import junit.framework.Assert;
 import junit.framework.TestCase;
-
-import org.junit.Assert;
-import org.junit.Test;
 
 public class NetLocationTest extends TestCase
 {

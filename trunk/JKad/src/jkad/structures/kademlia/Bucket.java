@@ -7,6 +7,7 @@
 package jkad.structures.kademlia;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -15,8 +16,6 @@ import jkad.structures.tree.MultiTreeNode;
 
 public class Bucket extends KadTreeNode implements MultiTreeNode<Bucket, KadTreeNode>
 {
-    private static Class<? extends List> childrenListClass = java.util.ArrayList.class;
-    
     private BigInteger prefix;
     private int size;
     private int capacity;
@@ -24,16 +23,6 @@ public class Bucket extends KadTreeNode implements MultiTreeNode<Bucket, KadTree
     private KadNode ownNode;
     private List<KadTreeNode> children;
     
-    public static void setChildrenListClass(Class<? extends List> listClass)
-    {
-        childrenListClass = listClass;
-    }
-
-    public static Class<? extends List> getChildrenListClass()
-    {
-        return childrenListClass;
-    }
-
     public Bucket(KadNode ownNode)
     {
         this(ownNode, null, KadProtocol.BUCKET_SIZE);
@@ -50,6 +39,7 @@ public class Bucket extends KadTreeNode implements MultiTreeNode<Bucket, KadTree
         this.prefix = prefix;
         this.size = 0;
         this.capacity = capacity;
+        this.children = new ArrayList<KadTreeNode>(capacity);
     }
 
     public int getCapacity()
@@ -102,7 +92,7 @@ public class Bucket extends KadTreeNode implements MultiTreeNode<Bucket, KadTree
         if (!isFull() && node != null)
         {
             node.setParent(this);
-            getChildrenList().add(position, node);
+            children.add(position, node);
             size++;
             return true;
         } else
@@ -116,7 +106,7 @@ public class Bucket extends KadTreeNode implements MultiTreeNode<Bucket, KadTree
         if (!isFull() && node != null)
         {
             node.setParent(this);
-            getChildrenList().add(node);
+            children.add(node);
             size++;
             return true;
         } else
@@ -130,7 +120,7 @@ public class Bucket extends KadTreeNode implements MultiTreeNode<Bucket, KadTree
         if (nodes != null && nodes.size() <= capacity - size)
         {
             adjustChildren(this, nodes);
-            getChildrenList().addAll(nodes);
+            children.addAll(nodes);
             size += nodes.size();
             return true;
         } else
@@ -141,7 +131,7 @@ public class Bucket extends KadTreeNode implements MultiTreeNode<Bucket, KadTree
 
     public KadTreeNode removeChild(int position)
     {
-        KadTreeNode removed = getChildrenList().remove(position);
+        KadTreeNode removed = children.remove(position);
         if (removed != null)
         {
             removed.setParent(null);
@@ -152,7 +142,7 @@ public class Bucket extends KadTreeNode implements MultiTreeNode<Bucket, KadTree
 
     public boolean removeChild(KadTreeNode node)
     {
-        boolean removed = getChildrenList().remove(node);
+        boolean removed = children.remove(node);
         if (removed)
         {
             node.setParent(null);
@@ -172,12 +162,12 @@ public class Bucket extends KadTreeNode implements MultiTreeNode<Bucket, KadTree
 
     public KadTreeNode getChild(int position)
     {
-        return getChildrenList().get(position);
+        return children.get(position);
     }
 
     public List<KadTreeNode> getChildren()
     {
-        return getChildrenList();
+        return children;
     }
 
     public void setChildren(List<KadTreeNode> nodes)
@@ -257,25 +247,6 @@ public class Bucket extends KadTreeNode implements MultiTreeNode<Bucket, KadTree
             // byte[] result = new byte[commonPrefixSize];
             // System.arraycopy(maxNumber, 0, result, 0, commonPrefixSize);
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    protected List<KadTreeNode> getChildrenList()
-    {
-        if (this.children == null)
-        {
-            try
-            {
-                this.children = (List<KadTreeNode>) Bucket.childrenListClass.newInstance();
-            } catch (InstantiationException e)
-            {
-                e.printStackTrace();
-            } catch (IllegalAccessException e)
-            {
-                e.printStackTrace();
-            }
-        }
-        return this.children;
     }
 
     protected void adjustChildren()

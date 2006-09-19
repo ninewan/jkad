@@ -8,17 +8,14 @@ package jkad.controller.threads;
 
 import java.math.BigInteger;
 
-import jkad.controller.managers.NetManager;
-
+import jkad.controller.handlers.Controller;
 import junit.framework.TestCase;
-
-import org.junit.Test;
 
 public class ControllerTest extends TestCase
 {
     public void testGetMyID()
     {
-        BigInteger id = NetManager.getMyID();
+        BigInteger id = Controller.getMyID();
         assertNotNull(id);
     }
 

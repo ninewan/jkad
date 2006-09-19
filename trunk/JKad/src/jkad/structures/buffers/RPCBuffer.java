@@ -9,7 +9,7 @@ package jkad.structures.buffers;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import jkad.controller.ThreadGroupLocal;
-import jkad.structures.RPCInfo;
+import jkad.structures.kademlia.RPCInfo;
 
 public class RPCBuffer extends ArrayBlockingQueue<RPCInfo>
 {

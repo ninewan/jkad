@@ -33,7 +33,8 @@ public class JKad implements Runnable, Pausable, Stoppable
     	"jkad.datagrambuffer.output.size", 
     	"jkad.datagrambuffer.input.size", 
     	"jkad.rpcbuffer.output.size", 
-    	"jkad.rpcbuffer.input.size"
+    	"jkad.rpcbuffer.input.size",
+    	"jkad.contacts.size"
     };
 
     private File propFile;

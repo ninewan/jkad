@@ -10,10 +10,9 @@ import java.math.BigInteger;
 import java.net.SocketException;
 import java.util.List;
 
+import jkad.controller.handlers.Controller;
 import jkad.controller.io.UDPReceiver;
 import jkad.controller.io.UDPSender;
-import jkad.controller.managers.NetManager;
-import jkad.controller.managers.UserManager;
 import jkad.controller.processors.RPCInputProcessor;
 import jkad.controller.processors.RPCOutputProcessor;
 import jkad.controller.threads.Pausable;
@@ -32,8 +31,7 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, DetailedI
     private UDPSender sender;
     private RPCInputProcessor inputProcessor;
     private RPCOutputProcessor outputProcessor;
-    private NetManager netManager;
-    private UserManager userManager;
+    private Controller controller;
     private boolean paused;
     private boolean running;
 
@@ -42,32 +40,31 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, DetailedI
         super(new ThreadGroup(name), name);
         this.paused = false;
         this.running = false;
-        this.userManager = new UserManager();
     }
     
     public String findValue(String key)
     {
-        return this.userManager.findValue(key);
+        return this.controller.findValue(key);
     }
 
     public byte[] findValue(byte[] data)
     {
-        return this.userManager.findValue(data);
+        return this.controller.findValue(data);
     }
 
     public List<NetLocation> listNodesWithValue(String key)
     {
-        return this.userManager.listNodesWithValue(key);
+        return this.controller.listNodesWithValue(key);
     }
 
     public void store(String key, String data)
     {
-        this.userManager.store(key, data);
+        this.controller.store(key, data);
     }
 
     public void store(byte[] key, byte[] data)
     {
-        this.userManager.store(key, data);
+        this.controller.store(key, data);
     }
 
     public void run()
@@ -87,8 +84,8 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, DetailedI
             inputProcessor.start();
             outputProcessor.start();
             
-            netManager = new NetManager();
-            netManager.start();
+            controller = new Controller();
+            controller.start();
 
             synchronized (this)
             {
@@ -102,8 +99,8 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, DetailedI
                     }
                     if (isPaused())
                     {
-                    	if (!netManager.isPaused())
-                    		netManager.pauseThread();
+                    	if (!controller.isPaused())
+                    		controller.pauseThread();
                     	if (!inputProcessor.isPaused())
                             inputProcessor.pauseThread();
                         if (!outputProcessor.isPaused())
@@ -122,15 +119,15 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, DetailedI
                             inputProcessor.playThread();
                         if (outputProcessor.isPaused())
                             outputProcessor.playThread();
-                        if (netManager.isPaused())
-                        	netManager.playThread();
+                        if (controller.isPaused())
+                        	controller.playThread();
                     }
                 }
             }
 
             logger.info("Stopping " + this.getThreadGroup().getName());
 
-            netManager.stopThread();
+            controller.stopThread();
             
             inputProcessor.stopThread();
             outputProcessor.stopThread();
@@ -140,8 +137,8 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, DetailedI
 
             try
             {
-            	logger.debug("Joining with " + netManager.getName());
-                netManager.join();
+            	logger.debug("Joining with " + controller.getName());
+                controller.join();
             	logger.debug("Joining with " + inputProcessor.getName());
                 inputProcessor.join();
                 logger.debug("Joining with " + outputProcessor.getName());
@@ -163,8 +160,8 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, DetailedI
 
     protected void finalize() throws Throwable
     {
-        if (netManager != null)
-        	netManager.stopThread();
+        if (controller != null)
+        	controller.stopThread();
     	if (inputProcessor != null)
             inputProcessor.stopThread();
         if (outputProcessor != null)
@@ -247,7 +244,7 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, DetailedI
     {
         BigInteger result = null;
         if(super.isAlive())
-            result = NetManager.getMyID();
+            result = Controller.getMyID();
         return result;
     }
 }
