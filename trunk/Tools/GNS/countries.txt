@@ -1,0 +1,252 @@
+Country Name	FIPS Country Code	Primary Region	Alternate Region
+ARUBA	AA	1 - Americas/Western Europe	1 - Americas/Western Europe
+ANTIGUA AND BARBUDA	AC	1 - Americas/Western Europe	1 - Americas/Western Europe
+UNITED ARAB EMIRATES	AE	3 - Africa/Middle East	4 - Central Asia/Russia
+AFGHANISTAN	AF	4 - Central Asia/Russia	3 - Africa/Middle East
+ALGERIA	AG	1 - Americas/Western Europe	3 - Africa/Middle East
+AZERBAIJAN	AJ	4 - Central Asia/Russia	2 - Eastern Europe
+ALBANIA	AL	2 - Eastern Europe	1 - Americas/Western Europe
+ARMENIA	AM	2 - Eastern Europe	1 - Americas/Western Europe
+ANDORRA	AN	1 - Americas/Western Europe	1 - Americas/Western Europe
+ANGOLA	AO	3 - Africa/Middle East	1 - Americas/Western Europe
+ARGENTINA	AR	1 - Americas/Western Europe	1 - Americas/Western Europe
+AUSTRALIA	AS	1 - Americas/Western Europe	1 - Americas/Western Europe
+ASHMORE AND CARTIER ISLANDS	AT	1 - Americas/Western Europe	1 - Americas/Western Europe
+AUSTRIA	AU	1 - Americas/Western Europe	1 - Americas/Western Europe
+ANGUILLA	AV	1 - Americas/Western Europe	1 - Americas/Western Europe
+BAHRAIN	BA	3 - Africa/Middle East	4 - Central Asia/Russia
+BARBADOS	BB	1 - Americas/Western Europe	1 - Americas/Western Europe
+BOTSWANA	BC	3 - Africa/Middle East	1 - Americas/Western Europe
+BERMUDA	BD	1 - Americas/Western Europe	1 - Americas/Western Europe
+BELGIUM	BE	1 - Americas/Western Europe	1 - Americas/Western Europe
+BAHAMAS, THE	BF	1 - Americas/Western Europe	1 - Americas/Western Europe
+BANGLADESH	BG	5 - Asia/Pacific	1 - Americas/Western Europe
+BELIZE	BH	1 - Americas/Western Europe	1 - Americas/Western Europe
+BOSNIA AND HERZEGOVINA	BK	2 - Eastern Europe	1 - Americas/Western Europe
+BOLIVIA	BL	1 - Americas/Western Europe	1 - Americas/Western Europe
+BURMA	BM	5 - Asia/Pacific	1 - Americas/Western Europe
+BENIN	BN	3 - Africa/Middle East	1 - Americas/Western Europe
+BELARUS	BO	2 - Eastern Europe	1 - Americas/Western Europe
+SOLOMON ISLANDS	BP	5 - Asia/Pacific	1 - Americas/Western Europe
+BRAZIL	BR	1 - Americas/Western Europe	1 - Americas/Western Europe
+BASSAS DA INDIA	BS	3 - Africa/Middle East	1 - Americas/Western Europe
+BHUTAN	BT	5 - Asia/Pacific	1 - Americas/Western Europe
+BULGARIA	BU	2 - Eastern Europe	1 - Americas/Western Europe
+BOUVET ISLAND	BV	1 - Americas/Western Europe	1 - Americas/Western Europe
+BRUNEI	BX	5 - Asia/Pacific	1 - Americas/Western Europe
+BURUNDI	BY	1 - Americas/Western Europe	3 - Africa/Middle East
+CANADA	CA	1 - Americas/Western Europe	1 - Americas/Western Europe
+CAMBODIA	CB	5 - Asia/Pacific	1 - Americas/Western Europe
+CHAD	CD	3 - Africa/Middle East	1 - Americas/Western Europe
+SRI LANKA	CE	5 - Asia/Pacific	1 - Americas/Western Europe
+CONGO	CF	3 - Africa/Middle East	1 - Americas/Western Europe
+CONGO, DEMOCRATIC REPUBLIC OF THE	CG	3 - Africa/Middle East	1 - Americas/Western Europe
+CHINA	CH	5 - Asia/Pacific	1 - Americas/Western Europe
+CHILE	CI	1 - Americas/Western Europe	1 - Americas/Western Europe
+CAYMAN ISLANDS	CJ	1 - Americas/Western Europe	1 - Americas/Western Europe
+COCOS (KEELING) ISLANDS	CK	1 - Americas/Western Europe	1 - Americas/Western Europe
+CAMEROON	CM	3 - Africa/Middle East	1 - Americas/Western Europe
+COMOROS	CN	1 - Americas/Western Europe	1 - Americas/Western Europe
+COLOMBIA	CO	1 - Americas/Western Europe	1 - Americas/Western Europe
+CORAL SEA ISLANDS	CR	1 - Americas/Western Europe	1 - Americas/Western Europe
+COSTA RICA	CS	1 - Americas/Western Europe	1 - Americas/Western Europe
+CENTRAL AFRICAN REPUBLIC	CT	3 - Africa/Middle East	1 - Americas/Western Europe
+CUBA	CU	1 - Americas/Western Europe	1 - Americas/Western Europe
+CAPE VERDE	CV	1 - Americas/Western Europe	1 - Americas/Western Europe
+COOK ISLANDS	CW	1 - Americas/Western Europe	1 - Americas/Western Europe
+CYPRUS	CY	2 - Eastern Europe	4 - Central Asia/Russia
+DENMARK	DA	1 - Americas/Western Europe	1 - Americas/Western Europe
+DJIBOUTI	DJ	3 - Africa/Middle East	1 - Americas/Western Europe
+DOMINICA	DO	1 - Americas/Western Europe	1 - Americas/Western Europe
+DOMINICAN REPUBLIC	DR	1 - Americas/Western Europe	1 - Americas/Western Europe
+ECUADOR	EC	1 - Americas/Western Europe	1 - Americas/Western Europe
+EGYPT	EG	3 - Africa/Middle East	4 - Central Asia/Russia
+IRELAND	EI	1 - Americas/Western Europe	1 - Americas/Western Europe
+EQUATORIAL GUINEA	EK	3 - Africa/Middle East	1 - Americas/Western Europe
+ESTONIA	EN	2 - Eastern Europe	1 - Americas/Western Europe
+ERITREA	ER	3 - Africa/Middle East	1 - Americas/Western Europe
+EL SALVADOR	ES	1 - Americas/Western Europe	1 - Americas/Western Europe
+ETHIOPIA	ET	3 - Africa/Middle East	1 - Americas/Western Europe
+EUROPA ISLAND	EU	1 - Americas/Western Europe	1 - Americas/Western Europe
+CZECH REPUBLIC	EZ	2 - Eastern Europe	1 - Americas/Western Europe
+FRENCH GUIANA [NOT A FIPS-10 CODE]	FG	1 - Americas/Western Europe	1 - Americas/Western Europe
+FINLAND	FI	1 - Americas/Western Europe	1 - Americas/Western Europe
+FIJI	FJ	1 - Americas/Western Europe	1 - Americas/Western Europe
+FALKLAND ISLANDS (ISLAS MALVINAS)	FK	1 - Americas/Western Europe	1 - Americas/Western Europe
+MICRONESIA, FEDERATED STATES OF	FM	5 - Asia/Pacific	1 - Americas/Western Europe
+FAROE ISLANDS	FO	1 - Americas/Western Europe	1 - Americas/Western Europe
+FRENCH POLYNESIA	FP	1 - Americas/Western Europe	1 - Americas/Western Europe
+FRANCE	FR	1 - Americas/Western Europe	1 - Americas/Western Europe
+FRENCH SOUTHERN AND ANTARCTIC LANDS	FS	1 - Americas/Western Europe	1 - Americas/Western Europe
+GAMBIA, THE	GA	3 - Africa/Middle East	1 - Americas/Western Europe
+GABON	GB	3 - Africa/Middle East	1 - Americas/Western Europe
+GEORGIA	GG	2 - Eastern Europe	1 - Americas/Western Europe
+GHANA	GH	3 - Africa/Middle East	1 - Americas/Western Europe
+GIBRALTAR	GI	1 - Americas/Western Europe	1 - Americas/Western Europe
+GRENADA	GJ	1 - Americas/Western Europe	1 - Americas/Western Europe
+GUERNSEY	GK	1 - Americas/Western Europe	1 - Americas/Western Europe
+GREENLAND	GL	1 - Americas/Western Europe	1 - Americas/Western Europe
+GERMANY	GM	1 - Americas/Western Europe	2 - Eastern Europe
+GLORIOSO ISLANDS	GO	1 - Americas/Western Europe	1 - Americas/Western Europe
+GUADELOUPE [NOT A FIPS-10 CODE]	GP	1 - Americas/Western Europe	1 - Americas/Western Europe
+GREECE	GR	2 - Eastern Europe	1 - Americas/Western Europe
+GUATEMALA	GT	1 - Americas/Western Europe	1 - Americas/Western Europe
+GUINEA	GV	1 - Americas/Western Europe	3 - Africa/Middle East
+GUYANA	GY	1 - Americas/Western Europe	3 - Africa/Middle East
+GAZA STRIP	GZ	3 - Africa/Middle East	4 - Central Asia/Russia
+HAITI	HA	1 - Americas/Western Europe	1 - Americas/Western Europe
+HONG KONG	HK	1 - Americas/Western Europe	5 - Asia/Pacific
+HEARD ISLAND AND MCDONALD ISLANDS	HM	1 - Americas/Western Europe	1 - Americas/Western Europe
+HONDURAS	HO	1 - Americas/Western Europe	1 - Americas/Western Europe
+CROATIA	HR	2 - Eastern Europe	1 - Americas/Western Europe
+HUNGARY	HU	2 - Eastern Europe	1 - Americas/Western Europe
+ICELAND	IC	1 - Americas/Western Europe	1 - Americas/Western Europe
+INDONESIA	ID	5 - Asia/Pacific	1 - Americas/Western Europe
+ISLE OF MAN	IM	1 - Americas/Western Europe	1 - Americas/Western Europe
+INDIA	IN	5 - Asia/Pacific	1 - Americas/Western Europe
+BRITISH INDIAN OCEAN TERRITORY	IO	1 - Americas/Western Europe	1 - Americas/Western Europe
+CLIPPERTON ISLAND	IP	1 - Americas/Western Europe	1 - Americas/Western Europe
+IRAN	IR	4 - Central Asia/Russia	3 - Africa/Middle East
+ISRAEL	IS	3 - Africa/Middle East	4 - Central Asia/Russia
+ITALY	IT	1 - Americas/Western Europe	1 - Americas/Western Europe
+CÔTE D’IVOIRE	IV	1 - Americas/Western Europe	3 - Africa/Middle East
+IRAQ	IZ	3 - Africa/Middle East	4 - Central Asia/Russia
+JAPAN	JA	5 - Asia/Pacific	1 - Americas/Western Europe
+JERSEY	JE	1 - Americas/Western Europe	1 - Americas/Western Europe
+JAMAICA	JM	1 - Americas/Western Europe	1 - Americas/Western Europe
+JAN MAYEN	JN	1 - Americas/Western Europe	1 - Americas/Western Europe
+JORDAN	JO	3 - Africa/Middle East	4 - Central Asia/Russia
+JUAN DE NOVA ISLAND	JU	1 - Americas/Western Europe	1 - Americas/Western Europe
+KENYA	KE	3 - Africa/Middle East	1 - Americas/Western Europe
+KYRGYZSTAN	KG	4 - Central Asia/Russia	1 - Americas/Western Europe
+NORTH KOREA	KN	5 - Asia/Pacific	1 - Americas/Western Europe
+KIRIBATI	KR	5 - Asia/Pacific	1 - Americas/Western Europe
+SOUTH KOREA	KS	5 - Asia/Pacific	1 - Americas/Western Europe
+CHRISTMAS ISLAND	KT	1 - Americas/Western Europe	1 - Americas/Western Europe
+KUWAIT	KU	3 - Africa/Middle East	4 - Central Asia/Russia
+KAZAKHSTAN	KZ	4 - Central Asia/Russia	1 - Americas/Western Europe
+LAOS	LA	5 - Asia/Pacific	1 - Americas/Western Europe
+LEBANON	LE	3 - Africa/Middle East	1 - Americas/Western Europe
+LATVIA	LG	2 - Eastern Europe	1 - Americas/Western Europe
+LITHUANIA	LH	2 - Eastern Europe	1 - Americas/Western Europe
+LIBERIA	LI	3 - Africa/Middle East	1 - Americas/Western Europe
+SLOVAKIA	LO	2 - Eastern Europe	1 - Americas/Western Europe
+LIECHTENSTEIN	LS	1 - Americas/Western Europe	1 - Americas/Western Europe
+LESOTHO	LT	3 - Africa/Middle East	1 - Americas/Western Europe
+LUXEMBOURG	LU	1 - Americas/Western Europe	1 - Americas/Western Europe
+LIBYA	LY	3 - Africa/Middle East	1 - Americas/Western Europe
+MADAGASCAR	MA	3 - Africa/Middle East	1 - Americas/Western Europe
+MARTINIQUE [NOT A FIPS-10 CODE]	MB	1 - Americas/Western Europe	1 - Americas/Western Europe
+MACAU	MC	1 - Americas/Western Europe	5 - Asia/Pacific
+MOLDOVA	MD	2 - Eastern Europe	4 - Central Asia/Russia
+MAYOTTE	MF	1 - Americas/Western Europe	1 - Americas/Western Europe
+MONGOLIA	MG	5 - Asia/Pacific	1 - Americas/Western Europe
+MONTSERRAT	MH	1 - Americas/Western Europe	1 - Americas/Western Europe
+MALAWI	MI	3 - Africa/Middle East	1 - Americas/Western Europe
+MACEDONIA	MK	2 - Eastern Europe	1 - Americas/Western Europe
+MALI	ML	3 - Africa/Middle East	1 - Americas/Western Europe
+MONACO	MN	1 - Americas/Western Europe	3 - Africa/Middle East
+MOROCCO	MO	3 - Africa/Middle East	1 - Americas/Western Europe
+MAURITIUS	MP	1 - Americas/Western Europe	1 - Americas/Western Europe
+MAURITANIA	MR	1 - Americas/Western Europe	3 - Africa/Middle East
+MALTA	MT	3 - Africa/Middle East	1 - Americas/Western Europe
+OMAN	MU	3 - Africa/Middle East	4 - Central Asia/Russia
+MALDIVES	MV	5 - Asia/Pacific	1 - Americas/Western Europe
+MEXICO	MX	1 - Americas/Western Europe	1 - Americas/Western Europe
+MALAYSIA	MY	5 - Asia/Pacific	1 - Americas/Western Europe
+MOZAMBIQUE	MZ	3 - Africa/Middle East	1 - Americas/Western Europe
+NEW CALEDONIA	NC	1 - Americas/Western Europe	1 - Americas/Western Europe
+NIUE	NE	1 - Americas/Western Europe	1 - Americas/Western Europe
+NORFOLK ISLAND	NF	1 - Americas/Western Europe	1 - Americas/Western Europe
+NIGER	NG	3 - Africa/Middle East	1 - Americas/Western Europe
+VANUATU	NH	5 - Asia/Pacific	1 - Americas/Western Europe
+NIGERIA	NI	3 - Africa/Middle East	1 - Americas/Western Europe
+NETHERLANDS	NL	1 - Americas/Western Europe	1 - Americas/Western Europe
+NO MAN’S LAND	NM	3 - Africa/Middle East	4 - Central Asia/Russia
+NORWAY	NO	1 - Americas/Western Europe	1 - Americas/Western Europe
+NEPAL	NP	5 - Asia/Pacific	1 - Americas/Western Europe
+NAURU	NR	5 - Asia/Pacific	1 - Americas/Western Europe
+SURINAME	NS	1 - Americas/Western Europe	1 - Americas/Western Europe
+NETHERLANDS ANTILLES	NT	1 - Americas/Western Europe	1 - Americas/Western Europe
+NICARAGUA	NU	1 - Americas/Western Europe	1 - Americas/Western Europe
+NEW ZEALAND	NZ	1 - Americas/Western Europe	1 - Americas/Western Europe
+OCEANS	OS	1 - Americas/Western Europe	5 - Asia/Pacific
+PARAGUAY	PA	1 - Americas/Western Europe	1 - Americas/Western Europe
+PITCAIRN ISLANDS	PC	1 - Americas/Western Europe	1 - Americas/Western Europe
+PERU	PE	1 - Americas/Western Europe	1 - Americas/Western Europe
+PARACEL ISLANDS	PF	5 - Asia/Pacific	6 - Vietnam
+SPRATLY ISLANDS	PG	5 - Asia/Pacific	6 - Vietnam
+PAKISTAN	PK	5 - Asia/Pacific	4 - Central Asia/Russia
+POLAND	PL	2 - Eastern Europe	1 - Americas/Western Europe
+PANAMA	PM	1 - Americas/Western Europe	1 - Americas/Western Europe
+PORTUGAL	PO	1 - Americas/Western Europe	1 - Americas/Western Europe
+PAPUA NEW GUINEA	PP	5 - Asia/Pacific	1 - Americas/Western Europe
+PALAU	PS	5 - Asia/Pacific	1 - Americas/Western Europe
+GUINEA-BISSAU	PU	3 - Africa/Middle East	1 - Americas/Western Europe
+QATAR	QA	3 - Africa/Middle East	4 - Central Asia/Russia
+REUNION [NOT A FIPS-10 CODE]	RE	1 - Americas/Western Europe	1 - Americas/Western Europe
+MARSHALL ISLANDS	RM	5 - Asia/Pacific	1 - Americas/Western Europe
+ROMANIA	RO	2 - Eastern Europe	1 - Americas/Western Europe
+PHILIPPINES	RP	5 - Asia/Pacific	1 - Americas/Western Europe
+RUSSIA	RS	4 - Central Asia/Russia	2 - Eastern Europe
+RWANDA	RW	1 - Americas/Western Europe	3 - Africa/Middle East
+SAUDI ARABIA	SA	3 - Africa/Middle East	4 - Central Asia/Russia
+SAINT PIERRE AND MIQUELON	SB	1 - Americas/Western Europe	1 - Americas/Western Europe
+SAINT KITTS AND NEVIS	SC	1 - Americas/Western Europe	1 - Americas/Western Europe
+SEYCHELLES	SE	1 - Americas/Western Europe	1 - Americas/Western Europe
+SOUTH AFRICA	SF	3 - Africa/Middle East	1 - Americas/Western Europe
+SENEGAL	SG	3 - Africa/Middle East	1 - Americas/Western Europe
+SAINT HELENA	SH	1 - Americas/Western Europe	1 - Americas/Western Europe
+SLOVENIA	SI	2 - Eastern Europe	1 - Americas/Western Europe
+SIERRA LEONE	SL	3 - Africa/Middle East	1 - Americas/Western Europe
+SAN MARINO	SM	1 - Americas/Western Europe	1 - Americas/Western Europe
+SINGAPORE	SN	5 - Asia/Pacific	1 - Americas/Western Europe
+SOMALIA	SO	3 - Africa/Middle East	4 - Central Asia/Russia
+SPAIN	SP	1 - Americas/Western Europe	1 - Americas/Western Europe
+SAINT LUCIA	ST	1 - Americas/Western Europe	1 - Americas/Western Europe
+SUDAN	SU	3 - Africa/Middle East	4 - Central Asia/Russia
+SVALBARD	SV	1 - Americas/Western Europe	1 - Americas/Western Europe
+SWEDEN	SW	1 - Americas/Western Europe	1 - Americas/Western Europe
+SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS	SX	1 - Americas/Western Europe	1 - Americas/Western Europe
+SYRIA	SY	3 - Africa/Middle East	4 - Central Asia/Russia
+SWITZERLAND	SZ	1 - Americas/Western Europe	1 - Americas/Western Europe
+TRINIDAD AND TOBAGO	TD	1 - Americas/Western Europe	1 - Americas/Western Europe
+TROMELIN ISLAND	TE	1 - Americas/Western Europe	1 - Americas/Western Europe
+THAILAND	TH	5 - Asia/Pacific	1 - Americas/Western Europe
+TAJIKISTAN	TI	4 - Central Asia/Russia	1 - Americas/Western Europe
+TURKS AND CAICOS ISLANDS	TK	1 - Americas/Western Europe	1 - Americas/Western Europe
+TOKELAU	TL	1 - Americas/Western Europe	1 - Americas/Western Europe
+TONGA	TN	5 - Asia/Pacific	1 - Americas/Western Europe
+TOGO	TO	1 - Americas/Western Europe	3 - Africa/Middle East
+SAO TOME AND PRINCIPE	TP	1 - Americas/Western Europe	1 - Americas/Western Europe
+TUNISIA	TS	1 - Americas/Western Europe	3 - Africa/Middle East
+EAST TIMOR	TT	5 - Asia/Pacific	1 - Americas/Western Europe
+TURKEY	TU	4 - Central Asia/Russia	1 - Americas/Western Europe
+TUVALU	TV	5 - Asia/Pacific	1 - Americas/Western Europe
+TAIWAN	TW	5 - Asia/Pacific	1 - Americas/Western Europe
+TURKMENISTAN	TX	4 - Central Asia/Russia	1 - Americas/Western Europe
+TANZANIA	TZ	1 - Americas/Western Europe	1 - Americas/Western Europe
+UNDERSEA FEATURES	UF	1 - Americas/Western Europe	1 - Americas/Western Europe
+UGANDA	UG	1 - Americas/Western Europe	1 - Americas/Western Europe
+UNITED KINGDOM	UK	1 - Americas/Western Europe	1 - Americas/Western Europe
+UKRAINE	UP	4 - Central Asia/Russia	1 - Americas/Western Europe
+UNITED STATES	US	1 - Americas/Western Europe	1 - Americas/Western Europe
+BURKINA FASO	UV	3 - Africa/Middle East	1 - Americas/Western Europe
+URUGUAY	UY	1 - Americas/Western Europe	1 - Americas/Western Europe
+UZBEKISTAN	UZ	4 - Central Asia/Russia	1 - Americas/Western Europe
+SAINT VINCENT AND THE GRENADINES	VC	1 - Americas/Western Europe	1 - Americas/Western Europe
+VENEZUELA	VE	1 - Americas/Western Europe	1 - Americas/Western Europe
+BRITISH VIRGIN ISLANDS	VI	1 - Americas/Western Europe	1 - Americas/Western Europe
+VIETNAM	VM	6 - Vietnam	5 - Asia/Pacific
+VIRGIN ISLANDS	VQ	1 - Americas/Western Europe	1 - Americas/Western Europe
+VATICAN CITY	VT	1 - Americas/Western Europe	1 - Americas/Western Europe
+NAMIBIA	WA	1 - Americas/Western Europe	1 - Americas/Western Europe
+WEST BANK	WE	3 - Africa/Middle East	4 - Central Asia/Russia
+WALLIS AND FUTUNA	WF	1 - Americas/Western Europe	1 - Americas/Western Europe
+WESTERN SAHARA	WI	3 - Africa/Middle East	1 - Americas/Western Europe
+SAMOA	WS	5 - Asia/Pacific	1 - Americas/Western Europe
+SWAZILAND	WZ	3 - Africa/Middle East	1 - Americas/Western Europe
+SERBIA AND MONTENEGRO	YI	2 - Eastern Europe	1 - Americas/Western Europe
+YEMEN	YM	3 - Africa/Middle East	4 - Central Asia/Russia
+ZAMBIA	ZA	1 - Americas/Western Europe	1 - Americas/Western Europe
+ZIMBABWE	ZI	1 - Americas/Western Europe	1 - Americas/Western Europe
