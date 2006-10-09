@@ -1,53 +1,83 @@
 package dataretriever.gns;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
-import java.util.TimerTask;
 
+import javax.swing.JFrame;
+import javax.swing.JProgressBar;
+
+/**
+ * Codes Explanations at <a href="http://earth-info.nga.mil/gns/html/gis.html">http://earth-info.nga.mil/gns/html/gis.html</a>
+ * @author Bruno C. A. Penteado
+ *
+ */
 public class GNSDataRetriever implements Runnable {
-	private File inputFile;
+    private File countriesFile;
+    private File admCodesFile;
+    private File geonamesFile;
 	private File outputFile;
-	private MyFileReader fileReader;
+	private TrackedFileReader fileReader;
 
-	//Codes explanations: http://earth-info.nga.mil/gns/html/gis.html
-	
-	public static final int RC = 0;
-	public static final int UFI = 1;
-	public static final int UNI = 2;
-	public static final int LAT = 3;
-	public static final int LONG = 4;
-	public static final int DMS_LAT = 5;
-	public static final int DMS_LONG = 6;
-	public static final int UTM = 7;
-	public static final int JOG = 8;
-	public static final int FC = 9;
-	public static final int DSG = 10;
-	public static final int PC = 11;
-	public static final int CC1 = 12;
-	public static final int ADM1 = 13;
-	public static final int ADM2 = 14;
-	public static final int DIM = 15;
-	public static final int CC2 = 16;
-	public static final int NT = 17;
-	public static final int LC = 18;
-	public static final int SHORT_FORM = 19;
-	public static final int GENERIC = 20;
-	public static final int SORT_NAME = 21;
-	public static final int FULL_NAME = 22;
-	public static final int FULL_NAME_ND = 23;
-	public static final int MODIFY_DATE = 24;
+	public static final int GEO_RC = 0; 
+    public static final int GEO_UFI = 1; 
+    public static final int GEO_UNI = 2; 
+    public static final int GEO_LAT = 3; 
+    public static final int GEO_LONG = 4;    
+    public static final int GEO_DMS_LAT = 5; 
+    public static final int GEO_DMS_LONG = 6;    
+    public static final int GEO_UTM = 7; 
+    public static final int GEO_JOG = 8; 
+    public static final int GEO_FC = 9;  
+    public static final int GEO_DSG = 10; 
+    public static final int GEO_PC = 11;  
+    public static final int GEO_CC1 = 12; 
+    public static final int GEO_ADM1 = 13;    
+    public static final int GEO_ADM2 = 14;    
+    public static final int GEO_DIM = 15; 
+    public static final int GEO_CC2 = 16; 
+    public static final int GEO_NT = 17;  
+    public static final int GEO_LC = 18;  
+    public static final int GEO_SHORT_FORM = 19;  
+    public static final int GEO_GENERIC = 20; 
+    public static final int GEO_SORT_NAME = 21;   
+    public static final int GEO_FULL_NAME = 22;   
+    public static final int GEO_FULL_NAME_ND = 23;    
+    public static final int GEO_MODIFY_DATE = 24;
+    
+    public static final int ADM_CODE_COUNTRY = 0;
+    public static final int ADM_CODE_REGION = 1;
+    public static final int ADM_NAME = 2;
+    public static final int ADM_CONTINENT = 3;
+    
+    public static final int COUNTRY_NAME = 0;
+    public static final int COUNTRY_CODE = 1;
+    public static final int COUNTRY_PRIMARY_REGION = 2;
+    public static final int COUNTRY_SECONDARY_REGION = 3;    
 
-	
-	public GNSDataRetriever(File inputFile, File outputFile) 
+	public GNSDataRetriever(File gnsDir, File outputFile) throws FileNotFoundException
 	{
-		this.inputFile = inputFile;
+        this.countriesFile = new File(gnsDir, "countries.txt");
+        if(!countriesFile.exists())
+            throw new FileNotFoundException(countriesFile.getAbsolutePath());  
+        
+        this.admCodesFile = new File(gnsDir, "admcodes.txt");
+        if(!admCodesFile.exists())
+            throw new FileNotFoundException(admCodesFile.getAbsolutePath());
+        
+        this.geonamesFile = new File(gnsDir, "geonames.txt");
+        if(!geonamesFile.exists())
+            throw new FileNotFoundException(geonamesFile.getAbsolutePath());
+        
 		this.outputFile = outputFile;
 	}
 
@@ -55,113 +85,132 @@ public class GNSDataRetriever implements Runnable {
 	{
 		try 
 		{
-			if (inputFile.isFile()) 
-			{
-				fileReader = new MyFileReader(inputFile);
-				BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
-				BufferedReader reader = new BufferedReader(fileReader);
-				String readed;
-				while ((readed = reader.readLine()) != null)
-				{
-					String[] columns = readed.split("\\t");
-					if(columns[FC].trim().equals("P"))
-					{
-						String country = columns[CC1];
-						String name = columns[FULL_NAME_ND];
-						String latitude = columns[LAT];
-						String longitude = columns[LONG];
-						writer.write(country + "#" + name + "#" + latitude + "#" + longitude + "\r\n");
-					}
-				}
-				reader.close();
-				writer.close();
-			}
+            System.out.print("Processing countries...");
+			Map<String, Country> countryMap = this.processCountries();
+            System.out.println("OK");
+            
+            System.out.print("Processing region names...");
+            Map<AdmRegion, AdmRegion> regionNameMap = this.processAdmRegions();
+            System.out.println("OK");
+            
+            System.out.print("Processing geofile...");
+            this.processGeofile(countryMap, regionNameMap);
+            System.out.println("OK");
 		} catch (Exception e) 
 		{
 			e.printStackTrace();
 		}
 	}
 	
-	public synchronized long getReadedAmount()
+	private void processGeofile(Map<String, Country> countryMap, Map<AdmRegion, AdmRegion> regionNameMap) throws IOException
+    {
+        if (geonamesFile.isFile()) 
+        {
+            fileReader = new TrackedFileReader(geonamesFile);
+            BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
+            BufferedReader reader = new BufferedReader(fileReader);
+            AdmRegion admRegion = new AdmRegion();
+            //Skips header
+            String readed = reader.readLine();
+            while ((readed = reader.readLine()) != null)
+            {
+                String[] columns = readed.split("\\t");
+                if(columns[GEO_FC].trim().equals("P"))
+                {
+                    admRegion.setCountryCode(columns[GEO_CC1]);
+                    admRegion.setAdmCode(columns[GEO_ADM1]);
+                    String country = countryMap.get(columns[GEO_CC1]).getName();
+                    AdmRegion region = regionNameMap.get(admRegion);
+                    String state = region != null && !region.getName().contains("(general)") ? region.getName() : "";
+                    String name = columns[GEO_FULL_NAME_ND];
+                    String latitude = columns[GEO_LAT];
+                    String longitude = columns[GEO_LONG];
+                    writer.write(country + "#" + state + "#" + name + "#" + latitude + "#" + longitude + "\r\n");
+                }
+            }
+            reader.close();
+            writer.close();
+        }
+    }
+
+    private Map<AdmRegion, AdmRegion> processAdmRegions() throws IOException
+    {
+        HashMap<AdmRegion, AdmRegion> map = new HashMap<AdmRegion, AdmRegion>();
+        if (admCodesFile.isFile()) 
+        {
+            fileReader = new TrackedFileReader(admCodesFile);
+            BufferedReader reader = new BufferedReader(fileReader);
+            //Skips header
+            String readed = reader.readLine();
+            while ((readed = reader.readLine()) != null)
+            {
+                String[] columns = readed.split("\\t");
+                String country = columns[ADM_CODE_COUNTRY].trim();
+                String admCode = columns[ADM_CODE_REGION].trim();
+                String name = columns[ADM_NAME].trim();
+                String continent = columns[ADM_CONTINENT].trim();
+                AdmRegion region = new AdmRegion(country, admCode, name, continent);
+                map.put(region, region);
+            }
+            reader.close();
+        }
+        return map;
+    }
+
+    private Map<String, Country> processCountries() throws IOException
+    {
+        HashMap<String, Country> map = new HashMap<String, Country>();
+        if (countriesFile.isFile()) 
+        {
+            fileReader = new TrackedFileReader(countriesFile);
+            BufferedReader reader = new BufferedReader(fileReader);
+            String readed;
+            while ((readed = reader.readLine()) != null)
+            {
+                String[] columns = readed.split("\\t");
+                String code = columns[COUNTRY_CODE].trim();
+                String name = columns[COUNTRY_NAME].trim();
+                String pRegion = columns[COUNTRY_PRIMARY_REGION];
+                String sRegion = columns[COUNTRY_SECONDARY_REGION];
+                Country country = new Country(code, name, pRegion, sRegion);
+                map.put(code, country);
+            }
+            reader.close();
+        }
+        return map;
+    }
+    
+
+    public synchronized long getReadedAmount()
 	{
 		return fileReader.getReadedAmount();
 	}
 	
-	public long getInputFileSize()
+	public long getGeoFileSize()
 	{
-		return inputFile.length();
+		return geonamesFile.length();
 	}
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws Exception
 	{
-		GNSDataRetriever retriever = new GNSDataRetriever(new File(args[0]), new File(args[1]));
-		Timer timer = new Timer(true);
-		timer.schedule(new Meter(retriever), 5000, 5000);
+		File gnsDir = new File(args[0]);
+        File output = new File(args[1]);
+        GNSDataRetriever retriever = new GNSDataRetriever(gnsDir, output);
+		JFrame frame = new JFrame("Processing files from " + gnsDir.getName() + " to " + output.getName());
+        JProgressBar progressBar = new JProgressBar();
+        progressBar.setMaximum(1000);
+        progressBar.setBackground(new Color(102, 102, 102));
+        progressBar.setForeground(new Color(255, 204, 51));
+        progressBar.setStringPainted(true);
+        progressBar.setValue(0);
+        frame.getContentPane().setLayout(new BorderLayout());
+        frame.getContentPane().add(progressBar, BorderLayout.CENTER);
+        frame.setSize(new Dimension(500,80));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        Timer timer = new Timer(true);
+		timer.schedule(new ProgressMeter(retriever, progressBar), 500, 500);
 		retriever.run();
-	}
-}
-
-class Meter extends TimerTask
-{
-	private GNSDataRetriever retriever;
-	
-	public Meter(GNSDataRetriever retriever)
-	{
-		this.retriever = retriever;
-	}
-	
-	public void run() 
-	{
-		long readed = retriever.getReadedAmount();
-		long total = retriever.getInputFileSize();
-		double ratio = ((double)readed / (double)total) * 100.0;
-		System.out.println("Processed " + readed + " of " + total + " bytes (" + (Math.round(ratio * 100) / 100.0) + "%)");
-	}
-	
-}
-
-class MyFileReader extends FileReader
-{
-	private long readedAmount;
-	
-	public MyFileReader(File file) throws FileNotFoundException 
-	{
-		super(file);
-		readedAmount = 0;
-	}
-
-	public MyFileReader(FileDescriptor fd) 
-	{
-		super(fd);
-		readedAmount = 0;
-	}
-
-	public MyFileReader(String fileName) throws FileNotFoundException 
-	{
-		super(fileName);
-		readedAmount = 0;
-	}
-
-	@Override
-	public int read() throws IOException 
-	{
-		int readed = super.read();
-		if(readed != -1)
-			readedAmount++;
-		return readed;
-	}
-
-	@Override
-	public int read(char[] cbuf, int offset, int length) throws IOException 
-	{
-		int readed = super.read(cbuf, offset, length);
-		if(readed != -1)
-			readedAmount += readed;
-		return readed;
-	}
-	
-	public synchronized long getReadedAmount()
-	{
-		return this.readedAmount;
+        timer.cancel();
 	}
 }
