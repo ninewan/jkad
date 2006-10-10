@@ -19,8 +19,9 @@ public class KadNode extends KadTreeNode
     private InetAddress ipAddress;
     private int port;
     private long createTime;
+    private long lastAccess;
     
-    public KadNode()
+	public KadNode()
     {
     	this.createTime = System.currentTimeMillis();
     }
@@ -29,6 +30,7 @@ public class KadNode extends KadTreeNode
     {
         this.setNodeID(nodeID);
         this.createTime = System.currentTimeMillis();
+        this.lastAccess = createTime;
     }
 
     public KadNode(BigInteger nodeID, String ip, int port) throws KadProtocolException, UnknownHostException
@@ -87,4 +89,15 @@ public class KadNode extends KadTreeNode
     {
 		return createTime;
 	}
+    
+    public long getLastAccess() 
+    {
+		return lastAccess;
+	}
+
+	public void setLastAccess(long lastAccess) 
+	{
+		this.lastAccess = lastAccess;
+	}
+
 }
