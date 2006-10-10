@@ -63,6 +63,9 @@ public class GNSDataRetriever implements Runnable {
     public static final int COUNTRY_CODE = 1;
     public static final int COUNTRY_PRIMARY_REGION = 2;
     public static final int COUNTRY_SECONDARY_REGION = 3;    
+    
+    public static final String SEPARATOR = "#";
+    public static final String LINE_TERMINATOR = "\r\n";
 
 	public GNSDataRetriever(File gnsDir, File outputFile) throws FileNotFoundException
 	{
@@ -125,7 +128,7 @@ public class GNSDataRetriever implements Runnable {
                     String name = columns[GEO_FULL_NAME_ND];
                     String latitude = columns[GEO_LAT];
                     String longitude = columns[GEO_LONG];
-                    writer.write(country + "#" + state + "#" + name + "#" + latitude + "#" + longitude + "\r\n");
+                    writer.write(country + SEPARATOR + state + SEPARATOR + name + SEPARATOR + latitude + SEPARATOR + longitude + LINE_TERMINATOR);
                 }
             }
             reader.close();
