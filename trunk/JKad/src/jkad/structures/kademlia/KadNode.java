@@ -38,7 +38,7 @@ public class KadNode extends KadTreeNode
         this(nodeID, InetAddress.getByName(ip), port);
     }
 
-    public KadNode(BigInteger nodeID, InetAddress ip, int port) throws KadProtocolException
+    public KadNode(BigInteger nodeID, InetAddress ip, int port)
     {
         this.setNodeID(nodeID);
         this.setIpAddress(ip);
@@ -46,12 +46,8 @@ public class KadNode extends KadTreeNode
         this.createTime = System.currentTimeMillis();
     }
 
-    public void setNodeID(BigInteger nodeID) throws KadProtocolException
+    public void setNodeID(BigInteger nodeID) 
     {
-        if (nodeID != null && nodeID.bitCount() > KadProtocol.NODE_ID_LENGTH * 8)
-        {
-            throw new KadProtocolException("NodeID must have " + (KadProtocol.NODE_ID_LENGTH * 8) + " bits, found" + nodeID.bitCount() + " bits");
-        }
         this.nodeID = nodeID;
     }
 
@@ -70,13 +66,8 @@ public class KadNode extends KadTreeNode
         return port;
     }
 
-    public void setPort(int port) throws KadProtocolException
+    public void setPort(int port) 
     {
-        int max = 0xFFFF;
-        if (port <= 0 || port >= max)
-        {
-            throw new KadProtocolException("Cannot set port to " + port + ". Port must be on 0 < range < " + max);
-        }
         this.port = port;
     }
 
@@ -100,4 +91,22 @@ public class KadNode extends KadTreeNode
 		this.lastAccess = lastAccess;
 	}
 
+    public boolean equals(Object obj)
+    {
+        boolean result = false;
+        if (obj instanceof KadNode)
+        {
+            KadNode node = (KadNode) obj;
+            if(node.getNodeID() != null && this.getNodeID() != null)
+                result = node.getNodeID().equals(this.getNodeID());
+            else
+                result = node.getNodeID() == null && this.getNodeID() != null;
+        }
+        return result;
+    }
+
+    public int hashCode()
+    {
+        return this.getNodeID().hashCode();
+    }
 }

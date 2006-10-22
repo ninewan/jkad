@@ -5,14 +5,20 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 public class KnowContacts 
 {
-	private List<KadNode> lastSeemList;
+    private static final BigInteger MAX = new BigInteger("2").pow(160);
+    
 	private List<KadNode> contactList;
 	private int maxSize;
+    
+    public enum AddResult
+    {
+        ADDED,
+        CONTACTS_FULL,
+        ALREADY_ADDED
+    }
 	
 	public KnowContacts()
 	{
@@ -21,74 +27,152 @@ public class KnowContacts
 	
 	public KnowContacts(int maxSize)
 	{
-		this.maxSize = maxSize;
-		this.lastSeemList = new ArrayList<KadNode>(maxSize);
-		this.contactList = new ArrayList<KadNode>(maxSize);
-	}
+        this.maxSize = maxSize;
+		this.contactList = new ArrayList<KadNode>();
+    }
 	
-	public boolean addContact(KadNode node)
+	public AddResult addContact(KadNode node)
 	{
-		if(contactList.size() < maxSize)
-		{
-			lastSeemList.add(node);
-			contactList.add(node);
-		}
-	}
-	
-	private void addLastSeemContact(KadNode node)
-	{
-		boolean added = false;
-		for (int i = 0; i < lastSeemList.size() && !added; i++) 
-		{
-			if(added = (node.getLastAccess() > lastSeemList.get(i).getLastAccess()))
-				lastSeemList.add(i, node);
-		}
-		if(!added)
-			lastSeemList.add(node);
-		//todo terminar isso
-	}
-	
-	private void addNodeIDContact(KadNode node)
-	{
-		
+        if(contactList.size() < maxSize)
+        {
+            KadNode alreadyAdded = findContact(node.getNodeID());
+            if(alreadyAdded == null)
+            {
+                BigInteger id = node.getNodeID();
+                int position = 0;
+                while(position < contactList.size())
+                {
+                    if(contactList.get(position).getNodeID().compareTo(id) >= 0)
+                        break;
+                    else
+                        position++;
+                }
+                contactList.add(position, node);
+                return AddResult.ADDED;
+            } else
+                return AddResult.ALREADY_ADDED;
+        } else
+            return AddResult.CONTACTS_FULL;
 	}
 	
 	public boolean removeContact(KadNode node)
 	{
-		return contactSet.remove(node);
+		return contactList.remove(node);
 	}
-	
-	public boolean removeLastSeemContact()
-	{
-		return contactSet.remove(contactSet.last());
-	}
+    
+    public boolean removeContact(BigInteger nodeID)
+    {
+        return contactList.remove(findContact(nodeID));
+    }
 	
 	public KadNode findContact(BigInteger nodeID)
 	{
-		KadNode foundNode = null;
-		boolean found = false;
-		for(Iterator<KadNode> it = contactSet.iterator(); it.hasNext() && !found;)
+		for(Iterator<KadNode> it = contactList.iterator(); it.hasNext();)
 		{
-			KadNode node = it.next(); 
-			if(found = (node.getNodeID().equals(nodeID)))
-				foundNode = node;
+			KadNode nextNode = it.next();
+            BigInteger nextNodeID = nextNode.getNodeID(); 
+            int compare = nextNodeID.compareTo(nodeID);
+			if(compare == 0)
+				return nextNode;
+            else if (compare > 0)
+                break;
 		}
-		return foundNode;
+		return null;
 	}
+    
+    public List<KadNode> findClosestContacts(BigInteger nodeID, int amount)
+    {
+        List<KadNode> result = new ArrayList<KadNode>();
+        Integer position = this.getClosestContactPosition(nodeID);
+        if(position != null)
+        {
+            int left = position; 
+            int right = position;
+            int compare = nodeID.compareTo(contactList.get(position).getNodeID());
+            if(compare > 0)
+                right++;
+            else
+                left--;
+            
+            int i = 0;
+            while(i < amount && left >= 0 && right < contactList.size())
+            {
+                KadNode leftNode = contactList.get(left);
+                KadNode rightNode = contactList.get(right);
+                BigInteger leftRange = nodeID.subtract(leftNode.getNodeID());
+                BigInteger rightRange = rightNode.getNodeID().subtract(nodeID);
+                if(leftRange.compareTo(rightRange) < 0)
+                {
+                    result.add(leftNode);
+                    left--;
+                } else
+                {
+                    result.add(rightNode);
+                    right++;
+                }
+                i++;
+            }
+            if(i < amount)
+            {
+                while(i < amount && left >= 0)
+                {
+                    result.add(contactList.get(left));
+                    left--;
+                    i++;
+                }
+                while(i < amount && right < contactList.size())
+                {
+                    result.add(contactList.get(right));
+                    right++;
+                    i++;
+                }
+            }
+        } 
+        return result;
+    }
+    
+    public KadNode findClosestContact(BigInteger nodeID)
+    {
+        Integer position = getClosestContactPosition(nodeID);
+        return position != null ? contactList.get(position) : null;
+    }
+    
+    private Integer getClosestContactPosition(BigInteger nodeID)
+    {
+        Integer position = null;
+        if(contactList.size() > 0)
+        {
+            boolean converging = true;
+            BigInteger range = MAX;
+            for(int i = 0; i < contactList.size() && converging; i++)
+            {
+                KadNode node = contactList.get(i);
+                BigInteger newRange = nodeID.subtract(node.getNodeID()).abs();
+                converging = newRange.compareTo(range) < 0;
+                range = newRange;
+                position = i;
+            }
+            if(!converging)
+                position--;
+        }
+        return position;
+    }
+    
+    public int getMaxSize()
+    {
+        return this.maxSize;
+    }
+    
+    public int getSize()
+    {
+        return this.contactList.size();
+    }
 }
 
-class KadNodeComparator implements Comparator<KadNode>
+class KadNodeIDComparator implements Comparator<KadNode>
 {
-	public int compare(KadNode node1, KadNode node2) 
+    public int compare(KadNode node1, KadNode node2) 
 	{
-		long node1LastAccess = node1.getLastAccess();
-		long node2LastAccess = node2.getLastAccess();
-		if(node1LastAccess < node2LastAccess)
-			return -1;
-		else if(node1LastAccess == node2LastAccess)
-			return 0;
-		else 
-			return 1;
+        return node1.getNodeID().compareTo(node2.getNodeID());
 	}
-	
 }
