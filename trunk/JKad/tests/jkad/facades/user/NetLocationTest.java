@@ -4,10 +4,12 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jkad.userfacade;
+package jkad.facades.user;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
+import jkad.facades.user.NetLocation;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -58,7 +60,6 @@ public class NetLocationTest extends TestCase
         }
     }
 
-    @Test
     public void testGetPort()
     {
         try

@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jkad.userfacade;
+package jkad.facades.user;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

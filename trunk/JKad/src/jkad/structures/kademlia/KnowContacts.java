@@ -1,3 +1,9 @@
+/* SVN Info:
+ * $HeadURL$
+ * $LastChangedRevision$
+ * $LastChangedBy$                             
+ * $LastChangedDate$  
+ */
 package jkad.structures.kademlia;
 
 import java.math.BigInteger;
@@ -31,7 +37,7 @@ public class KnowContacts
 		this.contactList = new ArrayList<KadNode>();
     }
 	
-	public AddResult addContact(KadNode node)
+	public synchronized AddResult addContact(KadNode node)
 	{
         if(contactList.size() < maxSize)
         {
@@ -55,14 +61,14 @@ public class KnowContacts
             return AddResult.CONTACTS_FULL;
 	}
 	
-	public boolean removeContact(KadNode node)
+	public synchronized boolean removeContact(KadNode node)
 	{
 		return contactList.remove(node);
 	}
     
-    public boolean removeContact(BigInteger nodeID)
+    public synchronized boolean removeContact(BigInteger nodeID)
     {
-        return contactList.remove(findContact(nodeID));
+        return contactList.remove(new KadNode(nodeID));
     }
 	
 	public KadNode findContact(BigInteger nodeID)

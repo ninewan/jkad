@@ -4,7 +4,7 @@
  * $LastChangedBy$                             
  * $LastChangedDate$  
  */
-package jkad.userfacade;
+package jkad.facades.user;
 
 import java.math.BigInteger;
 

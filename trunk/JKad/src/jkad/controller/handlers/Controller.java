@@ -8,23 +8,27 @@ package jkad.controller.handlers;
 
 import java.math.BigInteger;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 
 import jkad.builders.SHA1Digester;
 import jkad.controller.ThreadGroupLocal;
+import jkad.controller.handlers.request.StoreHandler;
 import jkad.controller.handlers.response.PingResponseHandler;
 import jkad.controller.io.JKadDatagramSocket;
 import jkad.controller.io.SingletonSocket;
 import jkad.controller.threads.CyclicThread;
+import jkad.facades.user.NetLocation;
+import jkad.facades.user.UserFacade;
 import jkad.protocol.KadProtocol;
 import jkad.protocol.rpc.RPC;
 import jkad.structures.buffers.RPCBuffer;
+import jkad.structures.kademlia.KadNode;
 import jkad.structures.kademlia.KnowContacts;
 import jkad.structures.kademlia.RPCInfo;
+import jkad.structures.kademlia.KnowContacts.AddResult;
 import jkad.tools.ToolBox;
-import jkad.userfacade.NetLocation;
-import jkad.userfacade.UserFacade;
 
 import org.apache.log4j.Logger;
 
@@ -87,19 +91,27 @@ public class Controller extends CyclicThread implements UserFacade
 			RPC rpc = rpcInfo.getRPC();
 			String ip = rpcInfo.getIP();
 			Integer port = rpcInfo.getPort();
-			logger.debug("Processing RPC of type " + rpc.getClass().getSimpleName());
-			
-            switch(rpc.getType())
+            try
             {
-                case KadProtocol.PING:
-                    PingResponseHandler pingHandler = new PingResponseHandler(rpcInfo);
-                    pingHandler.start();
-                case KadProtocol.STORE:
-                    //TODO Store Handler
-                case KadProtocol.FIND_NODE:
-                    //TODO Find Node Handler
-                case KadProtocol.FIND_VALUE:
-                    //TODO Find Value Handler
+                KadNode senderNode = new KadNode(rpc.getSenderNodeID(), ip, port);
+    			AddResult addResult = knowContacts.addContact(senderNode);
+                logger.debug("Processing RPC of type " + rpc.getClass().getSimpleName());
+    			
+                switch(rpc.getType())
+                {
+                    case KadProtocol.PING:
+                        PingResponseHandler pingHandler = new PingResponseHandler(rpcInfo);
+                        pingHandler.start();
+                    case KadProtocol.STORE:
+                        //TODO Store Handler
+                    case KadProtocol.FIND_NODE:
+                        //TODO Find Node Handler
+                    case KadProtocol.FIND_VALUE:
+                        //TODO Find Value Handler
+                }
+            } catch (UnknownHostException e)
+            {
+                logger.warn("Received packet from a invalid ip address: " + ip + ", discarting request");
             }
 		}
 	}
