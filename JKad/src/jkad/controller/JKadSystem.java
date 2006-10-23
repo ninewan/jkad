@@ -17,9 +17,9 @@ import jkad.controller.processors.RPCInputProcessor;
 import jkad.controller.processors.RPCOutputProcessor;
 import jkad.controller.threads.Pausable;
 import jkad.controller.threads.Stoppable;
-import jkad.userfacade.DetailedInfoFacade;
-import jkad.userfacade.NetLocation;
-import jkad.userfacade.UserFacade;
+import jkad.facades.user.DetailedInfoFacade;
+import jkad.facades.user.NetLocation;
+import jkad.facades.user.UserFacade;
 
 import org.apache.log4j.Logger;
 

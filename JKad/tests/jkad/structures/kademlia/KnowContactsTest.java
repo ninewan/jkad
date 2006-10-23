@@ -49,11 +49,26 @@ public class KnowContactsTest extends TestCase
         assertEquals(contacts.addContact(createNode(999 + "")), AddResult.CONTACTS_FULL);
     }
 
-//    public void testRemoveContact()
-//    {
-//        KnowContacts contacts = getFilledContacts();
-//        contacts.removeContact(node);
-//    }
+    public void testRemoveContactKadNode()
+    {
+        KnowContacts contacts = getFilledContacts();
+        BigInteger nodeID = new BigInteger("0");
+        KadNode node = new KadNode(nodeID, defaultIP, defaultPort);
+        assertNotNull(contacts.findContact(nodeID));
+        assertEquals(contacts.removeContact(node), true);
+        assertEquals(contacts.getSize(), contacts.getMaxSize() - 1);
+        assertNull(contacts.findContact(nodeID));
+    }
+    
+    public void testRemoveContactBigInteger()
+    {
+        KnowContacts contacts = getFilledContacts();
+        BigInteger nodeID = new BigInteger("0");
+        assertNotNull(contacts.findContact(nodeID));
+        assertEquals(contacts.removeContact(nodeID), true);
+        assertEquals(contacts.getSize(), contacts.getMaxSize() - 1);
+        assertNull(contacts.findContact(nodeID));
+    }
 
     public void testFindContact()
     {
