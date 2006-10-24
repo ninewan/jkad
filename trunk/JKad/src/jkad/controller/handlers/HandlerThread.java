@@ -8,8 +8,6 @@ package jkad.controller.handlers;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import jkad.structures.tree.SimpleTreeNode;
 
 public abstract class HandlerThread extends Thread implements SimpleTreeNode<HandlerThread>
@@ -36,6 +34,11 @@ public abstract class HandlerThread extends Thread implements SimpleTreeNode<Han
     public static Class<? extends List> getChildrenListClass()
     {
         return HandlerThread.childrenListClass;
+    }
+    
+    public HandlerThread(String name)
+    {
+    	super(name);
     }
 
     public boolean addChild(HandlerThread node)

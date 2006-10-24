@@ -7,10 +7,16 @@
 package jkad.controller.handlers.request;
 
 import jkad.controller.handlers.HandlerThread;
+import jkad.tools.ToolBox;
 
 public class PingHandler extends HandlerThread
 {
-    public void run()
+    public PingHandler()
+    {
+    	super(ToolBox.getReflectionTools().generateThreadName(PingHandler.class));
+    }
+	
+	public void run()
     {
         // TODO Auto-generated method stub
 

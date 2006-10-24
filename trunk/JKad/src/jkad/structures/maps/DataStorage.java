@@ -16,7 +16,7 @@ import jkad.controller.ThreadGroupLocal;
 import jkad.facades.storage.DataManagerFacade;
 import jkad.protocol.KadProtocol;
 
-public class DataStorage implements DataManagerFacade
+public class DataStorage extends DataManagerFacade
 {
     public static final int KEY_LENGTH = KadProtocol.KEY_LENGTH;
     

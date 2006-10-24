@@ -13,6 +13,7 @@ import jkad.protocol.rpc.request.PingRPC;
 import jkad.protocol.rpc.response.PingResponse;
 import jkad.structures.buffers.RPCBuffer;
 import jkad.structures.kademlia.RPCInfo;
+import jkad.tools.ToolBox;
 
 import org.apache.log4j.Logger;
 
@@ -25,7 +26,8 @@ public class PingResponseHandler extends HandlerThread
     
     public PingResponseHandler(RPCInfo<PingRPC> rpcInfo)
     {
-        this.rpcInfo = rpcInfo;
+        super(ToolBox.getReflectionTools().generateThreadName(PingResponseHandler.class));
+    	this.rpcInfo = rpcInfo;
         this.actualStatus = Status.NOT_STARTED;
     }
     
