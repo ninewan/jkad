@@ -37,41 +37,26 @@ public class DataStorage implements DataManagerFacade
         return dataStorage.get();
     }
     
-    private HashMap<byte[], Object> map;
+    private HashMap<BigInteger, Object> map;
     
     public DataStorage()
     {
-        this.map = new HashMap<byte[], Object>();
+        this.map = new HashMap<BigInteger, Object>();
     }
     
-    public Object get(byte[] key)
-    {
-        return map.get(this.normalizeArray(key));
-    }
-
     public Object get(BigInteger key)
     {
-        return this.get(key.toByteArray());
-    }
-
-    public Object put(byte[] key, Object value)
-    {
-        return map.put(this.normalizeArray(key), value);
+        return map.get(key);
     }
 
     public Object put(BigInteger key, Object value)
     {
-        return this.put(key.toByteArray(), value);
-    }
-
-    public Object remove(byte[] key)
-    {
-        return map.remove(normalizeArray(key));
+        return map.put(key, value);
     }
 
     public Object remove(BigInteger key)
     {
-        return this.remove(key.toByteArray());
+        return map.remove(key);
     }
     
     public int getSize()
@@ -79,32 +64,17 @@ public class DataStorage implements DataManagerFacade
         return map.size();
     }
     
-    public List<Entry<byte[], Object>> getClosestValues(byte[] key, BigInteger proximity)
+    public List<Entry<BigInteger, Object>> getClosestValues(BigInteger key, BigInteger proximity)
     {
-        BigInteger bigIntKey = new BigInteger(key);
-        List<Entry<byte[], Object>> result = new ArrayList<Entry<byte[],Object>>();
-        for(Entry<byte[], Object> entry : map.entrySet())
+    	List<Entry<BigInteger, Object>> result = new ArrayList<Entry<BigInteger,Object>>();
+        for(Entry<BigInteger, Object> entry : map.entrySet())
         {
-            BigInteger delta = new BigInteger(entry.getKey()).subtract(bigIntKey).abs();
+            BigInteger delta = entry.getKey().subtract(key).abs();
             if(delta.compareTo(proximity) <= 0)
+            {
                 result.add(entry);
+            }
         }
         return result;
-    }
-    
-    public List<Entry<byte[], Object>> getClosestValues(BigInteger key, BigInteger proximity)
-    {
-        return getClosestValues(key.toByteArray(), proximity);
-    }
-    
-    private byte[] normalizeArray(byte[] array)
-    {
-        if(array.length < KEY_LENGTH)
-        {
-            byte[] normalized = new byte[KEY_LENGTH];
-            System.arraycopy(array, 0, normalized, KEY_LENGTH - array.length, array.length);
-            return normalized;
-        } else
-            return array;
     }
 }
