@@ -14,7 +14,6 @@ import java.util.List;
 
 import jkad.builders.SHA1Digester;
 import jkad.controller.ThreadGroupLocal;
-import jkad.controller.handlers.request.StoreHandler;
 import jkad.controller.handlers.response.PingResponseHandler;
 import jkad.controller.io.JKadDatagramSocket;
 import jkad.controller.io.SingletonSocket;
@@ -102,6 +101,7 @@ public class Controller extends CyclicThread implements UserFacade
                     case KadProtocol.PING:
                         PingResponseHandler pingHandler = new PingResponseHandler(rpcInfo);
                         pingHandler.start();
+                        break;
                     case KadProtocol.STORE:
                         //TODO Store Handler
                     case KadProtocol.FIND_NODE:
