@@ -14,6 +14,7 @@ import java.util.List;
 
 import jkad.builders.SHA1Digester;
 import jkad.controller.ThreadGroupLocal;
+import jkad.controller.handlers.misc.ContactHandler;
 import jkad.controller.handlers.response.PingResponseHandler;
 import jkad.controller.io.JKadDatagramSocket;
 import jkad.controller.io.SingletonSocket;
@@ -24,7 +25,6 @@ import jkad.protocol.KadProtocol;
 import jkad.protocol.rpc.RPC;
 import jkad.structures.buffers.RPCBuffer;
 import jkad.structures.kademlia.KadNode;
-import jkad.structures.kademlia.KnowContacts;
 import jkad.structures.kademlia.RPCInfo;
 import jkad.structures.kademlia.KnowContacts.AddResult;
 import jkad.tools.ToolBox;
@@ -66,7 +66,7 @@ public class Controller extends CyclicThread implements UserFacade
         return SHA1Digester.hash(rpcID);
     }
     
-    private KnowContacts knowContacts;
+    private ContactHandler knowContacts;
 	private RPCBuffer inputBuffer;
 	private RPCBuffer outputBuffer;
 	
@@ -75,14 +75,20 @@ public class Controller extends CyclicThread implements UserFacade
 	public Controller()
 	{
 		super(ToolBox.getReflectionTools().generateThreadName(Controller.class));
-		knowContacts = new KnowContacts();
+		knowContacts = new ContactHandler();
 		inputBuffer = RPCBuffer.getReceivedBuffer();
 		outputBuffer = RPCBuffer.getSentBuffer();
 		rpcIDMap = new HashMap<BigInteger, HandlerThread>();
 		super.setRoundWait(50);
 	}
-	
-	protected void cycleOperation() throws InterruptedException 
+    
+    public void run()
+    {
+        knowContacts.run();
+        super.run();
+    }
+
+    protected void cycleOperation() throws InterruptedException 
 	{
 		while(!inputBuffer.isEmpty())
 		{
@@ -92,8 +98,19 @@ public class Controller extends CyclicThread implements UserFacade
 			Integer port = rpcInfo.getPort();
             try
             {
-                KadNode senderNode = new KadNode(rpc.getSenderNodeID(), ip, port);
-    			AddResult addResult = knowContacts.addContact(senderNode);
+    			KadNode senderNode = knowContacts.findContact(rpc.getSenderNodeID());
+                if(senderNode == null)
+                {
+                    logger.debug("Contact " + rpc.getSenderNodeID().toString(16) + " unknown to this system, adding to contact list");
+                    senderNode = new KadNode(rpc.getSenderNodeID(), ip, port);
+                    AddResult result = knowContacts.addContact(senderNode);
+                    if(result.equals(AddResult.CONTACTS_FULL))
+                        logger.debug("Contact List Full!");
+                } else
+                {
+                    logger.debug("Contact " + rpc.getSenderNodeID().toString(16) + "  already known to this system, refreshing last access");
+                    senderNode.setLastAccess(System.currentTimeMillis());
+                }
                 logger.debug("Processing RPC of type " + rpc.getClass().getSimpleName());
     			
                 switch(rpc.getType())
@@ -116,6 +133,12 @@ public class Controller extends CyclicThread implements UserFacade
 		}
 	}
 
+    public void login(NetLocation anotherNode)
+    {
+        // TODO Auto-generated method stub
+        
+    }
+    
 	public void store(String key, String data) 
 	{
 		// TODO Auto-generated method stub

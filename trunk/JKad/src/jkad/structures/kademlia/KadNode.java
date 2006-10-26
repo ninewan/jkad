@@ -10,8 +10,6 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import jkad.protocol.KadProtocolException;
-
 public class KadNode extends KadTreeNode
 {
     private BigInteger nodeID;
@@ -43,6 +41,7 @@ public class KadNode extends KadTreeNode
         this.setIpAddress(ip);
         this.setPort(port);
         this.createTime = System.currentTimeMillis();
+        this.lastAccess = createTime;
     }
 
     public void setNodeID(BigInteger nodeID) 
@@ -107,5 +106,10 @@ public class KadNode extends KadTreeNode
     public int hashCode()
     {
         return this.getNodeID().hashCode();
+    }
+    
+    public String toString()
+    {
+        return "id: " + this.getNodeID().toString(16) + ", address: " + this.getIpAddress().toString() + ":" + this.getPort();
     }
 }

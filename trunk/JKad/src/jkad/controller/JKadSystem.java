@@ -42,6 +42,11 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, DetailedI
         this.running = false;
     }
     
+    public void login(NetLocation anotherNode)
+    {
+        this.controller.login(anotherNode);
+    }
+    
     public String findValue(String key)
     {
         return this.controller.findValue(key);

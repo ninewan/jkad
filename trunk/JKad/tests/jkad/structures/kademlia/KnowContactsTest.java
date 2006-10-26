@@ -9,7 +9,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import jkad.structures.kademlia.KnowContacts.AddResult;
-
 import junit.framework.TestCase;
 
 public class KnowContactsTest extends TestCase
