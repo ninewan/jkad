@@ -19,7 +19,6 @@ public class ControllerTest extends TestCase
         assertNotNull(id);
     }
 
-    @Test
     public void testGenerateRPCID()
     {
         fail("Not yet implemented");

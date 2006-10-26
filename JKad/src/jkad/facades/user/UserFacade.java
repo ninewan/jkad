@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface UserFacade
 {
+    public void login(NetLocation anotherNode);
+    
     public void store(String key, String data);
     
     public void store(byte[] key, byte[] data);

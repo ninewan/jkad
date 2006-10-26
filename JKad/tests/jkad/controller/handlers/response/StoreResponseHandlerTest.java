@@ -4,15 +4,12 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 
 import jkad.facades.storage.DataManagerFacade;
-import jkad.facades.storage.DataStorageFacade;
 import jkad.protocol.KadProtocolException;
 import jkad.protocol.rpc.request.StoreRPC;
 import jkad.structures.kademlia.RPCInfo;
+import junit.framework.TestCase;
 
 import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.PropertyConfigurator;
-
-import junit.framework.TestCase;
 
 public class StoreResponseHandlerTest extends TestCase 
 {

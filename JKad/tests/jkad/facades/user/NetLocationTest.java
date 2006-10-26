@@ -9,8 +9,6 @@ package jkad.facades.user;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import jkad.facades.user.NetLocation;
-
 import junit.framework.Assert;
 import junit.framework.TestCase;
 

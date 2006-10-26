@@ -9,6 +9,7 @@ package jkad.structures.maps;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -76,5 +77,10 @@ public class DataStorage extends DataManagerFacade
             }
         }
         return result;
+    }
+
+    public Iterator getIterator()
+    {
+        return map.entrySet().iterator();
     }
 }
