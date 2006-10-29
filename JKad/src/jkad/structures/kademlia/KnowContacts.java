@@ -26,12 +26,12 @@ public class KnowContacts
         ALREADY_ADDED
     }
 	
-	protected KnowContacts()
+	public KnowContacts()
 	{
 		this(Integer.parseInt(System.getProperty("jkad.contacts.size")));
 	}
 	
-    protected KnowContacts(int maxSize)
+    public KnowContacts(int maxSize)
 	{
         this.maxSize = maxSize;
 		this.contactList = new ArrayList<KadNode>();

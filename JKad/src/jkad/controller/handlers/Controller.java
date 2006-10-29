@@ -15,7 +15,10 @@ import java.util.List;
 import jkad.builders.SHA1Digester;
 import jkad.controller.ThreadGroupLocal;
 import jkad.controller.handlers.misc.ContactHandler;
+import jkad.controller.handlers.response.FindNodeResponseHandler;
+import jkad.controller.handlers.response.FindValueResponseHandler;
 import jkad.controller.handlers.response.PingResponseHandler;
+import jkad.controller.handlers.response.StoreResponseHandler;
 import jkad.controller.io.JKadDatagramSocket;
 import jkad.controller.io.SingletonSocket;
 import jkad.controller.threads.CyclicThread;
@@ -116,15 +119,27 @@ public class Controller extends CyclicThread implements UserFacade
                 switch(rpc.getType())
                 {
                     case KadProtocol.PING:
-                        PingResponseHandler pingHandler = new PingResponseHandler(rpcInfo);
+                        PingResponseHandler pingHandler = new PingResponseHandler();
+                        pingHandler.setRpcInfo(rpcInfo);
                         pingHandler.start();
                         break;
                     case KadProtocol.STORE:
-                        //TODO Store Handler
+                        StoreResponseHandler storeHandler = new StoreResponseHandler();
+                        storeHandler.setRPCInfo(rpcInfo);
+                        storeHandler.start();
+                        break;
                     case KadProtocol.FIND_NODE:
-                        //TODO Find Node Handler
+                        FindNodeResponseHandler findNodeHandler = new FindNodeResponseHandler();
+                        findNodeHandler.setRpcInfo(rpcInfo);
+                        findNodeHandler.setContacts(knowContacts);
+                        findNodeHandler.start();
+                        break;
                     case KadProtocol.FIND_VALUE:
-                        //TODO Find Value Handler
+                        FindValueResponseHandler findValueHandler = new FindValueResponseHandler();
+                        findValueHandler.setRpcInfo(rpcInfo);
+                        findValueHandler.setContacts(knowContacts);
+                        findValueHandler.start();
+                        break;
                 }
             } catch (UnknownHostException e)
             {

@@ -123,7 +123,7 @@ public interface KadProtocol
      * Constante de tamanho dos buckets
      */
     public static final int BUCKET_SIZE = 20;
-
+    
     public String[][] getDataStructure();
 
     public int getInfoLength();
