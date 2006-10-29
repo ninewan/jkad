@@ -24,13 +24,23 @@ public class PingResponseHandler extends HandlerThread
     private RPCInfo<PingRPC> rpcInfo;
     private Status actualStatus;
     
-    public PingResponseHandler(RPCInfo<PingRPC> rpcInfo)
+    public PingResponseHandler()
     {
         super(ToolBox.getReflectionTools().generateThreadName(PingResponseHandler.class));
-    	this.rpcInfo = rpcInfo;
         this.actualStatus = Status.NOT_STARTED;
+        this.rpcInfo = null;
     }
     
+    public RPCInfo<PingRPC> getRpcInfo()
+    {
+        return rpcInfo;
+    }
+
+    public void setRpcInfo(RPCInfo<PingRPC> rpcInfo)
+    {
+        this.rpcInfo = rpcInfo;
+    }
+
     public synchronized Status getStatus()
     {
         return actualStatus;
@@ -38,30 +48,40 @@ public class PingResponseHandler extends HandlerThread
 
     public void run()
     {
-        try
+        if(rpcInfo != null)
         {
-            actualStatus = Status.PROCESSING;
-            logger.info("Processing Ping request from " + rpcInfo.getIPAndPort());
-            PingRPC rpc = rpcInfo.getRPC();
-            PingResponse response = new PingResponse();
-            
-            response.setDestinationNodeID(rpc.getDestinationNodeID());
-            response.setRPCID(rpc.getRPCID());
-            response.setSenderNodeID(Controller.getMyID());
-            
-            RPCInfo<PingResponse> responseInfo = new RPCInfo<PingResponse>(
-                response, 
-                rpcInfo.getIP(), 
-                rpcInfo.getPort()
-            );
-            
-            logger.info("Sending PingResponse to " + rpcInfo.getIPAndPort());
-            RPCBuffer.getSentBuffer().add(responseInfo);
-            
-            actualStatus = Status.KILLED;
-        } catch (KadProtocolException e)
-        {
-            logger.warn(e);
-        }
+            try
+            {
+                actualStatus = Status.PROCESSING;
+                logger.info("Processing Ping request from " + rpcInfo.getIPAndPort());
+                PingRPC rpc = rpcInfo.getRPC();
+                PingResponse response = new PingResponse();
+                
+                response.setDestinationNodeID(rpc.getDestinationNodeID());
+                response.setRPCID(rpc.getRPCID());
+                response.setSenderNodeID(Controller.getMyID());
+                
+                RPCInfo<PingResponse> responseInfo = new RPCInfo<PingResponse>(
+                    response, 
+                    rpcInfo.getIP(), 
+                    rpcInfo.getPort()
+                );
+                
+                logger.info("Sending PingResponse to " + rpcInfo.getIPAndPort());
+                RPCBuffer.getSentBuffer().add(responseInfo);
+                
+                actualStatus = Status.ENDED;
+            } catch (KadProtocolException e)
+            {
+                logger.warn(e);
+            }
+        } else
+            throw new NullPointerException("Cannot proccess a ping request for a null rpcInfo");
+    }
+
+    public void clear()
+    {
+        this.actualStatus = Status.NOT_STARTED;
+        this.rpcInfo = null;
     }
 }

@@ -4,7 +4,6 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 
 import jkad.facades.storage.DataManagerFacade;
-import jkad.protocol.KadProtocolException;
 import jkad.protocol.rpc.request.StoreRPC;
 import jkad.structures.kademlia.RPCInfo;
 import junit.framework.TestCase;
@@ -18,7 +17,7 @@ public class StoreResponseHandlerTest extends TestCase
 	public void setUp() throws Exception
 	{
 		digester = MessageDigest.getInstance("SHA-1");
-		BasicConfigurator.configure();
+        BasicConfigurator.configure();
 	}
 	
 	public void testRun() 
@@ -31,11 +30,13 @@ public class StoreResponseHandlerTest extends TestCase
 			storeRPC.setKey(new BigInteger(digester.digest("0".getBytes())));
 			storeRPC.setValue(new BigInteger("polaco!".getBytes()));
 			RPCInfo<StoreRPC> rpcInfo = new RPCInfo(storeRPC, ip, port);
-			StoreResponseHandler handler = new StoreResponseHandler(rpcInfo);
-			handler.run();
+			StoreResponseHandler handler = new StoreResponseHandler();
+            handler.setRPCInfo(rpcInfo);
+			handler.start();
+            handler.join();
 			DataManagerFacade<String> storage = DataManagerFacade.getDataManager();
 			assertEquals("polaco!", storage.get(new BigInteger(digester.digest("0".getBytes()))));
-		} catch(KadProtocolException e)
+		} catch(Exception e)
 		{
 			fail();
 		}

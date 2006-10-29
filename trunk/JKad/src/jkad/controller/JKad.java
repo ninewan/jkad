@@ -36,7 +36,8 @@ public class JKad implements Runnable, Pausable, Stoppable
     	"jkad.rpcbuffer.input.size",
     	"jkad.contacts.size",
         "jkad.contacts.refreshPeriod",
-        "jkad.contacts.expire"
+        "jkad.contacts.expire",
+        "jkad.contacts.findamount"
     };
 
     private File propFile;

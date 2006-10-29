@@ -11,19 +11,31 @@ import jkad.tools.ToolBox;
 
 public class FindNodeHandler extends HandlerThread
 {
+
     public FindNodeHandler()
     {
-    	super(ToolBox.getReflectionTools().generateThreadName(FindNodeHandler.class));
+        super(ToolBox.getReflectionTools().generateThreadName(FindNodeHandler.class));
     }
-	
-	public void run()
-    {
-        // TODO Auto-generated method stub
-    }
-
+    
+    @Override
     public Status getStatus()
     {
         // TODO Auto-generated method stub
         return null;
     }
+
+    @Override
+    public void run()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    @Override
+    public void clear()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+    
 }
