@@ -75,7 +75,7 @@ public abstract class CyclicThread extends Thread implements Pausable, HardStopp
         paused = false;
         synchronized (this)
         {
-            this.notify();
+            this.notifyAll();
         }
     }
 

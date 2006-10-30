@@ -10,7 +10,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 import jkad.controller.handlers.Controller;
-import jkad.controller.handlers.HandlerThread;
+import jkad.controller.handlers.Handler;
 import jkad.controller.handlers.request.FindNodeHandler;
 import jkad.protocol.KadProtocolException;
 import jkad.protocol.rpc.request.FindNodeRPC;
@@ -19,32 +19,20 @@ import jkad.structures.buffers.RPCBuffer;
 import jkad.structures.kademlia.KadNode;
 import jkad.structures.kademlia.KnowContacts;
 import jkad.structures.kademlia.RPCInfo;
-import jkad.tools.ToolBox;
 
 import org.apache.log4j.Logger;
 
-public class FindNodeResponseHandler extends HandlerThread
+public class FindNodeResponseHandler extends Handler<FindNodeRPC>
 {
-private static Logger logger = Logger.getLogger(FindNodeHandler.class);
+    
+    private static Logger logger = Logger.getLogger(FindNodeHandler.class);
     
     private Status actualStatus;
-    private RPCInfo<FindNodeRPC> rpcInfo;
     private KnowContacts contacts;
     
     public FindNodeResponseHandler()
     {
-        super(ToolBox.getReflectionTools().generateThreadName(FindNodeHandler.class));
         this.actualStatus = Status.NOT_STARTED;
-    }
-    
-    public RPCInfo<FindNodeRPC> getRpcInfo()
-    {
-        return rpcInfo;
-    }
-
-    public void setRpcInfo(RPCInfo<FindNodeRPC> rpcInfo)
-    {
-        this.rpcInfo = rpcInfo;
     }
     
     public KnowContacts getContacts()
@@ -62,6 +50,7 @@ private static Logger logger = Logger.getLogger(FindNodeHandler.class);
         actualStatus = Status.PROCESSING;
         try
         {
+            RPCInfo<FindNodeRPC> rpcInfo = getRPCInfo();
             FindNodeRPC rpc = rpcInfo.getRPC();
             String searched = rpc.getSearchedNodeID().toString(16);
             logger.info("Processing FindNode request for node " + searched + " from " + rpcInfo.getIPAndPort());
@@ -99,9 +88,9 @@ private static Logger logger = Logger.getLogger(FindNodeHandler.class);
         return actualStatus;
     }
 
-    @Override
     public void clear()
     {
         this.actualStatus = Status.NOT_STARTED;
+        this.setRPCInfo(null);
     }
 }

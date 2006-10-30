@@ -7,40 +7,26 @@
 package jkad.controller.handlers.response;
 
 import jkad.controller.handlers.Controller;
-import jkad.controller.handlers.HandlerThread;
+import jkad.controller.handlers.Handler;
 import jkad.protocol.KadProtocolException;
 import jkad.protocol.rpc.request.PingRPC;
 import jkad.protocol.rpc.response.PingResponse;
 import jkad.structures.buffers.RPCBuffer;
 import jkad.structures.kademlia.RPCInfo;
-import jkad.tools.ToolBox;
 
 import org.apache.log4j.Logger;
 
-public class PingResponseHandler extends HandlerThread
+public class PingResponseHandler extends Handler<PingRPC>
 {
     private static Logger logger = Logger.getLogger(PingResponseHandler.class);
     
-    private RPCInfo<PingRPC> rpcInfo;
     private Status actualStatus;
     
     public PingResponseHandler()
     {
-        super(ToolBox.getReflectionTools().generateThreadName(PingResponseHandler.class));
         this.actualStatus = Status.NOT_STARTED;
-        this.rpcInfo = null;
     }
     
-    public RPCInfo<PingRPC> getRpcInfo()
-    {
-        return rpcInfo;
-    }
-
-    public void setRpcInfo(RPCInfo<PingRPC> rpcInfo)
-    {
-        this.rpcInfo = rpcInfo;
-    }
-
     public synchronized Status getStatus()
     {
         return actualStatus;
@@ -48,7 +34,8 @@ public class PingResponseHandler extends HandlerThread
 
     public void run()
     {
-        if(rpcInfo != null)
+        RPCInfo<PingRPC> rpcInfo = getRPCInfo();
+        if(getRPCInfo() != null)
         {
             try
             {
@@ -82,6 +69,6 @@ public class PingResponseHandler extends HandlerThread
     public void clear()
     {
         this.actualStatus = Status.NOT_STARTED;
-        this.rpcInfo = null;
+        setRPCInfo(null);
     }
 }

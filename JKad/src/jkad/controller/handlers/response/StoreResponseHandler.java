@@ -8,60 +8,23 @@ package jkad.controller.handlers.response;
 
 import java.math.BigInteger;
 
-import jkad.controller.handlers.HandlerThread;
+import jkad.controller.handlers.Handler;
 import jkad.facades.storage.DataManagerFacade;
 import jkad.protocol.rpc.request.StoreRPC;
-import jkad.structures.kademlia.RPCInfo;
-import jkad.tools.ToolBox;
 
 import org.apache.log4j.Logger;
 
-public class StoreResponseHandler extends HandlerThread
+public class StoreResponseHandler extends Handler<StoreRPC>
 {
     private static Logger logger = Logger.getLogger(StoreResponseHandler.class);
     
     private Status actualStatus;
-    private BigInteger key;
-    private String value;
     
     public StoreResponseHandler()
     {
-    	super(ToolBox.getReflectionTools().generateThreadName(StoreResponseHandler.class));
     	this.actualStatus = Status.NOT_STARTED;
     }
     
-    public BigInteger getKey()
-    {
-        return key;
-    }
-
-    public void setKey(BigInteger key)
-    {
-        this.key = key;
-    }
-
-    public String getValue()
-    {
-        return value;
-    }
-
-    public void setValue(String value)
-    {
-        this.value = value;
-    }
-    
-    public void setKeyAndValue(BigInteger key, String value)
-    {
-        this.setKey(key);
-        this.setValue(value);
-    }
-    
-    public void setRPCInfo(RPCInfo<StoreRPC> rpcInfo)
-    {
-        this.key = rpcInfo.getRPC().getKey();
-        this.value = new String(rpcInfo.getRPC().getValue().toByteArray());
-    }
-
     public synchronized Status getStatus()
     {
         return this.actualStatus;
@@ -69,6 +32,9 @@ public class StoreResponseHandler extends HandlerThread
 
     public void run()
     {
+        StoreRPC rpc = getRPCInfo().getRPC();
+        BigInteger key = rpc.getKey();
+        String value = new String(rpc.getValue().toByteArray());
         if(key != null)
         {
             this.actualStatus = Status.PROCESSING;
@@ -87,7 +53,6 @@ public class StoreResponseHandler extends HandlerThread
     public void clear()
     {
         this.actualStatus = Status.NOT_STARTED;
-        this.key = null;
-        this.value = null;
+        setRPCInfo(null);
     }
 }

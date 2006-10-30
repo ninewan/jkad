@@ -30,4 +30,9 @@ public class PingResponse extends RPC
     {
         return PING;
     }
+    
+    public boolean isRequest()
+    {
+        return false;
+    }
 }

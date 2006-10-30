@@ -85,4 +85,9 @@ public class FindNodeRPC extends RPC
     {
         return FIND_NODE;
     }
+
+    public boolean isRequest()
+    {
+        return true;
+    }
 }

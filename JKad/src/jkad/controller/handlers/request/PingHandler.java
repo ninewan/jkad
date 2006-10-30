@@ -6,14 +6,14 @@
  */
 package jkad.controller.handlers.request;
 
-import jkad.controller.handlers.HandlerThread;
-import jkad.tools.ToolBox;
+import jkad.controller.handlers.RequestHandler;
+import jkad.protocol.rpc.response.PingResponse;
+import jkad.structures.kademlia.RPCInfo;
 
-public class PingHandler extends HandlerThread
+public class PingHandler extends RequestHandler<PingResponse>
 {
     public PingHandler()
     {
-    	super(ToolBox.getReflectionTools().generateThreadName(PingHandler.class));
     }
 	
 	public void run()
@@ -30,6 +30,13 @@ public class PingHandler extends HandlerThread
 
     @Override
     public void clear()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void addResult(RPCInfo<PingResponse> rpcInfo)
     {
         // TODO Auto-generated method stub
         

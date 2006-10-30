@@ -6,14 +6,14 @@
  */
 package jkad.controller.handlers.request;
 
-import jkad.controller.handlers.HandlerThread;
-import jkad.tools.ToolBox;
+import jkad.controller.handlers.RequestHandler;
+import jkad.protocol.rpc.response.FindValueResponse;
+import jkad.structures.kademlia.RPCInfo;
 
-public class FindValueHandler extends HandlerThread
+public class FindValueHandler extends RequestHandler<FindValueResponse>
 {
     public FindValueHandler()
     {
-    	super(ToolBox.getReflectionTools().generateThreadName(FindValueHandler.class));
     }
 	
 	public void run()
@@ -29,6 +29,13 @@ public class FindValueHandler extends HandlerThread
 
     @Override
     public void clear()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void addResult(RPCInfo<FindValueResponse> rpcInfo)
     {
         // TODO Auto-generated method stub
         
