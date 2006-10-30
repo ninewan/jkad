@@ -10,7 +10,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 import jkad.controller.handlers.Controller;
-import jkad.controller.handlers.HandlerThread;
+import jkad.controller.handlers.Handler;
 import jkad.facades.storage.DataManagerFacade;
 import jkad.protocol.KadProtocolException;
 import jkad.protocol.rpc.request.FindValueRPC;
@@ -20,21 +20,18 @@ import jkad.structures.buffers.RPCBuffer;
 import jkad.structures.kademlia.KadNode;
 import jkad.structures.kademlia.KnowContacts;
 import jkad.structures.kademlia.RPCInfo;
-import jkad.tools.ToolBox;
 
 import org.apache.log4j.Logger;
 
-public class FindValueResponseHandler extends HandlerThread
+public class FindValueResponseHandler extends Handler<FindValueRPC>
 {
 	private static Logger logger = Logger.getLogger(FindValueResponseHandler.class);
     
     private Status actualStatus;
-    private RPCInfo<FindValueRPC> rpcInfo;
     private KnowContacts contacts;
     
     public FindValueResponseHandler()
 	{
-		super(ToolBox.getReflectionTools().generateThreadName(FindValueResponseHandler.class));
         actualStatus = Status.NOT_STARTED;
 	}
 	
@@ -43,16 +40,6 @@ public class FindValueResponseHandler extends HandlerThread
         return actualStatus;
     }
     
-    public RPCInfo<FindValueRPC> getRpcInfo()
-    {
-        return rpcInfo;
-    }
-
-    public void setRpcInfo(RPCInfo<FindValueRPC> rpcInfo)
-    {
-        this.rpcInfo = rpcInfo;
-    }
-
     public KnowContacts getContacts()
     {
         return contacts;
@@ -70,6 +57,7 @@ public class FindValueResponseHandler extends HandlerThread
         {
             actualStatus = Status.PROCESSING;
             
+            RPCInfo<FindValueRPC> rpcInfo = getRPCInfo();
             FindValueRPC rpc = rpcInfo.getRPC();
             String key = rpc.getKey().toString(16);
             logger.info("Processing FindValue request for key " + key + " from " + rpcInfo.getIPAndPort());
@@ -132,6 +120,6 @@ public class FindValueResponseHandler extends HandlerThread
     public void clear()
     {
         this.actualStatus = Status.NOT_STARTED;
-        this.rpcInfo = null;
+        this.setRPCInfo(null);
     }
 }

@@ -30,4 +30,9 @@ public class StoreResponse extends RPC
     {
         return STORE;
     }
+    
+    public boolean isRequest()
+    {
+        return false;
+    }
 }

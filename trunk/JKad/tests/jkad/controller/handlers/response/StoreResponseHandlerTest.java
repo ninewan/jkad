@@ -16,7 +16,8 @@ public class StoreResponseHandlerTest extends TestCase
 	
 	public void setUp() throws Exception
 	{
-		digester = MessageDigest.getInstance("SHA-1");
+        super.setUp();
+        digester = MessageDigest.getInstance("SHA-1");
         BasicConfigurator.configure();
 	}
 	
@@ -32,8 +33,7 @@ public class StoreResponseHandlerTest extends TestCase
 			RPCInfo<StoreRPC> rpcInfo = new RPCInfo(storeRPC, ip, port);
 			StoreResponseHandler handler = new StoreResponseHandler();
             handler.setRPCInfo(rpcInfo);
-			handler.start();
-            handler.join();
+			handler.run();
 			DataManagerFacade<String> storage = DataManagerFacade.getDataManager();
 			assertEquals("polaco!", storage.get(new BigInteger(digester.digest("0".getBytes()))));
 		} catch(Exception e)

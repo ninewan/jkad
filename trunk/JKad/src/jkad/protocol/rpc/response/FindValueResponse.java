@@ -106,4 +106,9 @@ public class FindValueResponse extends RPC
     {
         return FIND_VALUE;
     }
+    
+    public boolean isRequest()
+    {
+        return false;
+    }
 }

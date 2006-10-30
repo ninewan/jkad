@@ -32,6 +32,7 @@ public class FindValueResponseHandlerTest extends TestCase
     
     public void setUp() throws Exception
     {
+        super.setUp();
         //PropertyConfigurator.configure("log4j.properties");
         BasicConfigurator.configure();
         Properties props = new Properties();
@@ -66,9 +67,8 @@ public class FindValueResponseHandlerTest extends TestCase
                 findValueRPC.setRPCID(randomHash);
                 RPCInfo<FindValueRPC> rpcInfo = new RPCInfo<FindValueRPC>(findValueRPC, ip, port);
                 FindValueResponseHandler handler = new FindValueResponseHandler();
-                handler.setRpcInfo(rpcInfo);
-                handler.start();
-                handler.join();
+                handler.setRPCInfo(rpcInfo);
+                handler.run();
                 RPCInfo removed = buffer.remove();
                 assertEquals(ip, removed.getIP());
                 assertEquals((int)port, removed.getPort());
@@ -88,10 +88,9 @@ public class FindValueResponseHandlerTest extends TestCase
             findValueRPC.setRPCID(randomHash);
             RPCInfo<FindValueRPC> rpcInfo = new RPCInfo<FindValueRPC>(findValueRPC, ip, port);
             FindValueResponseHandler handler = new FindValueResponseHandler();
-            handler.setRpcInfo(rpcInfo);
+            handler.setRPCInfo(rpcInfo);
             handler.setContacts(contacts);
-            handler.start();
-            handler.join();
+            handler.run();
             
             assertEquals(20, buffer.size());
             List<FindNodeResponse> responses = new ArrayList<FindNodeResponse>();

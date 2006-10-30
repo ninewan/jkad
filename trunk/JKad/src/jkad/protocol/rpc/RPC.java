@@ -73,4 +73,6 @@ public abstract class RPC implements KadProtocol
     public abstract int getInfoLength();
 
     public abstract byte getType();
+    
+    public abstract boolean isRequest();
 }

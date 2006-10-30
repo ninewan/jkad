@@ -73,7 +73,7 @@ public class Controller extends CyclicThread implements UserFacade
 	private RPCBuffer inputBuffer;
 	private RPCBuffer outputBuffer;
 	
-	private HashMap<BigInteger, HandlerThread> rpcIDMap; 
+	private HashMap<BigInteger, RequestHandler> rpcIDMap; 
 	
 	public Controller()
 	{
@@ -81,7 +81,7 @@ public class Controller extends CyclicThread implements UserFacade
 		knowContacts = new ContactHandler();
 		inputBuffer = RPCBuffer.getReceivedBuffer();
 		outputBuffer = RPCBuffer.getSentBuffer();
-		rpcIDMap = new HashMap<BigInteger, HandlerThread>();
+		rpcIDMap = new HashMap<BigInteger, RequestHandler>();
 		super.setRoundWait(50);
 	}
     
@@ -115,31 +115,43 @@ public class Controller extends CyclicThread implements UserFacade
                     senderNode.setLastAccess(System.currentTimeMillis());
                 }
                 logger.debug("Processing RPC of type " + rpc.getClass().getSimpleName());
-    			
-                switch(rpc.getType())
+    			if(rpc.isRequest())
                 {
-                    case KadProtocol.PING:
-                        PingResponseHandler pingHandler = new PingResponseHandler();
-                        pingHandler.setRpcInfo(rpcInfo);
-                        pingHandler.start();
-                        break;
-                    case KadProtocol.STORE:
-                        StoreResponseHandler storeHandler = new StoreResponseHandler();
-                        storeHandler.setRPCInfo(rpcInfo);
-                        storeHandler.start();
-                        break;
-                    case KadProtocol.FIND_NODE:
-                        FindNodeResponseHandler findNodeHandler = new FindNodeResponseHandler();
-                        findNodeHandler.setRpcInfo(rpcInfo);
-                        findNodeHandler.setContacts(knowContacts);
-                        findNodeHandler.start();
-                        break;
-                    case KadProtocol.FIND_VALUE:
-                        FindValueResponseHandler findValueHandler = new FindValueResponseHandler();
-                        findValueHandler.setRpcInfo(rpcInfo);
-                        findValueHandler.setContacts(knowContacts);
-                        findValueHandler.start();
-                        break;
+                    switch(rpc.getType())
+                    {
+                        case KadProtocol.PING:
+                            PingResponseHandler pingHandler = new PingResponseHandler();
+                            pingHandler.setRPCInfo(rpcInfo);
+                            pingHandler.run();
+                            break;
+                        case KadProtocol.STORE:
+                            StoreResponseHandler storeHandler = new StoreResponseHandler();
+                            storeHandler.setRPCInfo(rpcInfo);
+                            storeHandler.run();
+                            break;
+                        case KadProtocol.FIND_NODE:
+                            FindNodeResponseHandler findNodeHandler = new FindNodeResponseHandler();
+                            findNodeHandler.setRPCInfo(rpcInfo);
+                            findNodeHandler.setContacts(knowContacts);
+                            findNodeHandler.run();
+                            break;
+                        case KadProtocol.FIND_VALUE:
+                            FindValueResponseHandler findValueHandler = new FindValueResponseHandler();
+                            findValueHandler.setRPCInfo(rpcInfo);
+                            findValueHandler.setContacts(knowContacts);
+                            findValueHandler.run();
+                            break;
+                    }
+                } else
+                {
+                    RequestHandler handler = rpcIDMap.get(rpc.getRPCID());
+                    if(handler != null)
+                    {
+                        handler.addResult(rpcInfo);
+                    } else
+                    {
+                        logger.warn("Received response of a request not requested by this node! (request id: " + rpc.getRPCID().toString(16) + ")");
+                    }
                 }
             } catch (UnknownHostException e)
             {

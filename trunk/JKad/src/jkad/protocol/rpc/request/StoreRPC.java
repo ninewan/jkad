@@ -133,4 +133,9 @@ public class StoreRPC extends RPC
     {
         return STORE;
     }
+    
+    public boolean isRequest()
+    {
+        return true;
+    }
 }
