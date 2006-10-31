@@ -69,6 +69,11 @@ public class KadNode extends KadTreeNode
         this.port = port;
     }
 
+    public String getIpAndPort()
+    {
+    	return ipAddress.getHostAddress() + ":" + port;
+    }
+    
     public BigInteger getNodeID()
     {
         return nodeID;
