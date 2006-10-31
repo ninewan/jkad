@@ -46,7 +46,7 @@ public class FindNodeHandlerTest extends TestCase
     
     public void testRun()
     {
-        Find
+        
     }
 
     public void testAddResult()
