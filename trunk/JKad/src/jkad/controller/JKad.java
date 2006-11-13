@@ -16,6 +16,7 @@ import java.util.Properties;
 import jkad.controller.threads.Pausable;
 import jkad.controller.threads.Stoppable;
 import jkad.exceptions.PropertiesNotFoundException;
+import jkad.facades.user.NetLocation;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -37,7 +38,13 @@ public class JKad implements Runnable, Pausable, Stoppable
     	"jkad.contacts.size",
         "jkad.contacts.refreshPeriod",
         "jkad.contacts.expire",
-        "jkad.contacts.findamount"
+        "jkad.contacts.findamount",
+        "jkad.findvalue.maxqueries",
+        "jkad.findvalue.maxwait",
+        "jkad.findnode.maxqueries",
+        "jkad.findnode.maxwait",
+        "jkad.findnode.maxnodes",
+        "jkad.login.time"
     };
 
     private File propFile;
@@ -137,7 +144,7 @@ public class JKad implements Runnable, Pausable, Stoppable
         properties.load(new FileInputStream(propFile));
         validateProperties(properties);
         logger.debug("All necessary properties found");
-        System.setProperties(properties);
+        System.getProperties().putAll(properties);
     }
 
     private void validateProperties(Properties properties) throws PropertiesNotFoundException
@@ -169,13 +176,22 @@ public class JKad implements Runnable, Pausable, Stoppable
                 system.start();
                 try
                 {
-                    Thread.sleep(10);
+                    Thread.sleep(100);
                 } catch (InterruptedException e)
                 {
                 }
             }
             started = true;
             logger.info("JKad sucessfully started");
+            
+//            try
+//            {
+//                Thread.sleep(1000);
+//                systems.get(0).login(new NetLocation("192.168.1.2", 4001));
+//            } catch (Exception e)
+//            {
+//                e.printStackTrace();
+//            }
         } catch (NumberFormatException e)
         {
             logger.fatal(e);
@@ -314,45 +330,5 @@ public class JKad implements Runnable, Pausable, Stoppable
         Thread thread = new Thread(jkad);
         thread.start();
         Runtime.getRuntime().addShutdownHook(new JKadShutdownHook(thread, jkad));
-    }
-}
-
-class JKadShutdownHook extends Thread
-{
-    private static Logger logger = Logger.getLogger(JKad.class);
-
-    private Thread jkadThread;
-
-    private JKad jkad;
-
-    protected JKadShutdownHook(Thread jkadThread, JKad jkad)
-    {
-        this.jkadThread = jkadThread;
-        this.jkad = jkad;
-    }
-
-    public void run()
-    {
-        logger.debug("Shutdown hook called");
-        if (jkadThread.isAlive())
-        {
-            if (!jkad.isStarted())
-            {
-                logger.warn("System not started, interrupting");
-                jkadThread.interrupt();
-            } else
-            {
-                logger.info("Stopping JKad");
-                jkad.stopThread();
-            }
-            while (jkadThread.isAlive())
-                try
-                {
-                    jkadThread.join();
-                } catch (InterruptedException e)
-                {
-                }
-        }
-        logger.debug("Finished Shutdown hook");
     }
 }

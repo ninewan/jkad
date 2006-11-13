@@ -8,6 +8,7 @@ package jkad.protocol.rpc.response;
 
 import java.math.BigInteger;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import jkad.protocol.KadProtocol;
 import jkad.protocol.KadProtocolException;
@@ -85,7 +86,12 @@ public class FindNodeResponse extends RPC
     {
         return ipAddress;
     }
-
+    
+    public InetAddress getIpAddressINet() throws UnknownHostException
+    {
+        return InetAddress.getByAddress(ipAddress.toByteArray());
+    }
+    
     public void setIpAddress(BigInteger ipAddress) throws KadProtocolException
     {
         if (ipAddress == null)
@@ -115,7 +121,12 @@ public class FindNodeResponse extends RPC
     {
         return port;
     }
-
+    
+    public Integer getPortInteger()
+    {
+        return this.getPort().intValue();
+    }
+    
     public void setPort(BigInteger port) throws KadProtocolException
     {
         if (port == null)

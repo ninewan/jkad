@@ -7,6 +7,9 @@
 package jkad.facades.user;
 
 import java.math.BigInteger;
+import java.util.List;
+
+import jkad.structures.kademlia.KadNode;
 
 public interface DetailedInfoFacade
 {
@@ -23,4 +26,6 @@ public interface DetailedInfoFacade
     public long countSentRPCs(byte type);
     
     public BigInteger getSystemID();
+    
+    public List<KadNode> listKnowContacts();
 }

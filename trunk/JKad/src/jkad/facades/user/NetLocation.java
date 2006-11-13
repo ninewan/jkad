@@ -52,5 +52,10 @@ public class NetLocation
     {
         this.port = port;
     }
+    
+    public String toString()
+    {
+        return this.getStringIP() + ":" + this.getPort();
+    }
 
 }

@@ -101,7 +101,7 @@ class RefreshTask extends TimerTask
         long now = System.currentTimeMillis();
         if(knowContacts.getSize() > 0)
         {
-            for(Iterator<KadNode> it = knowContacts.getIterator(); it.hasNext();)
+            for(Iterator<KadNode> it = knowContacts.iterator(); it.hasNext();)
             {
                 KadNode next = it.next();
                 long delta = now - next.getLastAccess();
