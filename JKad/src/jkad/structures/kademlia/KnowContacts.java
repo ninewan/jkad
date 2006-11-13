@@ -12,7 +12,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-public class KnowContacts 
+public class KnowContacts implements Iterable<KadNode>
 {
     private static final BigInteger MAX = new BigInteger("2").pow(160);
     
@@ -174,7 +174,7 @@ public class KnowContacts
         return this.contactList.size();
     }
     
-    public Iterator<KadNode> getIterator()
+    public Iterator<KadNode> iterator()
     {
         return this.contactList.iterator();
     }

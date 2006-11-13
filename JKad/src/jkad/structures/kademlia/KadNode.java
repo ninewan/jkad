@@ -115,6 +115,6 @@ public class KadNode extends KadTreeNode
     
     public String toString()
     {
-        return "id: " + this.getNodeID().toString(16) + ", address: " + this.getIpAddress().toString() + ":" + this.getPort();
+        return "id: " + this.getNodeID().toString(16).toUpperCase() + ", address: " + this.getIpAddress().toString() + ":" + this.getPort();
     }
 }

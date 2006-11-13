@@ -6,8 +6,6 @@
  */
 package jkad.facades.user;
 
-import java.util.List;
-
 public interface UserFacade
 {
     public void login(NetLocation anotherNode);
@@ -20,6 +18,6 @@ public interface UserFacade
     
     public byte[] findValue(byte[] data);
     
-    public List<NetLocation> listNodesWithValue(String key);
+//    public List<NetLocation> listNodesWithValue(String key);
     
 }

@@ -67,6 +67,7 @@ public class FindNodeResponseHandler extends Handler<FindNodeRPC>
                 response.setDestinationNodeID(rpc.getRPCID());
                 response.setFoundNodeID(node.getNodeID());
                 response.setIpAddress(node.getIpAddress());
+                response.setRPCID(rpc.getRPCID());
                 response.setPort(node.getPort());
                 RPCInfo<FindNodeResponse> responseInfo = new RPCInfo<FindNodeResponse>(
                     response, 

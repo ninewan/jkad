@@ -26,7 +26,7 @@ public class StoreHandler extends RequestHandler<StoreResponse>
     private KadNode node;
     private BigInteger key;
     private BigInteger rpcID;
-    private String value;
+    private BigInteger value;
     private Status actualStatus;
     private RPCBuffer outputBuffer;
 	
@@ -70,12 +70,12 @@ public class StoreHandler extends RequestHandler<StoreResponse>
 		this.node = node;
 	}
 
-	public String getValue() 
+	public BigInteger getValue() 
 	{
 		return value;
 	}
 
-	public void setValue(String value) 
+	public void setValue(BigInteger value) 
 	{
 		this.value = value;
 	}
@@ -99,7 +99,7 @@ public class StoreHandler extends RequestHandler<StoreResponse>
 			rpc.setSenderNodeID(Controller.getMyID());
 			rpc.setRPCID(rpcID);
 			rpc.setKey(this.key);
-			rpc.setValue(new BigInteger(value.getBytes()));
+			rpc.setValue(value);
 			rpc.setPiece((byte)1);
 			rpc.setPieceTotal((byte)1);
 			RPCInfo<StoreRPC> rpcInfo = new RPCInfo<StoreRPC>(rpc, node.getIpAddress().getHostAddress(), node.getPort());
@@ -119,10 +119,11 @@ public class StoreHandler extends RequestHandler<StoreResponse>
     
     public void clear()
     {
-    	this.node = null;
-		this.key = null;
-		this.value = null;
-		this.rpcID = null;
-		this.actualStatus = Status.NOT_STARTED;
+        this.node = null;
+        this.key = null;
+        this.value = null;
+        this.rpcID = null;
+        this.outputBuffer = RPCBuffer.getSentBuffer();
+        this.actualStatus = Status.NOT_STARTED;
     }
 }

@@ -84,8 +84,8 @@ public class RPCFactoryImp extends RPCFactory {
         buildBasicInfo(data, rpc);
         rpc.setPiece(data[StoreRPC.PIECE_AREA]);
         rpc.setPieceTotal(data[StoreRPC.PIECE_TOTAL_AREA]);
-        rpc.setKey(new BigInteger(1, tools.copyByteArray(data, StoreRPC.KEY_AREA, StoreRPC.KEY_LENGTH)));
-        rpc.setValue(new BigInteger(1, tools.copyByteArray(data, StoreRPC.VALUE_AREA, StoreRPC.VALUE_LENGTH)));
+        rpc.setKey(new BigInteger(tools.copyByteArray(data, StoreRPC.KEY_AREA, StoreRPC.KEY_LENGTH)));
+        rpc.setValue(new BigInteger(tools.copyByteArray(data, StoreRPC.VALUE_AREA, StoreRPC.VALUE_LENGTH)));
         return rpc;
     }
 
@@ -93,7 +93,7 @@ public class RPCFactoryImp extends RPCFactory {
         DataTools tools = ToolBox.getDataTools();
         FindNodeRPC rpc = new FindNodeRPC();
         buildBasicInfo(data, rpc);
-        rpc.setSearchedNodeID(new BigInteger(1, tools.copyByteArray(data, FindNodeRPC.SEARCHED_NODE_AREA, StoreRPC.NODE_ID_LENGTH)));
+        rpc.setSearchedNodeID(new BigInteger(tools.copyByteArray(data, FindNodeRPC.SEARCHED_NODE_AREA, StoreRPC.NODE_ID_LENGTH)));
         return rpc;
     }
 
@@ -101,7 +101,7 @@ public class RPCFactoryImp extends RPCFactory {
         DataTools tools = ToolBox.getDataTools();
         FindValueRPC rpc = new FindValueRPC();
         buildBasicInfo(data, rpc);
-        rpc.setKey(new BigInteger(1, tools.copyByteArray(data, FindValueRPC.KEY_AREA, FindValueRPC.KEY_LENGTH)));
+        rpc.setKey(new BigInteger(tools.copyByteArray(data, FindValueRPC.KEY_AREA, FindValueRPC.KEY_LENGTH)));
         return rpc;
     }
 
@@ -121,9 +121,9 @@ public class RPCFactoryImp extends RPCFactory {
         DataTools tools = ToolBox.getDataTools();
         FindNodeResponse rpc = new FindNodeResponse();
         buildBasicInfo(data, rpc);
-        rpc.setFoundNodeID(new BigInteger(1, tools.copyByteArray(data, FindNodeResponse.FOUND_NODE_AREA, FindNodeResponse.NODE_ID_LENGTH)));
-        rpc.setIpAddress(new BigInteger(1, tools.copyByteArray(data, FindNodeResponse.IP_AREA, FindNodeResponse.IP_ADDRESS_LENGTH)));
-        rpc.setPort(new BigInteger(1, tools.copyByteArray(data, FindNodeResponse.PORT_AREA, FindNodeResponse.PORT_LENGTH)));
+        rpc.setFoundNodeID(new BigInteger(tools.copyByteArray(data, FindNodeResponse.FOUND_NODE_AREA, FindNodeResponse.NODE_ID_LENGTH)));
+        rpc.setIpAddress(new BigInteger(tools.copyByteArray(data, FindNodeResponse.IP_AREA, FindNodeResponse.IP_ADDRESS_LENGTH)));
+        rpc.setPort(new BigInteger(tools.copyByteArray(data, FindNodeResponse.PORT_AREA, FindNodeResponse.PORT_LENGTH)));
         return rpc;
     }
 
@@ -133,7 +133,7 @@ public class RPCFactoryImp extends RPCFactory {
         buildBasicInfo(data, rpc);
         rpc.setPiece(data[FindValueResponse.PIECE_AREA]);
         rpc.setPieceTotal(data[FindValueResponse.PIECE_TOTAL_AREA]);
-        rpc.setValue(new BigInteger(1, tools.copyByteArray(data, FindValueResponse.VALUE_AREA, FindValueResponse.VALUE_LENGTH)));
+        rpc.setValue(new BigInteger(tools.copyByteArray(data, FindValueResponse.VALUE_AREA, FindValueResponse.VALUE_LENGTH)));
         return rpc;
     }
 
@@ -155,9 +155,9 @@ public class RPCFactoryImp extends RPCFactory {
             KadProtocol.NODE_ID_LENGTH
         );
         
-        rpc.setRPCID(new BigInteger(1, rpcID));
-        rpc.setSenderNodeID(new BigInteger(1, senderNodeID));
-        rpc.setDestinationNodeID(new BigInteger(1, destinationID));
+        rpc.setRPCID(new BigInteger(rpcID));
+        rpc.setSenderNodeID(new BigInteger(senderNodeID));
+        rpc.setDestinationNodeID(new BigInteger(destinationID));
     }
 }
 

@@ -52,6 +52,7 @@ public class UDPSender extends UDPHandler
                 {
                     DatagramPacket packet = buffer.remove();
                     socket.send(packet);
+                    sentPackets++;
                     logger.debug("Sent packet to " + packet.getSocketAddress());
                 }
             } catch (IOException e)

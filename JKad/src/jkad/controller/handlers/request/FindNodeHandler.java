@@ -8,10 +8,13 @@ package jkad.controller.handlers.request;
 
 import java.math.BigInteger;
 import java.net.UnknownHostException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jkad.controller.handlers.Controller;
 import jkad.controller.handlers.RequestHandler;
+import jkad.controller.handlers.Handler.Status;
 import jkad.protocol.KadProtocolException;
 import jkad.protocol.rpc.request.FindNodeRPC;
 import jkad.protocol.rpc.response.FindNodeResponse;
@@ -19,6 +22,7 @@ import jkad.structures.buffers.RPCBuffer;
 import jkad.structures.kademlia.KadNode;
 import jkad.structures.kademlia.KnowContacts;
 import jkad.structures.kademlia.RPCInfo;
+import jkad.structures.lists.ClosestNodes;
 
 import org.apache.log4j.Logger;
 
@@ -38,6 +42,11 @@ public class FindNodeHandler extends RequestHandler<FindNodeResponse>
     private RPCBuffer outputBuffer;
 
     private KnowContacts contacts;
+    
+    private ClosestNodes results;
+    
+    private Set<BigInteger> queriedNodes;
+    private int maxQueries;
 
     public FindNodeHandler()
     {
@@ -47,6 +56,8 @@ public class FindNodeHandler extends RequestHandler<FindNodeResponse>
         searchedNodeString = null;
         rpcID = null;
         outputBuffer = RPCBuffer.getSentBuffer();
+        queriedNodes = new HashSet<BigInteger>();
+        maxQueries = Integer.parseInt(System.getProperty("jkad.findnode.maxqueries"));
     }
 
     public BigInteger getSearchedNode()
@@ -72,7 +83,10 @@ public class FindNodeHandler extends RequestHandler<FindNodeResponse>
 
     public Status getStatus()
     {
-        return actualStatus;
+        synchronized (actualStatus)
+        {
+            return actualStatus;
+        }
     }
 
     public BigInteger getRpcID()
@@ -88,52 +102,46 @@ public class FindNodeHandler extends RequestHandler<FindNodeResponse>
     public void run()
     {
         actualStatus = Status.PROCESSING;
-        logger.info("Looking for contact with nodeID " + searchedNodeString);
+        results = new ClosestNodes(Integer.parseInt(System.getProperty("jkad.findnode.maxnodes")), searchedNode);
+        logger.info("Looking for closest nodes to " + searchedNodeString);
         closestNode = contacts.findContact(searchedNode);
-        // caso nao tenha achado o resultado localmente, procure na rede
-        if (closestNode == null)
+        if(closestNode != null)
+            results.add(closestNode);
+        int amount = Integer.parseInt(System.getProperty("jkad.contacts.findamount"));
+        List<KadNode> closestNodes = contacts.findClosestContacts(searchedNode, amount);
+        if (closestNodes.size() > 0)
         {
-            logger.debug("Contact " + searchedNodeString + " not found localy, looking for closest nodes");
-            int amount = Integer.parseInt(System.getProperty("jkad.contacts.findamount"));
-            List<KadNode> closestNodes = contacts.findClosestContacts(searchedNode, amount);
-            if (closestNodes.size() > 0)
-            {
-                for (KadNode node : closestNodes)
-                    requestNode(rpcID, node);
-            }
-            actualStatus = Status.WAITING;
-        } else
-        {
-            logger.info("Node " + searchedNodeString + " found on location " + closestNode.getIpAddress().getHostAddress() + ":" + closestNode.getPort());
-            actualStatus = Status.ENDED;
+            for (KadNode node : closestNodes)
+                requestNode(rpcID, node);
         }
+        actualStatus = Status.WAITING;
     }
 
     public void addResult(RPCInfo<FindNodeResponse> rpcInfo)
     {
         FindNodeResponse response = rpcInfo.getRPC();
         BigInteger found = response.getFoundNodeID();
+        String foundNodeString = found.toString(16);
         try
         {
-            if(found.equals(searchedNode))
+            if(queriedNodes.contains(found))
             {
-                closestNode = new KadNode(found, rpcInfo.getIP(), rpcInfo.getPort());
-                distanceFromClosest = BigInteger.ZERO;
-                actualStatus = Status.ENDED;
-                logger.info("Node " + searchedNodeString + " found on location " + closestNode.getIpAddress().getHostAddress() + ":" + closestNode.getPort());
-            } else
+                logger.debug("Node " + foundNodeString + " already queried");
+            } else if (queriedNodes.size() < maxQueries)
             {
+                logger.debug("Found node " + foundNodeString);
+                closestNode = new KadNode(found, response.getIpAddressINet(), response.getPortInteger());
+                results.add(closestNode);
                 BigInteger delta = found.subtract(searchedNode).abs();
                 if (delta.compareTo(distanceFromClosest) < 0)
                 {
-                    logger.debug("Found closest node " + found.toString(16) + " to " + searchedNodeString + " (delta: " + delta.toString(16) + ")");
-                    closestNode = new KadNode(found, rpcInfo.getIP(), rpcInfo.getPort());
                     distanceFromClosest = delta;
                     requestNode(rpcID, closestNode);
-                } else
-                {
-                    logger.debug("Node " + found.toString(16) + " not closest to " + searchedNodeString + " discarting response (delta " + delta.toString(16) + " greater than " + distanceFromClosest.toString(16) + ")");
                 }
+            } else
+            {
+                logger.debug("Max queries reached, terminating find node");
+                actualStatus = Status.ENDED;
             }
         } catch (UnknownHostException e)
         {
@@ -158,15 +166,16 @@ public class FindNodeHandler extends RequestHandler<FindNodeResponse>
             rpc.setSenderNodeID(Controller.getMyID());
             RPCInfo<FindNodeRPC> rpcInfo = new RPCInfo<FindNodeRPC>(rpc, ip, port);
             outputBuffer.add(rpcInfo);
+            queriedNodes.add(nodeID);
         } catch (KadProtocolException e)
         {
             logger.warn(e);
         }
     }
 
-    public KadNode getResult()
+    public synchronized List<KadNode> getResults()
     {
-        return closestNode;
+        return results.toList();
     }
     
     public void clear()
@@ -177,5 +186,7 @@ public class FindNodeHandler extends RequestHandler<FindNodeResponse>
         closestNode = null;
         rpcID = null;
         distanceFromClosest = MAX_RANGE;
+        results = null;
+        queriedNodes.clear();
     }
 }

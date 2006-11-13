@@ -9,12 +9,19 @@ package jkad.controller.handlers;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import jkad.builders.SHA1Digester;
 import jkad.controller.ThreadGroupLocal;
+import jkad.controller.handlers.Handler.Status;
 import jkad.controller.handlers.misc.ContactHandler;
+import jkad.controller.handlers.request.FindNodeHandler;
+import jkad.controller.handlers.request.FindValueHandler;
+import jkad.controller.handlers.request.LoginHandler;
+import jkad.controller.handlers.request.StoreHandler;
 import jkad.controller.handlers.response.FindNodeResponseHandler;
 import jkad.controller.handlers.response.FindValueResponseHandler;
 import jkad.controller.handlers.response.PingResponseHandler;
@@ -22,12 +29,14 @@ import jkad.controller.handlers.response.StoreResponseHandler;
 import jkad.controller.io.JKadDatagramSocket;
 import jkad.controller.io.SingletonSocket;
 import jkad.controller.threads.CyclicThread;
+import jkad.facades.storage.DataManagerFacade;
 import jkad.facades.user.NetLocation;
 import jkad.facades.user.UserFacade;
 import jkad.protocol.KadProtocol;
 import jkad.protocol.rpc.RPC;
 import jkad.structures.buffers.RPCBuffer;
 import jkad.structures.kademlia.KadNode;
+import jkad.structures.kademlia.KnowContacts;
 import jkad.structures.kademlia.RPCInfo;
 import jkad.structures.kademlia.KnowContacts.AddResult;
 import jkad.tools.ToolBox;
@@ -71,8 +80,7 @@ public class Controller extends CyclicThread implements UserFacade
     
     private ContactHandler knowContacts;
 	private RPCBuffer inputBuffer;
-	private RPCBuffer outputBuffer;
-	
+    
 	private HashMap<BigInteger, RequestHandler> rpcIDMap; 
 	
 	public Controller()
@@ -80,7 +88,6 @@ public class Controller extends CyclicThread implements UserFacade
 		super(ToolBox.getReflectionTools().generateThreadName(Controller.class));
 		knowContacts = new ContactHandler();
 		inputBuffer = RPCBuffer.getReceivedBuffer();
-		outputBuffer = RPCBuffer.getSentBuffer();
 		rpcIDMap = new HashMap<BigInteger, RequestHandler>();
 		super.setRoundWait(50);
 	}
@@ -144,14 +151,15 @@ public class Controller extends CyclicThread implements UserFacade
                     }
                 } else
                 {
-                    RequestHandler handler = rpcIDMap.get(rpc.getRPCID());
-                    if(handler != null)
+                    RequestHandler handler;
+                    synchronized (rpcIDMap)
                     {
-                        handler.addResult(rpcInfo);
-                    } else
-                    {
-                        logger.warn("Received response of a request not requested by this node! (request id: " + rpc.getRPCID().toString(16) + ")");
+                        handler = rpcIDMap.get(rpc.getRPCID());
                     }
+                    if(handler != null)
+                        handler.addResult(rpcInfo);
+                    else
+                        logger.warn("Received response of a request not requested by this node! (request id: " + rpc.getRPCID().toString(16) + ")");
                 }
             } catch (UnknownHostException e)
             {
@@ -162,40 +170,117 @@ public class Controller extends CyclicThread implements UserFacade
 
     public void login(NetLocation anotherNode)
     {
-        // TODO Auto-generated method stub
-        
+        LoginHandler handler = new LoginHandler();
+        BigInteger rpcID = generateRPCID();
+        handler.setRpcID(rpcID);
+        handler.setBootstrapNode(anotherNode);
+        synchronized (rpcIDMap)
+        {
+           rpcIDMap.put(rpcID, handler);
+        }
+        LoginEnd task = new LoginEnd(handler, rpcIDMap, logger);
+        Timer timer = new Timer(true);
+        handler.run();
+        timer.schedule(task, Long.parseLong(System.getProperty("jkad.login.time")));
     }
     
 	public void store(String key, String data) 
 	{
-		// TODO Auto-generated method stub
-		
+	    this.store(key.getBytes(), data.getBytes());
 	}
 
 	public void store(byte[] key, byte[] data) 
 	{
-		// TODO Auto-generated method stub
-		
-	}
+        BigInteger bKey = new BigInteger(key);
+        BigInteger bData = new BigInteger(data);
+        
+        FindNodeHandler handler = new FindNodeHandler();
+        BigInteger rpcID = generateRPCID();
+        handler.setRpcID(rpcID);
+        handler.setContacts(knowContacts);
+        handler.setSearchedNode(bKey);
+        synchronized (rpcIDMap)
+        {
+           rpcIDMap.put(rpcID, handler);
+        } 
+        long maxWait = Long.parseLong(System.getProperty("jkad.findnode.maxwait"));
+        long startTime = System.currentTimeMillis();
+        handler.run();
+        while(handler.getStatus() != Status.ENDED && System.currentTimeMillis() - startTime < maxWait)
+        {
+            try
+            {
+                Thread.sleep(100);
+            } catch (InterruptedException e)
+            {
+                logger.warn(e);
+            }
+        }
+        synchronized (rpcIDMap)
+        {
+            rpcIDMap.remove(rpcID);
+        }
+        
+        storeValueOnNodes(handler.getResults(), bKey, bData);
+    }
 
 	public String findValue(String key) 
 	{
-		// TODO Auto-generated method stub
-		return null;
+        byte[] result = this.findValue(key.getBytes());
+        return result != null ? new String(result) : null;
 	}
 
 	public byte[] findValue(byte[] data) 
 	{
-		// TODO Auto-generated method stub
-		return null;
+        FindValueHandler handler = new FindValueHandler();
+        BigInteger rpcID = generateRPCID();
+        handler.setRpcID(rpcID);
+        handler.setStorage(DataManagerFacade.getDataManager());
+        handler.setContacts(knowContacts);
+        handler.setValueKey(new BigInteger(SHA1Digester.digest(data)));
+        synchronized (rpcIDMap)
+        {
+           rpcIDMap.put(rpcID, handler);
+        } 
+        long maxWait = Long.parseLong(System.getProperty("jkad.findvalue.maxwait"));
+        long startTime = System.currentTimeMillis();
+        handler.run();
+        while(handler.getStatus() != Status.ENDED && System.currentTimeMillis() - startTime < maxWait)
+        {
+            try
+            {
+                Thread.sleep(100);
+            } catch (InterruptedException e)
+            {
+                logger.warn(e);
+            }
+        }
+        synchronized (rpcIDMap)
+        {
+            rpcIDMap.remove(rpcID);
+        }
+        return handler.getResult() != null ? handler.getResult().toByteArray() : null;
 	}
 
-	public List<NetLocation> listNodesWithValue(String key) 
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+    private void storeValueOnNodes(Collection<KadNode> nodes, BigInteger key, BigInteger value)
+    {
+        StoreHandler storeHandler = new StoreHandler();
+        for(KadNode node : nodes)
+        {
+            storeHandler.clear();
+            storeHandler.setKey(key);
+            storeHandler.setNode(node);
+            storeHandler.setRpcID(generateRPCID());
+            storeHandler.setValue(value);
+            storeHandler.run();
+        }
+    }
+    
+    public KnowContacts getKnowContacts()
+    {
+        return knowContacts;
+    }
+    
 	protected Logger getLogger() 
 	{
 		return logger;
@@ -205,4 +290,28 @@ public class Controller extends CyclicThread implements UserFacade
 	{
 		
 	}
+}
+
+class LoginEnd extends TimerTask
+{
+    private LoginHandler handler;
+    private HashMap<BigInteger, RequestHandler> rpcIDMap;
+    private Logger controllerLogger;
+    
+    protected LoginEnd(LoginHandler handler, HashMap<BigInteger, RequestHandler> rpcIDMap, Logger controllerLogger)
+    {
+        this.handler = handler;
+        this.rpcIDMap = rpcIDMap;
+        this.controllerLogger = controllerLogger;
+    }
+    
+    public void run()
+    {
+        synchronized (rpcIDMap)
+        {
+            controllerLogger.debug("Finalizing login process");
+            rpcIDMap.remove(handler.getRpcID());
+        }
+    }
+    
 }

@@ -8,6 +8,8 @@ package jkad.controller;
 
 import java.math.BigInteger;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import jkad.controller.handlers.Controller;
@@ -17,9 +19,12 @@ import jkad.controller.processors.RPCInputProcessor;
 import jkad.controller.processors.RPCOutputProcessor;
 import jkad.controller.threads.Pausable;
 import jkad.controller.threads.Stoppable;
+import jkad.controller.threads.systemaccess.AccessObject;
 import jkad.facades.user.DetailedInfoFacade;
 import jkad.facades.user.NetLocation;
 import jkad.facades.user.UserFacade;
+import jkad.structures.kademlia.KadNode;
+import jkad.structures.kademlia.KnowContacts;
 
 import org.apache.log4j.Logger;
 
@@ -32,6 +37,7 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, DetailedI
     private RPCInputProcessor inputProcessor;
     private RPCOutputProcessor outputProcessor;
     private Controller controller;
+    private AccessObject accessObject;
     private boolean paused;
     private boolean running;
 
@@ -44,32 +50,27 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, DetailedI
     
     public void login(NetLocation anotherNode)
     {
-        this.controller.login(anotherNode);
+        this.accessObject.login(anotherNode);
     }
     
     public String findValue(String key)
     {
-        return this.controller.findValue(key);
+        return this.accessObject.findValue(key);
     }
 
     public byte[] findValue(byte[] data)
     {
-        return this.controller.findValue(data);
-    }
-
-    public List<NetLocation> listNodesWithValue(String key)
-    {
-        return this.controller.listNodesWithValue(key);
+        return this.accessObject.findValue(data);
     }
 
     public void store(String key, String data)
     {
-        this.controller.store(key, data);
+        this.accessObject.store(key, data);
     }
 
     public void store(byte[] key, byte[] data)
     {
-        this.controller.store(key, data);
+        this.accessObject.store(key, data);
     }
 
     public void run()
@@ -89,7 +90,8 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, DetailedI
             inputProcessor.start();
             outputProcessor.start();
             
-            controller = new Controller();
+            this.controller = new Controller();
+            this.accessObject = new AccessObject(this.getThreadGroup(), controller);
             controller.start();
 
             synchronized (this)
@@ -251,5 +253,22 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, DetailedI
         if(super.isAlive())
             result = Controller.getMyID();
         return result;
+    }
+    
+    public List<KadNode> listKnowContacts()
+    {
+        List<KadNode> list = new ArrayList<KadNode>();
+        KnowContacts contacts = controller.getKnowContacts();
+        synchronized (contacts)
+        {
+            for(KadNode node : contacts)
+                list.add(node);
+        }
+        return list;
+    }
+    
+    public String toString()
+    {
+        return this.getName();
     }
 }
