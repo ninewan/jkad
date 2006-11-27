@@ -96,10 +96,12 @@ public class FindValueResponseHandler extends Handler<FindValueRPC>
                 {
                     FindNodeResponse response = new FindNodeResponse();
                     response.setSenderNodeID(myID);
-                    response.setDestinationNodeID(rpc.getRPCID());
+                    response.setDestinationNodeID(rpc.getSenderNodeID());
+                    response.setRPCID(rpc.getRPCID());
                     response.setFoundNodeID(node.getNodeID());
                     response.setIpAddress(node.getIpAddress());
                     response.setPort(node.getPort());
+                    
                     RPCInfo<FindNodeResponse> responseInfo = new RPCInfo<FindNodeResponse>(
                         response, 
                         rpcInfo.getIP(), 

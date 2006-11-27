@@ -7,12 +7,13 @@
 package jkad.controller;
 
 import java.math.BigInteger;
+import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import jkad.controller.handlers.Controller;
+import jkad.controller.io.SingletonSocket;
 import jkad.controller.io.UDPReceiver;
 import jkad.controller.io.UDPSender;
 import jkad.controller.processors.RPCInputProcessor;
@@ -40,6 +41,10 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, DetailedI
     private AccessObject accessObject;
     private boolean paused;
     private boolean running;
+    
+    private BigInteger systemID;
+    private InetAddress ip;
+    private int port;
 
     public JKadSystem(String name)
     {
@@ -93,7 +98,11 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, DetailedI
             this.controller = new Controller();
             this.accessObject = new AccessObject(this.getThreadGroup(), controller);
             controller.start();
-
+            
+            systemID = Controller.getMyID();
+            ip = SingletonSocket.getInstance().getLocalAddress();
+            port = SingletonSocket.getInstance().getLocalPort();
+            
             synchronized (this)
             {
                 while (running)
@@ -219,40 +228,47 @@ public class JKadSystem extends Thread implements Pausable, Stoppable, DetailedI
 
     public long countReceivedPackets()
     {
-        return receiver.getHandledPacketAmount();
+        return receiver != null ? receiver.getHandledPacketAmount() : 0;
     }
 
     public long countReceivedRPCs()
     {
-        return inputProcessor.countReceivedRPCs();
+        return inputProcessor != null ? inputProcessor.countReceivedRPCs() : 0;
     }
 
     public long countReceivedRPCs(byte type)
     {
-        return inputProcessor.countReceivedRPCs(type);
+        return inputProcessor != null ? inputProcessor.countReceivedRPCs(type) : 0;
     }
 
     public long countSentPackets()
     {
-        return sender.getHandledPacketAmount();
+        return sender != null ? sender.getHandledPacketAmount() : 0;
     }
 
     public long countSentRPCs()
     {
-        return outputProcessor.countSentRPCs();
+        return outputProcessor != null ? outputProcessor.countSentRPCs() : 0;
     }
 
     public long countSentRPCs(byte type)
     {
-        return outputProcessor.countSentRPCs(type);
+        return outputProcessor != null ? outputProcessor.countSentRPCs(type) : 0;
     }
 
     public BigInteger getSystemID()
     {
-        BigInteger result = null;
-        if(super.isAlive())
-            result = Controller.getMyID();
-        return result;
+        return systemID;
+    }
+    
+    public InetAddress getIP()
+    {
+        return ip;
+    }
+
+    public int getPort()
+    {
+        return port;
     }
     
     public List<KadNode> listKnowContacts()

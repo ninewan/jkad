@@ -38,7 +38,6 @@ import jkad.structures.buffers.RPCBuffer;
 import jkad.structures.kademlia.KadNode;
 import jkad.structures.kademlia.KnowContacts;
 import jkad.structures.kademlia.RPCInfo;
-import jkad.structures.kademlia.KnowContacts.AddResult;
 import jkad.tools.ToolBox;
 
 import org.apache.log4j.Logger;
@@ -86,7 +85,7 @@ public class Controller extends CyclicThread implements UserFacade
 	public Controller()
 	{
 		super(ToolBox.getReflectionTools().generateThreadName(Controller.class));
-		knowContacts = new ContactHandler();
+		knowContacts = new ContactHandler(Controller.getMyID());
 		inputBuffer = RPCBuffer.getReceivedBuffer();
 		rpcIDMap = new HashMap<BigInteger, RequestHandler>();
 		super.setRoundWait(50);
@@ -111,11 +110,10 @@ public class Controller extends CyclicThread implements UserFacade
     			KadNode senderNode = knowContacts.findContact(rpc.getSenderNodeID());
                 if(senderNode == null)
                 {
-                    logger.debug("Contact " + rpc.getSenderNodeID().toString(16) + " unknown to this system, adding to contact list");
+                    String nodeIDString = rpc.getSenderNodeID().toString(16);
+                    logger.debug("Contact " + nodeIDString + " unknown to this system, adding to contact list");
                     senderNode = new KadNode(rpc.getSenderNodeID(), ip, port);
-                    AddResult result = knowContacts.addContact(senderNode);
-                    if(result.equals(AddResult.CONTACTS_FULL))
-                        logger.debug("Contact List Full!");
+                    knowContacts.addContact(senderNode);
                 } else
                 {
                     logger.debug("Contact " + rpc.getSenderNodeID().toString(16) + "  already known to this system, refreshing last access");
@@ -191,7 +189,7 @@ public class Controller extends CyclicThread implements UserFacade
 
 	public void store(byte[] key, byte[] data) 
 	{
-        BigInteger bKey = new BigInteger(key);
+        BigInteger bKey = new BigInteger(SHA1Digester.digest(key));
         BigInteger bData = new BigInteger(data);
         
         FindNodeHandler handler = new FindNodeHandler();

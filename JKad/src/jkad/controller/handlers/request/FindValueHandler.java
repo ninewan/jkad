@@ -42,8 +42,6 @@ public class FindValueHandler extends RequestHandler<FindValueResponse>
     private DataManagerFacade storage;
     private KnowContacts contacts;
     
-    private BigInteger distanceFromClosest;
-    
     private RPCBuffer outputBuffer;
     
     private Set<BigInteger> queriedNodes;
@@ -57,7 +55,6 @@ public class FindValueHandler extends RequestHandler<FindValueResponse>
         contacts = null;
         outputBuffer = RPCBuffer.getSentBuffer();
         result = null;
-        distanceFromClosest = MAX_RANGE;
         queriedNodes = new HashSet<BigInteger>();
         maxQueries = Integer.parseInt(System.getProperty("jkad.findvalue.maxqueries"));
     }
@@ -210,7 +207,6 @@ public class FindValueHandler extends RequestHandler<FindValueResponse>
         contacts = null;
         outputBuffer = null;
         result = null;
-        distanceFromClosest = MAX_RANGE;
         queriedNodes.clear();
     }
 }

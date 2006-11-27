@@ -13,10 +13,9 @@ import jkad.protocol.rpc.response.FindNodeResponse;
 import jkad.structures.buffers.RPCBuffer;
 import jkad.structures.kademlia.KadNode;
 import jkad.structures.kademlia.KnowContacts;
+import junit.framework.TestCase;
 
 import org.apache.log4j.BasicConfigurator;
-
-import junit.framework.TestCase;
 
 public class FindNodeHandlerTest extends TestCase
 {

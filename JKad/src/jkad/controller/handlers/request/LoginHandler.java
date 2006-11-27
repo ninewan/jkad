@@ -7,10 +7,7 @@
 package jkad.controller.handlers.request;
 
 import java.math.BigInteger;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 
 import jkad.controller.handlers.Controller;

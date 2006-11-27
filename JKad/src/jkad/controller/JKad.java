@@ -16,7 +16,6 @@ import java.util.Properties;
 import jkad.controller.threads.Pausable;
 import jkad.controller.threads.Stoppable;
 import jkad.exceptions.PropertiesNotFoundException;
-import jkad.facades.user.NetLocation;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -56,6 +55,8 @@ public class JKad implements Runnable, Pausable, Stoppable
     private boolean paused;
 
     private boolean dead;
+    
+    private int counter;
 
     public JKad()
     {
@@ -69,6 +70,7 @@ public class JKad implements Runnable, Pausable, Stoppable
         started = false;
         paused = false;
         dead = false;
+        counter = 0;
     }
 
     public List<JKadSystem> getSystems()
@@ -164,16 +166,10 @@ public class JKad implements Runnable, Pausable, Stoppable
         try
         {
             Integer systemsAmount = Integer.parseInt(System.getProperty("jkad.systems.amount"));
-            Integer startNumber = Integer.parseInt(System.getProperty("jkad.systems.start", "0"));
-            String baseName = System.getProperty("jkad.systems.name", "Node");
             logger.info("Starting JKad with " + systemsAmount + " nodes");
             for (int i = 0; i < systemsAmount; i++)
             {
-                String nodeName = baseName + (startNumber + i);
-                JKadSystem system = new JKadSystem(nodeName);
-                systems.add(system);
-                logger.debug("Launching " + nodeName);
-                system.start();
+                this.addSystem();
                 try
                 {
                     Thread.sleep(100);
@@ -198,28 +194,51 @@ public class JKad implements Runnable, Pausable, Stoppable
             throw e;
         }
     }
-
+    
+    public void addSystem()
+    {
+        String nodeName = getBaseName() + (getStartNumber() + counter);
+        JKadSystem system = new JKadSystem(nodeName);
+        systems.add(system);
+        logger.debug("Launching " + nodeName);
+        system.start();
+        counter++;
+    }
+    
+    public Integer getStartNumber()
+    {
+        return Integer.parseInt(System.getProperty("jkad.systems.start", "0"));
+    }
+    
+    public String getBaseName()
+    {
+        return System.getProperty("jkad.systems.name", "Node");
+    }
+    
     public void pauseSystems()
     {
         if (started)
         {
             logger.info("Pause command received, JKad is pausing");
             for (JKadSystem system : systems)
-            {
-                if (!system.isPaused())
-                {
-                    logger.debug("Pausing " + system.getName());
-                    system.pauseThread();
-                    try
-                    {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e)
-                    {
-                    }
-                }
-            }
+                pauseSystem(system);
         } else
             logger.warn("Cannot pause JKad now: system not fully started");
+    }
+    
+    public void pauseSystem(JKadSystem system)
+    {
+        if (!system.isPaused())
+        {
+            logger.debug("Pausing " + system.getName());
+            system.pauseThread();
+            try
+            {
+                Thread.sleep(10);
+            } catch (InterruptedException e)
+            {
+            }
+        }
     }
 
     private void playSystems()
@@ -228,21 +247,24 @@ public class JKad implements Runnable, Pausable, Stoppable
         {
             logger.info("Play command received, JKad is playing");
             for (JKadSystem system : systems)
-            {
-                if (system.isPaused())
-                {
-                    logger.debug("Playing " + system.getName());
-                    system.playThread();
-                    try
-                    {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e)
-                    {
-                    }
-                }
-            }
+                this.playSystem(system);
         } else
             logger.warn("Cannot play JKad now: system not fully started");
+    }
+    
+    public void playSystem(JKadSystem system)
+    {
+        if (system.isPaused())
+        {
+            logger.debug("Playing " + system.getName());
+            system.playThread();
+            try
+            {
+                Thread.sleep(10);
+            } catch (InterruptedException e)
+            {
+            }
+        }
     }
 
     public void stopSystems()
@@ -251,18 +273,21 @@ public class JKad implements Runnable, Pausable, Stoppable
         {
             logger.info("Stop command received, JKad going down!");
             for (JKadSystem system : systems)
-            {
-                logger.debug("Stopping " + system.getName());
-                system.stopThread();
-                try
-                {
-                    Thread.sleep(10);
-                } catch (InterruptedException e)
-                {
-                }
-            }
+                stopSystem(system);
         } else
             logger.warn("Cannot stop JKad now: system not fully started");
+    }
+    
+    protected void stopSystem(JKadSystem system)
+    {
+        logger.debug("Stopping " + system.getName());
+        system.stopThread();
+        try
+        {
+            Thread.sleep(10);
+        } catch (InterruptedException e)
+        {
+        }
     }
 
     public JKadSystem removeAndStopSystem(int index)

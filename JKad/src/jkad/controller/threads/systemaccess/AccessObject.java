@@ -29,7 +29,8 @@ public class AccessObject implements UserFacade
     
     public String findValue(String key)
     {
-        return new String(this.findValue(key.getBytes()));
+        byte[] result = this.findValue(key.getBytes());
+        return result != null ? new String(result) : null;
     }
 
     public byte[] findValue(byte[] key)

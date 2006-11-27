@@ -49,8 +49,13 @@ public class UDPReceiver extends UDPHandler
         {
             socket.receive(packet);
             logger.debug("Received packet from " + packet.getSocketAddress());
-            buffer.add(packet);
-            receivedPackets++;
+            if(buffer.remainingCapacity() == 0)
+                logger.warn("Received buffer at max capacity! Discarting packet");
+            else
+            {
+                buffer.add(packet);
+                receivedPackets++;
+            }
         } catch (SocketException e)
         {
             if (!socket.isClosed() || !this.isInterrupted())

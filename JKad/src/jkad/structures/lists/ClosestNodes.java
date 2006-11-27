@@ -6,9 +6,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.TreeSet;
 
-import org.apache.log4j.Logger;
-
 import jkad.structures.kademlia.KadNode;
+
+import org.apache.log4j.Logger;
 
 public class ClosestNodes
 {

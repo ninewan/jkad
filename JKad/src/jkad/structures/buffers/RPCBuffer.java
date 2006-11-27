@@ -27,7 +27,7 @@ public class RPCBuffer extends ArrayBlockingQueue<RPCInfo>
             {
                 public RPCBuffer initialValue()
                 {
-                    Integer size = Integer.parseInt(System.getProperty("jkad.datagrambuffer.output.size"));
+                    Integer size = Integer.parseInt(System.getProperty("jkad.rpcbuffer.output.size"));
                     return new RPCBuffer(size);
                 }
             };
@@ -43,7 +43,7 @@ public class RPCBuffer extends ArrayBlockingQueue<RPCInfo>
             {
                 public RPCBuffer initialValue()
                 {
-                    Integer size = Integer.parseInt(System.getProperty("jkad.datagrambuffer.input.size"));
+                    Integer size = Integer.parseInt(System.getProperty("jkad.rpcbuffer.input.size"));
                     return new RPCBuffer(size);
                 }
             };

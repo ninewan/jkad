@@ -8,8 +8,6 @@ package jkad.controller.handlers.request;
 
 import java.math.BigInteger;
 
-import org.apache.log4j.Logger;
-
 import jkad.controller.handlers.Controller;
 import jkad.controller.handlers.RequestHandler;
 import jkad.protocol.KadProtocolException;
@@ -18,6 +16,8 @@ import jkad.protocol.rpc.response.StoreResponse;
 import jkad.structures.buffers.RPCBuffer;
 import jkad.structures.kademlia.KadNode;
 import jkad.structures.kademlia.RPCInfo;
+
+import org.apache.log4j.Logger;
 
 public class StoreHandler extends RequestHandler<StoreResponse>
 {

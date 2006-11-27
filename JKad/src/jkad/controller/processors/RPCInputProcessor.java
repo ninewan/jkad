@@ -34,12 +34,13 @@ public class RPCInputProcessor extends CyclicThread
         this.rpcBuilder = InputBuilder.getInstance();
         this.inputBuffer = DatagramBuffer.getReceivedBuffer();
         this.outputBuffer = RPCBuffer.getReceivedBuffer();
-        this.receivedRPCsArray = new Long[8];
+        this.receivedRPCsArray = new Long[9];
         for (int i = 0; i < receivedRPCsArray.length; i++)
             receivedRPCsArray[i] = 0L;
         this.setRoundWait(50);
     }
 
+    @SuppressWarnings("unchecked")
     protected void cycleOperation() throws InterruptedException
     {
         while(!inputBuffer.isEmpty())
