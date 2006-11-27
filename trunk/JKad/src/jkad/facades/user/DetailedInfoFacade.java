@@ -7,6 +7,7 @@
 package jkad.facades.user;
 
 import java.math.BigInteger;
+import java.net.InetAddress;
 import java.util.List;
 
 import jkad.structures.kademlia.KadNode;
@@ -28,4 +29,8 @@ public interface DetailedInfoFacade
     public BigInteger getSystemID();
     
     public List<KadNode> listKnowContacts();
+    
+    public InetAddress getIP();
+    
+    public int getPort();
 }

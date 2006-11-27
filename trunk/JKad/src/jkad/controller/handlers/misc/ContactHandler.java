@@ -6,6 +6,7 @@
  */
 package jkad.controller.handlers.misc;
 
+import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,27 +27,27 @@ public class ContactHandler extends KnowContacts implements Runnable
     private RefreshTask refreshTask;
     private long refreshPeriod;
     
-    public ContactHandler()
+    public ContactHandler(BigInteger myID)
     {
-        super();
+        super(myID);
         this.init();
     }
 
-    public ContactHandler(int maxSize)
+    public ContactHandler(int maxSize, BigInteger myID)
     {
-        super(maxSize);
+        super(maxSize, myID);
         this.init();
     }
     
-    public ContactHandler(int refreshPeriod, int nodeExpire)
+    public ContactHandler(BigInteger myID, int refreshPeriod, int nodeExpire)
     {
-        super();
+        super(myID);
         this.init(refreshPeriod, nodeExpire);
     }
     
-    public ContactHandler(int maxSize, int refreshPeriod, int nodeExpire)
+    public ContactHandler(int maxSize, BigInteger myID, int refreshPeriod, int nodeExpire)
     {
-        super(maxSize);
+        super(maxSize, myID);
         this.init(refreshPeriod, nodeExpire);
     }
     

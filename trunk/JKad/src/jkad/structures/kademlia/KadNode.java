@@ -115,6 +115,20 @@ public class KadNode extends KadTreeNode
     
     public String toString()
     {
-        return "id: " + this.getNodeID().toString(16).toUpperCase() + ", address: " + this.getIpAddress().toString() + ":" + this.getPort();
+        return "address: " + this.getIpAddress().toString() + ":" + this.getPort() + ", id: " + idToString();
     }
+    
+    private String idToString()
+    {
+        BigInteger id = this.getNodeID();
+        StringBuffer idString = new StringBuffer(id.toString(16).toUpperCase());
+        idString.ensureCapacity(21);
+        if(id.compareTo(BigInteger.ZERO) >= 0)
+            idString.insert(0, "+");
+        for(int i = idString.length(); i <= 40; i++)
+            idString.insert(1, "0");
+        return idString.toString();
+    }
+
 }
+

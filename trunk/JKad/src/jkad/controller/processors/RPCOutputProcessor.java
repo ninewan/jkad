@@ -34,7 +34,7 @@ public class RPCOutputProcessor extends CyclicThread
         this.packetBuilder = OutputBuilder.getInstance();
         this.inputBuffer = RPCBuffer.getSentBuffer();
         this.outputBuffer = DatagramBuffer.getSentBuffer();
-        this.sentRPCsArray = new Long[8];
+        this.sentRPCsArray = new Long[9];
         for (int i = 0; i < sentRPCsArray.length; i++)
             sentRPCsArray[i] = 0L;
         this.setRoundWait(50);

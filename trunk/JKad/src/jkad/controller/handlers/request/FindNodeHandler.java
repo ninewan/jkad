@@ -14,7 +14,6 @@ import java.util.Set;
 
 import jkad.controller.handlers.Controller;
 import jkad.controller.handlers.RequestHandler;
-import jkad.controller.handlers.Handler.Status;
 import jkad.protocol.KadProtocolException;
 import jkad.protocol.rpc.request.FindNodeRPC;
 import jkad.protocol.rpc.response.FindNodeResponse;

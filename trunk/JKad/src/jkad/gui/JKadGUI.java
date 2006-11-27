@@ -6,36 +6,45 @@
  */
 package jkad.gui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.net.UnknownHostException;
-import java.util.List;
 
-import javax.swing.AbstractListModel;
+import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
 
 import jkad.controller.JKad;
 import jkad.controller.JKadShutdownHook;
 import jkad.controller.JKadSystem;
-import jkad.facades.user.NetLocation;
-import jkad.structures.kademlia.KadNode;
-import javax.swing.JProgressBar;
-import java.awt.Point;
+import jkad.gui.actions.AddSystemAction;
+import jkad.gui.actions.ComboScrollAction;
+import jkad.gui.actions.DeleteSystemAction;
+import jkad.gui.actions.LoginAction;
+import jkad.gui.actions.PauseAction;
+import jkad.gui.actions.PlayAction;
+import jkad.gui.actions.RandomLoginAction;
+import jkad.gui.actions.RefreshAction;
+import jkad.gui.actions.SelectNodesAction;
+import java.awt.GridBagLayout;
+import javax.swing.SwingConstants;
 
 public class JKadGUI extends JKad
 {
@@ -45,7 +54,6 @@ public class JKadGUI extends JKad
     private JList knowContactsListBox = null;
     private JPanel knowContactsPanel = null;
     private JPanel selectionPanel = null;
-    private JLabel systemsLabel = null;
     private JScrollPane knowContactsScrollPane = null;
     private JPanel loginPanel = null;
     private JLabel loginLabel = null;
@@ -82,6 +90,25 @@ public class JKadGUI extends JKad
     private JButton refreshListButton = null;
     private JProgressBar findProgressBar = null;
     private JProgressBar storeProgressBar = null;
+    private JButton addSystemButton = null;
+    private JButton removeSystemButton = null;
+    private JButton pauseButton = null;
+    private JButton playButton = null;
+    private JPanel idPanel = null;
+    private JTextField systemID = null;
+    private JLabel orderLabel = null;
+    private JComboBox orderBox = null;
+    private JFrame nodeListFrame = null;  //  @jve:decl-index=0:visual-constraint="621,62"
+    private JPanel nodeListContentPane = null;  //  @jve:decl-index=0:visual-constraint="628,66"
+    private JScrollPane nodeListScrollPane = null;
+    private JList nodeList = null;
+    private JLabel nodeListOrderByLabel = null;
+    private JComboBox nodesListOrderByCombo = null;
+    private JButton selectNodesButton = null;
+    private JButton randomLoginButton = null;
+    private JTextField randomLoginIntervalField = null;
+    private JLabel randomLoginIntervalLabel = null;
+    private JProgressBar randomLoginProgressBar = null;
     public JKadGUI()
     {
         super();
@@ -94,17 +121,9 @@ public class JKadGUI extends JKad
     
     protected void init()
     {
-        this.getFrame().setVisible(true);
         this.populateSystems();
-    }
-    
-    protected void populateSystems()
-    {
-        JComboBox combo = this.getSystemsComboBox();
-        if(combo.getItemCount()> 0)
-            combo.removeAllItems();
-        for(JKadSystem system : this.getSystems())
-            combo.addItem(system);
+        this.getFrame().setVisible(true);
+        this.getNodeListFrame().setVisible(true);
     }
     
     /**
@@ -117,11 +136,13 @@ public class JKadGUI extends JKad
         if (frame == null)
         {
             frame = new JFrame();
-            frame.setSize(new Dimension(558, 573));
-            frame.setTitle("JKad simple GUI");
+            frame.setSize(new Dimension(593, 664));
+            frame.setTitle("JKad GUI");
             frame.setResizable(false);
             frame.setContentPane(getContentPane());
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setLocation(5, 30);
+
         }
         return frame;
     }
@@ -144,6 +165,26 @@ public class JKadGUI extends JKad
             contentPane.add(getKnowContactsPanel(), null);
             contentPane.add(getStatisticsPanel(), null);
             contentPane.add(getInfoPanel(), null);
+            contentPane.add(getIdPanel(), null);
+            InputMap inputMap = contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+            inputMap.put(KeyStroke.getKeyStroke("I"), "listScroll");
+            inputMap.put(KeyStroke.getKeyStroke("K"), "listScroll");
+            inputMap.put(KeyStroke.getKeyStroke("L"), "login");
+            inputMap.put(KeyStroke.getKeyStroke("A"), "addSystem");
+            inputMap.put(KeyStroke.getKeyStroke("shift D"), "deleteSystem");
+            inputMap.put(KeyStroke.getKeyStroke("shift P"), "pauseSystem");
+            inputMap.put(KeyStroke.getKeyStroke("P"), "playSystem");
+            inputMap.put(KeyStroke.getKeyStroke("R"), "refresh");
+            inputMap.put(KeyStroke.getKeyStroke("S"), "selectNodes");
+            ActionMap actionMap = contentPane.getActionMap();
+            actionMap.put("listScroll", new ComboScrollAction(this));
+            actionMap.put("login", new LoginAction(this));
+            actionMap.put("addSystem", new AddSystemAction(this));
+            actionMap.put("deleteSystem", new DeleteSystemAction(this));
+            actionMap.put("playSystem", new PlayAction(this));
+            actionMap.put("pauseSystem", new PauseAction(this));
+            actionMap.put("refresh", new RefreshAction(this));
+            actionMap.put("selectNodes", new SelectNodesAction(this));
         }
         return contentPane;
     }
@@ -153,13 +194,13 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JComboBox	
      */
-    protected JComboBox getSystemsComboBox()
+    public JComboBox getSystemsComboBox()
     {
         if (systemsComboBox == null)
         {
             systemsComboBox = new JComboBox();
-            systemsComboBox.setBounds(new Rectangle(5, 20, 100, 20));
-            systemsComboBox.addActionListener(new RefreshActionListener(this));
+            systemsComboBox.setBounds(new Rectangle(10, 20, 120, 20));
+            systemsComboBox.addActionListener(new RefreshAction(this));
         }
         return systemsComboBox;
     }
@@ -169,11 +210,12 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JList	
      */
-    protected JList getKnowContactsListBox()
+    public JList getKnowContactsListBox()
     {
         if (knowContactsListBox == null)
         {
             knowContactsListBox = new JList();
+            knowContactsListBox.setFont(new Font("Courier New", Font.PLAIN, 12));
         }
         return knowContactsListBox;
     }
@@ -183,16 +225,23 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JPanel	
      */
-    protected JPanel getKnowContactsPanel()
+    public JPanel getKnowContactsPanel()
     {
         if (knowContactsPanel == null)
         {
+            orderLabel = new JLabel();
+            orderLabel.setBounds(new Rectangle(10, 20, 60, 16));
+            orderLabel.setText("Order by: ");
             knowContactsPanel = new JPanel();
             knowContactsPanel.setName("knowContactsPanel");
             knowContactsPanel.setLayout(null);
-            knowContactsPanel.setBorder(BorderFactory.createTitledBorder(null, "Know Contacts", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
+            TitledBorder knowContactsBorder = BorderFactory.createTitledBorder(null, "Know Contacts", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51));
+            knowContactsPanel.setBorder(knowContactsBorder);
             knowContactsPanel.add(getKnowContactsScrollPane());
-            knowContactsPanel.setBounds(new Rectangle(10, 383, 518, 159));
+            knowContactsPanel.setBounds(new Rectangle(10, 395, 570, 185));
+            knowContactsPanel.add(orderLabel, null);
+            knowContactsPanel.add(getOrderBox(), null);
+            knowContactsPanel.add(getSelectNodesButton(), null);
         }
         return knowContactsPanel;
     }
@@ -202,17 +251,21 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JPanel	
      */
-    protected JPanel getSelectionPanel()
+    public JPanel getSelectionPanel()
     {
         if (selectionPanel == null)
         {
             selectionPanel = new JPanel();
             selectionPanel.setName("selectionPanel");
-            selectionPanel.setBounds(new Rectangle(10, 10, 280, 46));
+            selectionPanel.setBounds(new Rectangle(10, 10, 290, 76));
             selectionPanel.setLayout(null);
             selectionPanel.setBorder(BorderFactory.createTitledBorder(null, "Systems", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
             selectionPanel.add(getSystemsComboBox());
             selectionPanel.add(getRefreshListButton(), null);
+            selectionPanel.add(getAddSystemButton(), null);
+            selectionPanel.add(getRemoveSystemButton(), null);
+            selectionPanel.add(getPauseButton(), null);
+            selectionPanel.add(getPlayButton(), null);
         }
         return selectionPanel;
     }
@@ -222,13 +275,13 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JScrollPane	
      */
-    protected JScrollPane getKnowContactsScrollPane()
+    public JScrollPane getKnowContactsScrollPane()
     {
         if (knowContactsScrollPane == null)
         {
             knowContactsScrollPane = new JScrollPane();
-            knowContactsScrollPane.setSize(new Dimension(500, 130));
-            knowContactsScrollPane.setLocation(new Point(10, 20));
+            knowContactsScrollPane.setSize(new Dimension(550, 130));
+            knowContactsScrollPane.setLocation(new Point(10, 45));
             knowContactsScrollPane.setViewportView(getKnowContactsListBox());
         }
         return knowContactsScrollPane;
@@ -239,25 +292,32 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JPanel	
      */
-    protected JPanel getLoginPanel()
+    public JPanel getLoginPanel()
     {
         if (loginPanel == null)
         {
+            randomLoginIntervalLabel = new JLabel();
+            randomLoginIntervalLabel.setBounds(new Rectangle(300, 16, 218, 19));
+            randomLoginIntervalLabel.setText("Interval between logins (miliseconds)");
             loginLabel = new JLabel();
-            loginLabel.setText("Bootstrap Node IP");
-            loginLabel.setBounds(new Rectangle(5, 20, 110, 16));
+            loginLabel.setText("Bootstrap IP");
+            loginLabel.setBounds(new Rectangle(10, 20, 82, 16));
             portLabel = new JLabel();
             portLabel.setText("Port");
-            portLabel.setBounds(new Rectangle(135, 20, 40, 16));
+            portLabel.setBounds(new Rectangle(140, 20, 32, 16));
             loginPanel = new JPanel();
             loginPanel.setLayout(null);
-            loginPanel.setBounds(new Rectangle(10, 62, 280, 65));
+            loginPanel.setBounds(new Rectangle(10, 92, 570, 65));
             loginPanel.setBorder(BorderFactory.createTitledBorder(null, "Login", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
             loginPanel.add(loginLabel, null);
             loginPanel.add(getIpField(), null);
             loginPanel.add(portLabel, null);
             loginPanel.add(getPortField(), null);
             loginPanel.add(getLoginButton(), null);
+            loginPanel.add(getRandomLoginProgressBar(), null);
+            loginPanel.add(getRandomLoginButton(), null);
+            loginPanel.add(getRandomLoginIntervalField(), null);
+            loginPanel.add(randomLoginIntervalLabel, null);
         }
         return loginPanel;
     }
@@ -267,26 +327,14 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JButton	
      */
-    protected JButton getLoginButton()
+    public JButton getLoginButton()
     {
         if (loginButton == null)
         {
             loginButton = new JButton();
             loginButton.setText("Login");
-            loginButton.setBounds(new Rectangle(195, 40, 70, 20));
-            loginButton.addActionListener( new ActionListener(){
-                public void actionPerformed(ActionEvent e)
-                {
-                    JKadSystem system = getSelectedSystem();
-                    try
-                    {
-                        system.login(new NetLocation(getIpField().getText(), Integer.parseInt(getPortField().getText())));
-                    } catch (Exception error)
-                    {
-                        System.err.println(error.getMessage());
-                    }
-                }
-            });
+            loginButton.setBounds(new Rectangle(210, 40, 70, 20));
+            loginButton.addActionListener(new LoginAction(this));
         }
         return loginButton;
     }
@@ -296,13 +344,12 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JTextField	
      */
-    protected JTextField getIpField()
+    public JTextField getIpField()
     {
         if (ipField == null)
         {
             ipField = new JTextField();
-            ipField.setPreferredSize(new Dimension(80, 20));
-            ipField.setBounds(new Rectangle(5, 40, 114, 20));
+            ipField.setBounds(new Rectangle(10, 40, 120, 20));
         }
         return ipField;
     }
@@ -312,13 +359,12 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JTextField	
      */
-    protected JTextField getPortField()
+    public JTextField getPortField()
     {
         if (portField == null)
         {
             portField = new JTextField();
-            portField.setPreferredSize(new Dimension(30, 20));
-            portField.setBounds(new Rectangle(135, 40, 50, 20));
+            portField.setBounds(new Rectangle(140, 40, 60, 20));
         }
         return portField;
     }
@@ -328,7 +374,7 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JPanel	
      */
-    protected JPanel getStorePanel()
+    public JPanel getStorePanel()
     {
         if (storePanel == null)
         {
@@ -340,7 +386,7 @@ public class JKadGUI extends JKad
             storeKeyLabel.setBounds(new Rectangle(5, 20, 30, 16));
             storePanel = new JPanel();
             storePanel.setLayout(null);
-            storePanel.setBounds(new Rectangle(10, 135, 520, 70));
+            storePanel.setBounds(new Rectangle(10, 160, 570, 70));
             storePanel.setBorder(BorderFactory.createTitledBorder(null, "Store", TitledBorder.LEFT, TitledBorder.TOP, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
             storePanel.add(storeKeyLabel, null);
             storePanel.add(getStoreKeyField(), null);
@@ -357,7 +403,7 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JButton	
      */
-    protected JButton getStoreButton()
+    public JButton getStoreButton()
     {
         if (storeButton == null)
         {
@@ -390,7 +436,7 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JTextField	
      */
-    protected JTextField getStoreKeyField()
+    public JTextField getStoreKeyField()
     {
         if (storeKeyField == null)
         {
@@ -405,7 +451,7 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JTextField	
      */
-    protected JTextField getStoreValueField()
+    public JTextField getStoreValueField()
     {
         if (storeValueField == null)
         {
@@ -420,7 +466,7 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JPanel	
      */
-    protected JPanel getFindPanel()
+    public JPanel getFindPanel()
     {
         if (findPanel == null)
         {
@@ -432,7 +478,7 @@ public class JKadGUI extends JKad
             findKeyLabel.setBounds(new Rectangle(10, 20, 26, 16));
             findPanel = new JPanel();
             findPanel.setLayout(null);
-            findPanel.setBounds(new Rectangle(10, 214, 520, 70));
+            findPanel.setBounds(new Rectangle(10, 235, 570, 70));
             findPanel.setBorder(BorderFactory.createTitledBorder(null, "Find", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
             findPanel.add(findKeyLabel, null);
             findPanel.add(getFindKeyField(), null);
@@ -449,7 +495,7 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JTextField	
      */
-    protected JTextField getFindKeyField()
+    public JTextField getFindKeyField()
     {
         if (findKeyField == null)
         {
@@ -464,7 +510,7 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JButton	
      */
-    protected JButton getFindButton()
+    public JButton getFindButton()
     {
         if (findButton == null)
         {
@@ -499,7 +545,7 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JTextField	
      */
-    protected JTextField getFindResultField()
+    public JTextField getFindResultField()
     {
         if (findResultField == null)
         {
@@ -515,7 +561,7 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JPanel	
      */
-    protected JPanel getStatisticsPanel()
+    public JPanel getStatisticsPanel()
     {
         if (statisticsPanel == null)
         {
@@ -533,7 +579,7 @@ public class JKadGUI extends JKad
             receivedPacketsLabel.setText("Received Packets: ");
             statisticsPanel = new JPanel();
             statisticsPanel.setLayout(null);
-            statisticsPanel.setBounds(new Rectangle(10, 295, 520, 77));
+            statisticsPanel.setBounds(new Rectangle(10, 310, 570, 77));
             statisticsPanel.setBorder(BorderFactory.createTitledBorder(null, "Statistics", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
             statisticsPanel.add(receivedPacketsLabel, null);
             statisticsPanel.add(getReceivedPacketsField(), null);
@@ -553,7 +599,7 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JTextField	
      */
-    protected JTextField getReceivedPacketsField()
+    public JTextField getReceivedPacketsField()
     {
         if (receivedPacketsField == null)
         {
@@ -569,7 +615,7 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JTextField	
      */
-    protected JTextField getSentPacketsField()
+    public JTextField getSentPacketsField()
     {
         if (sentPacketsField == null)
         {
@@ -585,7 +631,7 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JTextField	
      */
-    protected JTextField getReceveidRPCsField()
+    public JTextField getReceveidRPCsField()
     {
         if (receveidRPCsField == null)
         {
@@ -601,7 +647,7 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JTextField	
      */
-    protected JTextField getSentRPCsField()
+    public JTextField getSentRPCsField()
     {
         if (sentRPCsField == null)
         {
@@ -617,24 +663,30 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JPanel	
      */
-    protected JPanel getInfoPanel()
+    public JPanel getInfoPanel()
     {
         if (infoPanel == null)
         {
             jkadLabel2 = new JLabel();
-            jkadLabel2.setBounds(new Rectangle(10, 61, 191, 27));
-            jkadLabel2.setText("author: Bruno C. A. Penteado");
+            jkadLabel2.setBounds(new Rectangle(10, 50, 190, 20));
+            jkadLabel2.setForeground(new Color(187, 49, 49));
+            jkadLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+            jkadLabel2.setText("by Bruno C. A. Penteado");
             jkadLabel1 = new JLabel();
-            jkadLabel1.setBounds(new Rectangle(10, 32, 190, 27));
+            jkadLabel1.setBounds(new Rectangle(10, 25, 190, 20));
             jkadLabel1.setText("https://jkad.googlecode.com/svn");
+            jkadLabel1.setForeground(new Color(187, 49, 49));
+            jkadLabel1.setHorizontalAlignment(SwingConstants.CENTER);
             jkadLabel1.setDisplayedMnemonic(KeyEvent.VK_UNDEFINED);
             jkadLabel = new JLabel();
-            jkadLabel.setBounds(new Rectangle(10, 7, 156, 23));
+            jkadLabel.setBounds(new Rectangle(10, 0, 190, 20));
             jkadLabel.setDisplayedMnemonic(KeyEvent.VK_UNDEFINED);
-            jkadLabel.setText("JKad Simple GUI");
+            jkadLabel.setForeground(new Color(187, 49, 49));
+            jkadLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            jkadLabel.setText("JKad GUI");
             infoPanel = new JPanel();
             infoPanel.setLayout(null);
-            infoPanel.setBounds(new Rectangle(307, 12, 225, 114));
+            infoPanel.setBounds(new Rectangle(343, 10, 211, 70));
             infoPanel.add(jkadLabel, null);
             infoPanel.add(jkadLabel1, null);
             infoPanel.add(jkadLabel2, null);
@@ -647,14 +699,14 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JButton	
      */
-    protected JButton getRefreshButton()
+    public JButton getRefreshButton()
     {
         if (refreshButton == null)
         {
             refreshButton = new JButton();
             refreshButton.setText("Refresh");
             refreshButton.setBounds(new Rectangle(383, 27, 109, 26));
-            refreshButton.addActionListener(new RefreshActionListener(this));
+            refreshButton.addActionListener(new RefreshAction(this));
         }
         return refreshButton;
     }
@@ -664,13 +716,13 @@ public class JKadGUI extends JKad
      * 	
      * @return javax.swing.JButton	
      */
-    protected JButton getRefreshListButton()
+    public JButton getRefreshListButton()
     {
         if (refreshListButton == null)
         {
             refreshListButton = new JButton();
             refreshListButton.setText("Refresh List");
-            refreshListButton.setBounds(new Rectangle(145, 20, 120, 20));
+            refreshListButton.setBounds(new Rectangle(140, 20, 145, 20));
             refreshListButton.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e)
                 {
@@ -686,7 +738,7 @@ public class JKadGUI extends JKad
      *  
      * @return javax.swing.JProgressBar 
      */
-    protected JProgressBar getFindProgressBar()
+    public JProgressBar getFindProgressBar()
     {
         if (findProgressBar == null)
         {
@@ -702,7 +754,7 @@ public class JKadGUI extends JKad
      *  
      * @return javax.swing.JProgressBar 
      */
-    protected JProgressBar getStoreProgressBar()
+    public JProgressBar getStoreProgressBar()
     {
         if (storeProgressBar == null)
         {
@@ -713,25 +765,309 @@ public class JKadGUI extends JKad
         return storeProgressBar;
     }
     
-    protected JKadSystem getSelectedSystem()
+    /**
+     * This method initializes addSystemButton  
+     *  
+     * @return javax.swing.JButton  
+     */
+    public JButton getAddSystemButton()
+    {
+        if (addSystemButton == null)
+        {
+            addSystemButton = new JButton();
+            addSystemButton.setText("Add");
+            addSystemButton.setBounds(new Rectangle(70, 45, 60, 20));
+            addSystemButton.addActionListener(new AddSystemAction(this));
+        }
+        return addSystemButton;
+    }
+
+    /**
+     * This method initializes removeSystemButton   
+     *  
+     * @return javax.swing.JButton  
+     */
+    private JButton getRemoveSystemButton()
+    {
+        if (removeSystemButton == null)
+        {
+            removeSystemButton = new JButton();
+            removeSystemButton.setText("Del");
+            removeSystemButton.setBounds(new Rectangle(10, 45, 55, 20));
+            removeSystemButton.addActionListener(new DeleteSystemAction(this));
+        }
+        return removeSystemButton;
+    }
+    
+    /**
+     * This method initializes pauseButton  
+     *  
+     * @return javax.swing.JButton  
+     */
+    private JButton getPauseButton()
+    {
+        if (pauseButton == null)
+        {
+            pauseButton = new JButton();
+            pauseButton.setText("Pause");
+            pauseButton.setBounds(new Rectangle(140, 45, 70, 20));
+            pauseButton.addActionListener(new PauseAction(this));
+        }
+        return pauseButton;
+    }
+
+    /**
+     * This method initializes playButton   
+     *  
+     * @return javax.swing.JButton  
+     */
+    private JButton getPlayButton()
+    {
+        if (playButton == null)
+        {
+            playButton = new JButton();
+            playButton.setText("Play");
+            playButton.setBounds(new Rectangle(215, 45, 70, 20));
+            playButton.addActionListener(new PlayAction(this));
+        }
+        return playButton;
+    }
+
+    public JKadSystem getSelectedSystem()
     {
         JComboBox combo = getSystemsComboBox();
         JKadSystem system = (JKadSystem)combo.getSelectedItem();
-        if(system == null)
+        if(system == null && this.getSystems().size() > 0 )
             system = this.getSystems().get(0);
         return system;
     }
     
-    protected void startProgressBar(JProgressBar bar)
+    public void startProgressBar(JProgressBar bar)
     {
         bar.setIndeterminate(true);
         bar.setVisible(true);
     }
     
-    protected void endProgressBar(JProgressBar bar)
+    public void endProgressBar(JProgressBar bar)
     {
         bar.setIndeterminate(true);
         bar.setVisible(false);
+    }
+    
+    public void populateSystems()
+    {
+        JComboBox combo = this.getSystemsComboBox();
+        if(combo.getItemCount()> 0)
+            combo.removeAllItems();
+        for(JKadSystem system : this.getSystems())
+            combo.addItem(system);
+    }
+    
+    /**
+     * This method initializes idPanel	
+     * 	
+     * @return javax.swing.JPanel	
+     */
+    public JPanel getIdPanel()
+    {
+        if (idPanel == null)
+        {
+            idPanel = new JPanel();
+            idPanel.setLayout(null);
+            idPanel.setBounds(new Rectangle(9, 591, 570, 40));
+            idPanel.setBorder(BorderFactory.createTitledBorder(null, "System ID", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
+            idPanel.add(getSystemID(), null);
+        }
+        return idPanel;
+    }
+
+    /**
+     * This method initializes systemID	
+     * 	
+     * @return javax.swing.JTextField	
+     */
+    public JTextField getSystemID()
+    {
+        if (systemID == null)
+        {
+            systemID = new JTextField();
+            systemID.setBounds(new Rectangle(9, 15, 420, 20));
+            systemID.setEditable(false);
+            systemID.setBorder(null);
+            systemID.setFont(getKnowContactsListBox().getFont());
+        }
+        return systemID;
+    }
+
+    /**
+     * This method initializes orderBox	
+     * 	
+     * @return javax.swing.JComboBox	
+     */
+    public JComboBox getOrderBox()
+    {
+        if (orderBox == null)
+        {
+            orderBox = new JComboBox();
+            orderBox.setBounds(new Rectangle(80, 20, 110, 20));
+            orderBox.addItem("IP");
+            orderBox.addItem("System ID");
+            orderBox.addActionListener(new RefreshAction(this));
+        }
+        return orderBox;
+    }
+
+    /**
+     * This method initializes nodeListFrame	
+     * 	
+     * @return javax.swing.JFrame	
+     */
+    private JFrame getNodeListFrame()
+    {
+        if (nodeListFrame == null)
+        {
+            nodeListFrame = new JFrame("JKad nodes");
+            nodeListFrame.setSize(new Dimension(546, 621));
+            nodeListFrame.setContentPane(getNodeListContentPane());
+            nodeListFrame.setLocation(605, 30);
+        }
+        return nodeListFrame;
+    }
+
+    /**
+     * This method initializes nodeListContentPane	
+     * 	
+     * @return javax.swing.JPanel	
+     */
+    public JPanel getNodeListContentPane()
+    {
+        if (nodeListContentPane == null)
+        {
+            nodeListOrderByLabel = new JLabel();
+            nodeListOrderByLabel.setBounds(new Rectangle(15, 5, 64, 16));
+            nodeListOrderByLabel.setText("Order By:");
+            nodeListContentPane = new JPanel();
+            nodeListContentPane.setLayout(null);
+            nodeListContentPane.add(getNodeListScrollPane());
+            nodeListContentPane.add(nodeListOrderByLabel, null);
+            nodeListContentPane.add(getNodesListOrderByCombo(), null);
+        }
+        return nodeListContentPane;
+    }
+
+    /**
+     * This method initializes nodeListScrollPane	
+     * 	
+     * @return javax.swing.JScrollPane	
+     */
+    private JScrollPane getNodeListScrollPane()
+    {
+        if (nodeListScrollPane == null)
+        {
+            nodeListScrollPane = new JScrollPane();
+            nodeListScrollPane.setBounds(10, 30, 520, 550);
+            nodeListScrollPane.setViewportView(getNodeList());
+        }
+        return nodeListScrollPane;
+    }
+
+    /**
+     * This method initializes nodeList	
+     * 	
+     * @return javax.swing.JList	
+     */
+    public JList getNodeList()
+    {
+        if (nodeList == null)
+        {
+            nodeList = new JList();
+            nodeList.setFont(getKnowContactsListBox().getFont());
+        }
+        return nodeList;
+    }
+
+    /**
+     * This method initializes nodesListOrderByCombo	
+     * 	
+     * @return javax.swing.JComboBox	
+     */
+    public JComboBox getNodesListOrderByCombo()
+    {
+        if (nodesListOrderByCombo == null)
+        {
+            nodesListOrderByCombo = new JComboBox();
+            nodesListOrderByCombo.setBounds(new Rectangle(80, 5, 110, 20));
+            nodesListOrderByCombo.addItem("IP");
+            nodesListOrderByCombo.addItem("System ID");
+            nodesListOrderByCombo.addActionListener(new RefreshAction(this));
+        }
+        return nodesListOrderByCombo;
+    }
+
+    /**
+     * This method initializes selectNodesButton	
+     * 	
+     * @return javax.swing.JButton	
+     */
+    private JButton getSelectNodesButton()
+    {
+        if (selectNodesButton == null)
+        {
+            selectNodesButton = new JButton("Select nodes");
+            selectNodesButton.setBounds(new Rectangle(448, 20, 110, 20));
+            selectNodesButton.addActionListener(new SelectNodesAction(this));
+        }
+        return selectNodesButton;
+    }
+
+    /**
+     * This method initializes randomLoginButton	
+     * 	
+     * @return javax.swing.JButton	
+     */
+    public JButton getRandomLoginButton()
+    {
+        if (randomLoginButton == null)
+        {
+            randomLoginButton = new JButton();
+            randomLoginButton.setText("Random Login");
+            randomLoginButton.setBounds(new Rectangle(390, 40, 120, 20));
+            randomLoginButton.addActionListener(new RandomLoginAction(this));
+        }
+        return randomLoginButton;
+    }
+
+    /**
+     * This method initializes randomLoginIntervalField	
+     * 	
+     * @return javax.swing.JTextField	
+     */
+    public JTextField getRandomLoginIntervalField()
+    {
+        if (randomLoginIntervalField == null)
+        {
+            randomLoginIntervalField = new JTextField();
+            randomLoginIntervalField.setBounds(new Rectangle(300, 40, 80, 20));
+        }
+        return randomLoginIntervalField;
+    }
+
+    /**
+     * This method initializes randomLoginProgressBar	
+     * 	
+     * @return javax.swing.JProgressBar	
+     */
+    public JProgressBar getRandomLoginProgressBar()
+    {
+        if (randomLoginProgressBar == null)
+        {
+            randomLoginProgressBar = new JProgressBar(0, 100000);
+            randomLoginProgressBar.setString("Random Login");
+            randomLoginProgressBar.setStringPainted(true);
+            randomLoginProgressBar.setBounds(new Rectangle(385, 40, 180, 20));
+            randomLoginProgressBar.setVisible(false);
+        }
+        return randomLoginProgressBar;
     }
 
     public static void main(String[] args)
@@ -739,47 +1075,11 @@ public class JKadGUI extends JKad
         JKadGUI jkad = new JKadGUI(args.length > 0 ? args[0] : DEFAULT_PROPERTY_FILE);
         Thread thread = new Thread(jkad);
         thread.start();
+        try
+        {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) { }
         jkad.init();
         Runtime.getRuntime().addShutdownHook(new JKadShutdownHook(thread, jkad));
     }
 }   
-
-class RefreshActionListener implements ActionListener
-{
-    private JKadGUI gui;
-    
-    protected RefreshActionListener(JKadGUI gui)
-    {
-        this.gui = gui;
-    }
-    
-    public void actionPerformed(ActionEvent e)
-    {
-        JKadSystem system = gui.getSelectedSystem();
-        gui.getReceivedPacketsField().setText("" + system.countReceivedPackets());
-        gui.getReceveidRPCsField().setText("" + system.countReceivedRPCs());
-        gui.getSentPacketsField().setText("" + system.countSentPackets());
-        gui.getSentRPCsField().setText("" + system.countSentRPCs());
-        gui.getKnowContactsListBox().setModel(new KnowContactsListModel(system.listKnowContacts()));
-    }
-}
-
-class KnowContactsListModel extends AbstractListModel
-{
-    private List<KadNode> nodes;
-
-    protected KnowContactsListModel(List<KadNode> nodes)
-    {
-        this.nodes = nodes;
-    }
-    
-    public Object getElementAt(int index)
-    {
-        return nodes.get(index);
-    }
-
-    public int getSize()
-    {
-        return nodes.size();
-    }
-}
