@@ -39,6 +39,8 @@ public class FindValueHandler extends RequestHandler<FindValueResponse>
     
     private BigInteger result;
     
+    private BigInteger distanceFromClosest;
+    
     private DataManagerFacade storage;
     private KnowContacts contacts;
     
@@ -55,6 +57,7 @@ public class FindValueHandler extends RequestHandler<FindValueResponse>
         contacts = null;
         outputBuffer = RPCBuffer.getSentBuffer();
         result = null;
+        distanceFromClosest = MAX_RANGE;
         queriedNodes = new HashSet<BigInteger>();
         maxQueries = Integer.parseInt(System.getProperty("jkad.findvalue.maxqueries"));
     }
@@ -166,7 +169,12 @@ public class FindValueHandler extends RequestHandler<FindValueResponse>
                 {
                     logger.debug("Found node " + foundNodeString + " instead of value. Querying node");
                     KadNode node = new KadNode(foundNode, findNodeResponse.getIpAddressINet(), findNodeResponse.getPortInteger());
-                    requestNode(rpcID, node);
+                    BigInteger delta = foundNode.subtract(valueKey).abs();
+                    if (delta.compareTo(distanceFromClosest) < 0)
+                    {
+                        distanceFromClosest = delta;
+                        requestNode(rpcID, node);
+                    }
                 } else
                 {
                     logger.debug("Max queries reached, aborting find value");
@@ -207,6 +215,7 @@ public class FindValueHandler extends RequestHandler<FindValueResponse>
         contacts = null;
         outputBuffer = null;
         result = null;
+        distanceFromClosest = MAX_RANGE;
         queriedNodes.clear();
     }
 }
