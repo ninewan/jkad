@@ -195,7 +195,7 @@ public class JKad implements Runnable, Pausable, Stoppable
         }
     }
     
-    public void addSystem()
+    public JKadSystem addSystem()
     {
         String nodeName = getBaseName() + (getStartNumber() + counter);
         JKadSystem system = new JKadSystem(nodeName);
@@ -203,6 +203,7 @@ public class JKad implements Runnable, Pausable, Stoppable
         logger.debug("Launching " + nodeName);
         system.start();
         counter++;
+        return system;
     }
     
     public Integer getStartNumber()

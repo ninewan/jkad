@@ -45,8 +45,6 @@ class WorkerThread extends Thread
     public void run()
     {
         List<JKadSystem> systems = gui.getSystems();
-        String intervalString = gui.getRandomLoginIntervalField().getText();
-        Integer interval = intervalString != null && intervalString.length() > 0 ? Integer.parseInt(intervalString) : 0;
         if(systems != null && systems.size() > 1)
         {
             JProgressBar progressBar = gui.getRandomLoginProgressBar();
@@ -70,6 +68,7 @@ class WorkerThread extends Thread
                     logger.info("Bootstrapping " + system.getName() + " on " + system.getIP().toString() + ":" + randomPort );
                     system.login(new NetLocation(system.getIP(), randomPort));
                     long currTime = System.currentTimeMillis();
+                    int interval = getInterval();
                     while(System.currentTimeMillis() < currTime + interval)
                     {
                         try { Thread.sleep(interval); } catch (InterruptedException e1) { }
@@ -83,5 +82,11 @@ class WorkerThread extends Thread
             progressBar.setVisible(false);
             randomLoginButton.setVisible(true);
         }
+    }
+    
+    private Integer getInterval()
+    {
+        String intervalString = gui.getRandomLoginIntervalField().getText();
+        return intervalString != null && intervalString.length() > 0 ? Integer.parseInt(intervalString) : 1000;
     }
 }

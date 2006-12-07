@@ -6,6 +6,7 @@
  */
 package jkad.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -29,6 +30,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import jkad.controller.JKad;
@@ -109,6 +111,7 @@ public class JKadGUI extends JKad
     private JTextField randomLoginIntervalField = null;
     private JLabel randomLoginIntervalLabel = null;
     private JProgressBar randomLoginProgressBar = null;
+    private JPanel orderByPanel = null;
     public JKadGUI()
     {
         super();
@@ -944,13 +947,12 @@ public class JKadGUI extends JKad
         if (nodeListContentPane == null)
         {
             nodeListOrderByLabel = new JLabel();
-            nodeListOrderByLabel.setBounds(new Rectangle(15, 5, 64, 16));
             nodeListOrderByLabel.setText("Order By:");
+            nodeListOrderByLabel.setBounds(new Rectangle(0, 5, 64, 16));
             nodeListContentPane = new JPanel();
-            nodeListContentPane.setLayout(null);
-            nodeListContentPane.add(getNodeListScrollPane());
-            nodeListContentPane.add(nodeListOrderByLabel, null);
-            nodeListContentPane.add(getNodesListOrderByCombo(), null);
+            nodeListContentPane.setLayout(new BorderLayout());
+            nodeListContentPane.add(getNodeListScrollPane(), BorderLayout.CENTER);
+            nodeListContentPane.add(getOrderByPanel(), BorderLayout.NORTH);
         }
         return nodeListContentPane;
     }
@@ -965,7 +967,7 @@ public class JKadGUI extends JKad
         if (nodeListScrollPane == null)
         {
             nodeListScrollPane = new JScrollPane();
-            nodeListScrollPane.setBounds(10, 30, 520, 550);
+//            nodeListScrollPane.setBounds(10, 30, 520, 550);
             nodeListScrollPane.setViewportView(getNodeList());
         }
         return nodeListScrollPane;
@@ -996,7 +998,7 @@ public class JKadGUI extends JKad
         if (nodesListOrderByCombo == null)
         {
             nodesListOrderByCombo = new JComboBox();
-            nodesListOrderByCombo.setBounds(new Rectangle(80, 5, 110, 20));
+            nodesListOrderByCombo.setBounds(new Rectangle(65, 5, 110, 20));
             nodesListOrderByCombo.addItem("IP");
             nodesListOrderByCombo.addItem("System ID");
             nodesListOrderByCombo.addActionListener(new RefreshAction(this));
@@ -1068,6 +1070,24 @@ public class JKadGUI extends JKad
             randomLoginProgressBar.setVisible(false);
         }
         return randomLoginProgressBar;
+    }
+
+    /**
+     * This method initializes orderByPanel	
+     * 	
+     * @return javax.swing.JPanel	
+     */
+    private JPanel getOrderByPanel()
+    {
+        if (orderByPanel == null)
+        {
+            orderByPanel = new JPanel();
+            orderByPanel.setLayout(null);
+            orderByPanel.setPreferredSize(new Dimension(450, 30));
+            orderByPanel.add(nodeListOrderByLabel, null);
+            orderByPanel.add(getNodesListOrderByCombo(), null);
+        }
+        return orderByPanel;
     }
 
     public static void main(String[] args)
