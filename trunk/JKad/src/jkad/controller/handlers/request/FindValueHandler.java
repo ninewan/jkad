@@ -107,10 +107,10 @@ public class FindValueHandler extends RequestHandler<FindValueResponse>
     {
         actualStatus = Status.PROCESSING;
         logger.info("Looking for value with key " + valueKeyString);
-        Object result = storage.get(valueKey);
+        String fromMap = (String)storage.get(valueKey);
         
         // caso nao tenha achado o valor localmente, procure na rede
-        if (result == null)
+        if (fromMap == null)
         {
             logger.debug("Value with key " + valueKeyString + " not found localy, looking for it on the network");
             int amount = Integer.parseInt(System.getProperty("jkad.contacts.findamount"));
@@ -123,6 +123,7 @@ public class FindValueHandler extends RequestHandler<FindValueResponse>
             actualStatus = Status.WAITING;
         } else
         {
+            result = new BigInteger(fromMap.getBytes());
             logger.info("Value with key " + valueKeyString + " found locally");
             actualStatus = Status.ENDED;
         }
