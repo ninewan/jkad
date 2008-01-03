@@ -1,0 +1,51 @@
+<!--
+ SVN Info:
+ $HeadURL$
+ $LastChangedRevision$
+ $LastChangedBy$                             
+ $LastChangedDate$  
+-->
+<project name="Build Jkad" default="jar" basedir=".">
+	
+	<target name="init">
+		<mkdir dir=".build" />
+		<mkdir dir="dist" />
+	</target>
+		
+	<target name="unjarLibs" depends="init">
+		<unjar dest=".build">
+			<fileset dir="lib" includes="*.jar" />
+		</unjar>
+	</target>
+	
+	<target name="compile" depends="unjarLibs">
+		<javac 
+			srcdir="src" 
+			destdir=".build"
+	        debug="on"
+	        source="1.5"
+		/>
+	</target>
+	
+	<target name="jar" depends="compile">
+		<jar destfile="dist/jkad.jar"  basedir=".build" >
+			<manifest>
+				<attribute name="Main-Class" value="jkad.gui.JKadGUI"/>
+			</manifest>
+		</jar>
+			
+		<copy todir="dist">
+			<fileset dir="." includes="*.properties"/>
+		</copy>
+		
+		<delete dir=".build" />
+	</target>
+	
+	<target name="clean">
+		<delete dir=".build" failonerror="false" />
+		<delete dir="dist" failonerror="false" />
+	</target>
+	
+	<target name="clean and jar" depends="clean, jar">
+	</target>
+</project>
